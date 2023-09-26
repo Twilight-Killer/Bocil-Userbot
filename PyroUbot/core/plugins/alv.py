@@ -52,6 +52,7 @@ async def alive_query(client, inline_query):
         ᴇxᴘɪʀᴇᴅ_ᴏɴ: <code>{exp}</code> 
         ᴅᴄ_ɪᴅ: <code>{my.me.dc_id}</code>
         ᴘɪɴɢ_ᴅᴄ: <code>{str(ping).replace('.', ',')} ᴍs</code>
+        ᴘᴇᴇʀ_ᴜʙᴏᴛ: <code>{len(ubot._ubot)}</code>
         ᴘᴇᴇʀ_ᴜsᴇʀs: <code>{users} ᴜsᴇʀs</code>
         ᴘᴇᴇʀ_ɢʀᴏᴜᴘ: <code>{group} ɢʀᴏᴜᴘ</code>
         sᴛᴀʀᴛ_ᴜᴘᴛɪᴍᴇ: <code>{uptime}</code></b>
