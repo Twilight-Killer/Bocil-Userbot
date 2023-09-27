@@ -8,130 +8,232 @@ from pyrogram.raw.types import *
 
 from PyroUbot import *
 from PyroUbot.core.plugins import *
-
-
-async def kang_cmd_bot(client, message):
-    if message.from_user.id not in ubot._get_my_id:
-        return
-    if not message.reply_to_message:
-        return await message.reply_text("ᴍᴇᴍʙᴀʟᴀs sᴛɪᴋᴇʀ/ɢᴀᴍʙᴀʀ ᴋᴇ ᴋᴀɴɢ ɪᴛᴜ.")
-    if not message.from_user:
-        return await message.reply_text("ᴀɴᴅᴀ ᴀᴅᴀʟᴀʜ ᴀᴅᴍɪɴ ᴀɴᴏɴɪᴍ,")
-    msg = await message.reply_text("ᴋᴀɴɢɪɴɢ sᴛɪᴄᴋᴇʀ..")
-    args = message.text.split()
-    if len(args) > 1:
-        sticker_emoji = str(args[1])
-    elif message.reply_to_message.sticker and message.reply_to_message.sticker.emoji:
-        sticker_emoji = message.reply_to_message.sticker.emoji
-    else:
-        sticker_emoji = "✨"
-    doc = (
-        message.reply_to_message.photo
-        or message.reply_to_message.document
-        or message.reply_to_message.animation
-    )
-    try:
-        if message.reply_to_message.sticker:
-            sticker = await create_sticker(
-                await get_document_from_file_id(
-                    message.reply_to_message.sticker.file_id
-                ),
-                sticker_emoji,
-            )
-        elif doc:
-            if doc.file_size > 10000000:
-                return await msg.edit("ᴜᴋᴜʀᴀɴ ғɪʟᴇ ᴛᴇʀʟᴀʟᴜ ʙᴇsᴀʀ.")
-            temp_file_path = await dl_pic(client, message.reply_to_message)
-            image_type = imghdr.what(temp_file_path)
-            if image_type not in ["jpeg", "png", "webp"]:
-                return await msg.edit("ғᴏʀᴍᴀᴛ ᴛɪᴅᴀᴋ ᴅɪᴅᴜᴋᴜɴɢ! ({})".format(image_type))
-            try:
-                temp_file_path = await resize_file_to_sticker_size(temp_file_path)
-            except Exception as e:
-                return await msg.edit_text(str(e))
-            sticker = await create_sticker(
-                await upload_document(client, temp_file_path, message.chat.id),
-                sticker_emoji,
-            )
-            if os.path.isfile(temp_file_path):
-                os.remove(temp_file_path)
-        else:
-            return await msg.edit("Tidak, tidak bisa kang itu.")
-    except ShortnameOccupyFailed as SDF:
-        return await message.reply(str(SDF))
-    except Exception as e:
-        return await message.reply(str(e))
-    packname = f"stkr_{str(message.from_user.id)}_by_{bot.me.username}"
-    limit = 0
-    packnum = 0
-    try:
-        if limit >= 50:
-            return await msg.delete()
-        stickerset = await get_sticker_set_by_name(client, packname)
-        if not stickerset:
-            stickerset = await create_sticker_set(
-                client,
-                message.from_user.id,
-                gen_font(
-                    f"{message.from_user.first_name} {message.from_user.last_name or ''} kang pack".lower(),
-                    font["sᴍᴀʟʟᴄᴀᴘs"],
-                ),
-                packname,
-                [sticker],
-            )
-        elif stickerset.set.count >= 120:
-            packnum += 1
-            packname = f"stk{packnum}in{message.from_user.id}by{client.me.username}"
-            limit += 1
-        else:
-            try:
-                await add_sticker_to_set(client, stickerset, sticker)
-            except StickerEmojiInvalid:
-                return await msg.edit("[ERROR]: INVALID_EMOJI_IN_ARGUMENT")
-        limit += 1
-        await msg.edit(
-            f"""
-<b>sᴛɪᴄᴋᴇʀ ʙᴇʀʜᴀsɪʟ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ!
-    <a href=https://t.me/addstickers/{packname}>🔥 ᴋʟɪᴋ ᴅɪsɪɴɪ 🔥</a>
-    ᴇᴍᴏᴊɪ: {sticker_emoji}
-ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ sᴛɪᴄᴋᴇʀs</b>
-"""
-        )
-    except StickerPngNopng as SPN:
-        await message.reply(str(SPN))
-        await msg.delete()
-    except StickerPngDimensions as SPD:
-        await message.reply(str(SPD))
-        await msg.delete()
-    except Exception as error:
-        await message.reply(str(error))
-        await msg.delete()
-
-
-async def get_response(client, message):
-    async for data in client.search_messages(bot.me.username, limit=1):
-        results = data
-    return results
-
-
-async def delete_results(msg, send, reply_send, results):
-    for trash in (msg, send, reply_send, results):
-        await trash.delete()
-
+from PyroUbot.core.helpers import *
 
 async def kang_cmd(client, message):
-    reply = message.reply_to_message
-    msg = await message.reply("<b>sɪʟᴀʜᴋᴀɴ ᴛᴜɴɢɢᴜ</b>")
-    if message.reply_to_message:
-        if reply.sticker or reply.photo or reply.animation:
-            await client.unblock_user(bot.me.username)
-            send = await reply.copy(bot.me.username)
-            reply_send = await send.reply("/kang")
-            await asyncio.sleep(5)
-            results = await get_response(client, message)
-            await results.copy(message.chat.id)
-            return await delete_results(msg, send, reply_send, results)
+    replied = message.reply_to_message
+    msg_text = await message.reply(
+        "<code>ʙᴏʟᴇʜ ᴊᴜɢᴀ ɴɪ sᴛɪᴄᴋᴇʀɴʏᴀ ᴄᴏʟᴏɴɢ ᴀʜʜ...</code>"
+    )
+    media_ = None
+    emoji_ = None
+    is_anim = False
+    is_video = False
+    resize = False
+    ff_vid = False
+    if replied and replied.media:
+        if replied.photo:
+            resize = True
+        elif replied.document and "image" in replied.document.mime_type:
+            resize = True
+            replied.document.file_name
+        elif replied.document and "tgsticker" in replied.document.mime_type:
+            is_anim = True
+            replied.document.file_name
+        elif replied.document and "video" in replied.document.mime_type:
+            resize = True
+            is_video = True
+            ff_vid = True
+        elif replied.animation:
+            resize = True
+            is_video = True
+            ff_vid = True
+        elif replied.video:
+            resize = True
+            is_video = True
+            ff_vid = True
+        elif replied.sticker:
+            if not replied.sticker.file_name:
+                await msg_text.edit("<b>sᴛɪᴋᴇʀ ᴛɪᴅᴀᴋ ᴍᴇᴍɪʟɪᴋɪ ɴᴀᴍᴀ!</b>")
+                return
+            emoji_ = replied.sticker.emoji
+            is_anim = replied.sticker.is_animated
+            is_video = replied.sticker.is_video
+            if not (
+                replied.sticker.file_name.endswith(".tgs")
+                or replied.sticker.file_name.endswith(".webm")
+            ):
+                resize = True
+                ff_vid = True
         else:
-            return await msg.edit("<b>ʜᴀʀᴀᴘ ʀᴇᴘʟʏ ᴋᴇ ᴘʜᴏᴛᴏ/sᴛɪᴄᴋᴇʀ</b>")
+            await msg_text.edit("<b>ғɪʟᴇ ᴛɪᴅᴀᴋ ᴅɪᴅᴜᴋᴜɴɢ</b>")
+            return
+        media_ = await client.download_media(replied, file_name="ProjectMan/resources/")
     else:
-        return await msg.edit("<b>ʜᴀʀᴀᴘ ʀᴇᴘʟʏ ᴋᴇ ᴘʜᴏᴛᴏ/sᴛɪᴄᴋᴇʀ</b>")
+        await msg_text.edit("<b>ꜱɪʟᴀʜᴋᴀɴ ʀᴇᴘʟʏ ᴋᴇ ᴍᴇᴅɪᴀ ꜰᴏᴛᴏ/ɢɪғ/ꜱᴛɪᴄᴋᴇʀ!</b>")
+        return
+    if media_:
+        args = get_arg(message)
+        pack = 1
+        if len(args) == 2:
+            emoji_, pack = args
+        elif len(args) == 1:
+            if args[0].isnumeric():
+                pack = int(args[0])
+            else:
+                emoji_ = args[0]
+
+        if emoji_ and emoji_ not in (
+            getattr(emoji, _) for _ in dir(emoji) if not _.startswith("_")
+        ):
+            emoji_ = None
+        if not emoji_:
+            emoji_ = "✨"
+
+        u_name = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
+        packname = f"stkr_{str(message.from_user.id)}_by_{bot.me.username}"
+        custom_packnick = f"{u_name} ꜱᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ"
+        packnick = f"{Fonts.smallcap(f'{custom_packnick} ᴠᴏʟ.{pack}')}"
+        cmd = "/newpack"
+        if resize:
+            try:
+                media_ = await resize_media(media_, is_video, ff_vid)
+            except Exception as error:
+                return await msg_text.edit(str(error))
+        if is_anim:
+            packname += "_animated"
+            packnick += " (ᴀɴɪᴍᴀᴛᴇᴅ)"
+            cmd = "/newanimated"
+        if is_video:
+            packname += "_video"
+            packnick += " (ᴠɪᴅᴇᴏ)"
+            cmd = "/newvideo"
+        exist = False
+        while True:
+            try:
+                exist = await client.invoke(
+                    GetStickerSet(
+                        stickerset=InputStickerSetShortName(short_name=packname), hash=0
+                    )
+                )
+            except StickersetInvalid:
+                exist = False
+                break
+            limit = 50 if (is_video or is_anim) else 120
+            if exist.set.count >= limit:
+                pack += 1
+                packname = f"stkr_{str(message.from_user.id)}_by_{bot.me.username}"
+                packnick = f"{Fonts.smallcapc(f'{custom_packnick} ᴠᴏʟ.{pack}')}"
+                if is_anim:
+                    packname += f"_anim{pack}"
+                    packnick += f" (ᴀɴɪᴍᴀᴛᴇᴅ){pack}"
+                if is_video:
+                    packname += f"_video{pack}"
+                    packnick += f" (ᴠɪᴅᴇᴏ){pack}"
+                await msg_text.edit(
+                    f"<code>ᴍᴇᴍʙᴜᴀᴛ ꜱᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ ʙᴀʀᴜ {pack} ᴋᴀʀᴇɴᴀ ꜱᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ ꜱᴜᴅᴀʜ ᴘᴇɴᴜʜ</code>"
+                )
+                continue
+            break
+        if exist is not False:
+            try:
+                await client.send_message("stickers", "/addsticker")
+            except YouBlockedUser:
+                await client.unblock_user("stickers")
+                await client.send_message("stickers", "/addsticker")
+            except Exception as e:
+                return await msg_text.edit(f"<b>ERROR:</b> <code>{e}</code>")
+            await asyncio.sleep(2)
+            await client.send_message("stickers", packname)
+            await asyncio.sleep(2)
+            limit = "50" if is_anim else "120"
+            while limit in await get_response(message, client):
+                pack += 1
+                packname = f"stkr_{str(message.from_user.id)}_by_{bot.me.username}"
+                packnick = f"{Fonts.smallcapc(f'{ustom_packnick} ᴠᴏʟ.{pack}')}"
+                if is_anim:
+                    packname += "_anim"
+                    packnick += " (ᴀɴɪᴍᴀᴛᴇᴅ)"
+                if is_video:
+                    packname += "_video"
+                    packnick += " (ᴠɪᴅᴇᴏ)"
+                await msg_text.edit(
+                    f"<code>ᴍᴇᴍʙᴜᴀᴛ ꜱᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ ʙᴀʀᴜ {pack} ᴋᴀʀᴇɴᴀ ꜱᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ ꜱᴜᴅᴀʜ ᴘᴇɴᴜʜ</code>"
+                )
+                await client.send_message("stickers", packname)
+                await asyncio.sleep(2)
+                if await get_response(message, client) == "Invalid pack selected.":
+                    await client.send_message("stickers", cmd)
+                    await asyncio.sleep(2)
+                    await client.send_message("stickers", packnick)
+                    await asyncio.sleep(2)
+                    await client.send_document("stickers", media_)
+                    await asyncio.sleep(2)
+                    await client.send_message("Stickers", emoji_)
+                    await asyncio.sleep(2)
+                    await client.send_message("Stickers", "/publish")
+                    await asyncio.sleep(2)
+                    if is_anim:
+                        await client.send_message(
+                            "Stickers",
+                            f"<code>{packnick}</code>",
+                        )
+                        await asyncio.sleep(2)
+                    await client.send_message("Stickers", "/skip")
+                    await asyncio.sleep(2)
+                    await client.send_message("Stickers", packname)
+                    await asyncio.sleep(2)
+                    await msg_text.edit(
+                        f"<b>ꜱᴛɪᴄᴋᴇʀ ʙᴇʀʜᴀꜱɪʟ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ!</b>\n         🔥 <b>[ᴋʟɪᴋ ᴅɪꜱɪɴɪ](https://t.me/addstickers/{packname})</b> 🔥\n<b>ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ꜱᴛɪᴄᴋᴇʀꜱ</b>"
+                    )
+                    await asyncio.sleep(2)
+                    user_info = await client.resolve_peer("@Stickers")
+                    return await client.invoke(
+                        DeleteHistory(peer=user_info, max_id=0, revoke=True)
+                    )
+            await client.send_document("stickers", media_)
+            await asyncio.sleep(2)
+            if (
+                await get_response(message, client)
+                == "Sorry, the file type is invalid."
+            ):
+                await msg_text.edit(
+                    "<b>ɢᴀɢᴀʟ ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ꜱᴛɪᴄᴋᴇʀ, ɢᴜɴᴀᴋᴀɴ @Stickers Bot ᴜɴᴛᴜᴋ ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ꜱᴛɪᴄᴋᴇʀ ᴀɴᴅᴀ.</b>"
+                )
+                return
+            await client.send_message("Stickers", emoji_)
+            await asyncio.sleep(2)
+            await client.send_message("Stickers", "/done")
+        else:
+            await msg_text.edit("<code>ᴍᴇᴍʙᴜᴀᴛ ꜱᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ ʙᴀʀᴜ</code>")
+            try:
+                await client.send_message("Stickers", cmd)
+            except YouBlockedUser:
+                await client.unblock_user("stickers")
+                await client.send_message("stickers", "/addsticker")
+            await asyncio.sleep(2)
+            await client.send_message("Stickers", packnick)
+            await asyncio.sleep(2)
+            await client.send_document("stickers", media_)
+            await asyncio.sleep(2)
+            if (
+                await get_response(message, client)
+                == "Sorry, the file type is invalid."
+            ):
+                await msg_text.edit(
+                    "<b>ɢᴀɢᴀʟ ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ꜱᴛɪᴄᴋᴇʀ, ɢᴜɴᴀᴋᴀɴ @Stickers Bot ᴜɴᴛᴜᴋ ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ꜱᴛɪᴄᴋᴇʀ ᴀɴᴅᴀ.</b>"
+                )
+                return
+            await client.send_message("Stickers", emoji_)
+            await asyncio.sleep(2)
+            await client.send_message("Stickers", "/publish")
+            await asyncio.sleep(2)
+            if is_anim:
+                await client.send_message("Stickers", f"<code>{packnick}</code>")
+                await asyncio.sleep(2)
+            await client.send_message("Stickers", "/skip")
+            await asyncio.sleep(2)
+            await client.send_message("Stickers", packname)
+            await asyncio.sleep(2)
+        await msg_text.edit(
+            f"<b>ꜱᴛɪᴄᴋᴇʀ ʙᴇʀʜᴀꜱɪʟ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ!</b>\n         🔥 <b>[ᴋʟɪᴋ ᴅɪꜱɪɴɪ](https://t.me/addstickers/{packname})</b> 🔥\n<b>ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ꜱᴛɪᴄᴋᴇʀꜱ</b>"
+        )
+        await asyncio.sleep(2)
+        if os.path.exists(str(media_)):
+            os.remove(media_)
+        user_info = await client.resolve_peer("@Stickers")
+        return await client.invoke(DeleteHistory(peer=user_info, max_id=0, revoke=True))
+
+
+async def get_response(message, client):
+    return [x async for x in client.get_chat_history("Stickers", limit=1)][0].text
