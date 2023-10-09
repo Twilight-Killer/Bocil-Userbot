@@ -1,3 +1,7 @@
+# yang hapus credits pantat nya bisulan
+# create by @NorSodikin
+# request by Bocil-Userbot
+
 from gc import get_objects
 
 from pykeyboard import InlineKeyboard
