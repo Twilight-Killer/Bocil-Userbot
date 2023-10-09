@@ -51,14 +51,14 @@ async def _(client, message):
     user = message.from_user
     pm_on = await get_vars(client.me.id, "PMPERMIT")
     if pm_on:
+        if user.id in MSG_ID:
+            await delete_old_message(message, MSG_ID.get(user.id, 0))
         check = await get_pm_id(client.me.id)
         if user.id not in check:
             if user.id in FLOOD:
                 FLOOD[user.id] += 1
             else:
                 FLOOD[user.id] = 1
-            if user.id in MSG_ID:
-                await delete_old_message(message, MSG_ID.get(user.id, 0))
             pm_limit = await get_vars(client.me.id, "PM_LIMIT") or "5"
             if FLOOD[user.id] > int(pm_limit):
                 del FLOOD[user.id]
