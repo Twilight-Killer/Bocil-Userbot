@@ -32,5 +32,5 @@ async def add_pm_id(me_id, user_id):
 async def remove_pm_id(me_id, user_id):
     pm_id = await get_vars(me_id, "PM_PERMIT")
     if pm_id:
-        list_id = [int(x) for x in pm_id.split() if x != str(user_id)]
+        list_id = [int(x) for x in str(pm_id).split() if x != str(user_id)]
         await set_vars(me_id, "PM_PERMIT", " ".join(map(str, list_id)))
