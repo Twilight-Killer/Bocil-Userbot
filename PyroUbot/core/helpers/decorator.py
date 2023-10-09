@@ -1,22 +1,18 @@
-import asyncio
-
 from pyrogram.enums import ChatType
 
 from PyroUbot import OWNER_ID, bot, ubot
 
 
 async def install_my_peer(client):
-    users = []
-    groups = []
-    async for dialog in client.get_dialogs(limit=None):
-        if dialog.chat.type == ChatType.PRIVATE:
-            users.append(dialog.chat.id)
-        elif dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
-            groups.append(dialog.chat.id)
-    client._get_my_peer[client.me.id] = {"pm": users, "gc": groups}
+    pm_chats, gc_chats = await get_private_and_group_chats(client)
+    client_id = client.me.id
+    client._get_my_peer[client_id] = {"pm": pm_chats, "gc": gc_chats}
 
 
 async def installPeer():
-    tasks = [install_my_peer(client) for client in ubot._ubot]
-    await asyncio.gather(*tasks, return_exceptions=True)
+    try:
+        for client in ubot._ubot:
+            await install_my_peer(client)
+    except Exception:
+        pass
     await bot.send_message(OWNER_ID, "✅ sᴇᴍᴜᴀ ᴘᴇᴇʀ_ɪᴅ ʙᴇʀʜᴀsɪʟ ᴅɪɪɴsᴛᴀʟʟ")
