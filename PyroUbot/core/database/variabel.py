@@ -15,3 +15,22 @@ async def get_vars(bot_id, vars_name):
 
 async def remove_all_vars(bot_id):
     await varsdb.delete_one({"_id": bot_id})
+
+
+async def get_pm_id(user_id):
+    pm_id = await get_vars(user_id, "PM_PERMIT")
+    return [int(x) for x in str(pm_id).split()] if pm_id else []
+
+
+async def add_pm_id(me_id, user_id):
+    pm_id = await get_vars(me_id, "PM_PERMIT")
+    if pm_id:
+        user_id = f"{pm_id} {user_id}"
+    await set_vars(me_id, "PM_PERMIT", user_id)
+
+
+async def remove_pm_id(me_id, user_id):
+    pm_id = await get_vars(me_id, "PM_PERMIT")
+    if pm_id:
+        list_id = [int(x) for x in pm_id.split() if x != str(user_id)]
+        await set_vars(me_id, "PM_PERMIT", " ".join(map(str, list_id)))
