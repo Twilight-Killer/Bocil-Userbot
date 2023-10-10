@@ -47,42 +47,46 @@ __HELP__ = """
 @ubot.on_message(
     filters.private & ~filters.bot & ~filters.service & filters.incoming, group=69
 )
+
 async def _(client, message):
     user = message.from_user
     pm_on = await get_vars(client.me.id, "PMPERMIT")
     if pm_on:
-        if user.id in MSG_ID:
-            await delete_old_message(message, MSG_ID.get(user.id, 0))
-        check = await get_pm_id(client.me.id)
-        if user.id not in check:
-            if user.id in FLOOD:
-                FLOOD[user.id] += 1
-            else:
-                FLOOD[user.id] = 1
-            pm_limit = await get_vars(client.me.id, "PM_LIMIT") or "5"
-            if FLOOD[user.id] > int(pm_limit):
-                del FLOOD[user.id]
-                await message.reply(
-                    "sᴜᴅᴀʜ ᴅɪɪɴɢᴀᴛᴋᴀɴ ᴊᴀɴɢᴀɴ sᴘᴀᴍ, sᴇᴋᴀʀᴀɴɢ Aɴᴅᴀ ᴅɪʙʟᴏᴋɪʀ."
-                )
-                return await client.block_user(user.id)
-            pm_msg = await get_vars(client.me.id, "PM_TEXT") or PM_TEXT
-            if "~>" in pm_msg:
-                x = await client.get_inline_bot_results(
-                    bot.me.username, f"pm_pr {id(message)} {FLOOD[user.id]}"
-                )
-                msg = await client.send_inline_bot_result(
-                    message.chat.id,
-                    x.query_id,
-                    x.results[0].id,
-                    reply_to_message_id=message.id,
-                )
-                MSG_ID[user.id] = int(msg.updates[0].id)
-            else:
-                rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
-                peringatan = f"{FLOOD[user.id]} / {pm_limit}"
-                msg = await message.reply(pm_msg.format(mention=rpk, warn=peringatan))
-                MSG_ID[user.id] = msg.id
+        if user.id != client.me.id:
+            check = await get_pm_id(client.me.id)
+            if user.id not in check:
+                if user.id in FLOOD:
+                    FLOOD[user.id] += 1
+                else:
+                    FLOOD[user.id] = 1
+                if user.id in MSG_ID:
+                    await delete_old_message(message, MSG_ID.get(user.id, 0))
+                pm_limit = await get_vars(client.me.id, "PM_LIMIT") or "5"
+                if FLOOD[user.id] > int(pm_limit):
+                    del FLOOD[user.id]
+                    await message.reply(
+                        "sᴜᴅᴀʜ ᴅɪɪɴɢᴀᴛᴋᴀɴ ᴊᴀɴɢᴀɴ sᴘᴀᴍ, sᴇᴋᴀʀᴀɴɢ Aɴᴅᴀ ᴅɪʙʟᴏᴋɪʀ."
+                    )
+                    return await client.block_user(user.id)
+                pm_msg = await get_vars(client.me.id, "PM_TEXT") or PM_TEXT
+                if "~>" in pm_msg:
+                    x = await client.get_inline_bot_results(
+                        bot.me.username, f"pm_pr {id(message)} {FLOOD[user.id]}"
+                    )
+                    msg = await client.send_inline_bot_result(
+                        message.chat.id,
+                        x.query_id,
+                        x.results[0].id,
+                        reply_to_message_id=message.id,
+                    )
+                    MSG_ID[user.id] = int(msg.updates[0].id)
+                else:
+                    rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
+                    peringatan = f"{FLOOD[user.id]} / {pm_limit}"
+                    msg = await message.reply(
+                        pm_msg.format(mention=rpk, warn=peringatan)
+                    )
+                    MSG_ID[user.id] = msg.id
 
 
 @PY.UBOT("setpm")
