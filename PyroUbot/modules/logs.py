@@ -75,6 +75,6 @@ async def create_logs(client):
     logs = await client.create_channel(f"Logs Ubot: {bot.me.username}")
     await client.set_chat_photo(
         logs.id,
-        video="storage/logs.mp4",
+        video="storage/Bocil_Logs.mp4",
     )
     return logs.id
