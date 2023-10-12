@@ -11,10 +11,6 @@ from pyromod import listen
 from PyroUbot.config import *
 
 
-logging.basicConfig(
-    format="[%(levelname)s] - %(name)s - %(message)s",
-    level=logging.ERROR,
-    handlers=[logging.StreamHandler(), ConnectionHandler()],
 )
 
 class Bot(Client):
