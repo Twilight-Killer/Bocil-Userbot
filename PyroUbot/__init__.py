@@ -52,7 +52,7 @@ class Ubot(Client):
     _get_my_peer = {}
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs, device_model="V1PremUbot")
+        super().__init__(**kwargs, device_model="BuruTaniUbot")
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
