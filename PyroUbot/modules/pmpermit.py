@@ -50,6 +50,8 @@ __HELP__ = """
 
 async def _(client, message):
     user = message.from_user
+    if user.id != 777000:
+        return
     pm_on = await get_vars(client.me.id, "PMPERMIT")
     if pm_on:
         if user.id != client.me.id:
