@@ -51,23 +51,33 @@ async def _(client, message):
 async def _(client, message):
     if len(message.command) < 2:
         return await message.reply(
-            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʰᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢᴜɴᴀᴀɴɴʏᴀ."
+            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢᴜɴᴀᴀɴɴʏᴀ."
         )
 
-    query = {"on": True, "off": False}
+    query = {"on": True, "off": False, "none": False}
     command = message.command[1].lower()
 
     if command not in query:
         return await message.reply("ᴏᴘsɪ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ. ʜᴀʀᴀᴘ ɢᴜɴᴀᴋᴀɴ 'on' ᴀᴛᴀᴜ 'off'.")
 
+    value = query[command]
+
     vars = await get_vars(client.me.id, "ID_LOGS")
+
     if not vars:
         logs = await create_logs(client)
         await set_vars(client.me.id, "ID_LOGS", logs)
 
-    await set_vars(client.me.id, "ON_LOGS", query[command])
+    if command == "none" and vars:
+        try:
+            await client.delete_channel(vars)
+        except Exception:
+            pass
+        await set_vars(client.me.id, "ID_LOGS", value)
+
+    await set_vars(client.me.id, "ON_LOGS", value)
     return await message.reply(
-        f"<b>✅ <code>LOGS</code> ʙᴇʀʜᴀsɪʟ ᴅɪsᴇᴛᴛɪɴɢ ᴋᴇ:</b> <code>{query[command]}</code>"
+        f"<b>✅ <code>LOGS</code> ʙᴇʀʜᴀsɪʟ ᴅɪsᴇᴛᴛɪɴɢ ᴋᴇ:</b> <code>{value}</code>"
     )
 
 
