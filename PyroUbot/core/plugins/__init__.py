@@ -38,6 +38,7 @@ from PyroUbot.core.plugins.srh import *
 from PyroUbot.core.plugins.stf import *
 from PyroUbot.core.plugins.stg import *
 from PyroUbot.core.plugins.str import *
+from PyroUbot.core.plugins.stv import *
 from PyroUbot.core.plugins.tll import *
 from PyroUbot.core.plugins.tny import *
 from PyroUbot.core.plugins.tph import *
