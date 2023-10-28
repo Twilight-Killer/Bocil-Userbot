@@ -204,6 +204,7 @@ async def bikin_ubot(client, callback_query):
         await new_client.join_chat("BuruTanUbot")
     except UserAlreadyParticipant:
         pass
+    await remove_prem(user_id)
     return await bot.send_message(
         LOGS_MAKER_UBOT,
         f"""
