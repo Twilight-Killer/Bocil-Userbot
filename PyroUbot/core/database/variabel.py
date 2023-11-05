@@ -17,6 +17,11 @@ async def remove_all_vars(bot_id):
     await varsdb.delete_one({"_id": bot_id})
 
 
+async def remove_vars(bot_id, vars_name, query="vars"):
+    remove_data = {"$unset": {f"{query}.{vars_name}": ""}}
+    await varsdb.update_one({"_id": bot_id}, remove_data)
+
+
 async def get_pm_id(user_id):
     pm_id = await get_vars(user_id, "PM_PERMIT")
     return [int(x) for x in str(pm_id).split()] if pm_id else []
