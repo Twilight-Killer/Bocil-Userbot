@@ -11,14 +11,14 @@ __HELP__ = """
 """
 
 
-@ubot.on_message(filters.group & filters.mentioned & filters.incoming)
+@ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
 @ubot.on_message(
     filters.private
     & filters.incoming
     & ~filters.me
     & ~filters.bot
     & ~filters.via_bot
-    & ~filters.service,
+    & ~filters.service, group=5
 )
 async def _(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
