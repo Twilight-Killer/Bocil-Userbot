@@ -60,7 +60,6 @@ class AFK:
 
 
 @PY.UBOT("afk")
-@PY.TOP_CMD
 async def _(client, message):
     reason = get_arg(message)
     afk_handler = AFK(client, message, reason)
@@ -74,7 +73,6 @@ async def _(client, message):
 
 
 @PY.UBOT("unafk")
-@PY.TOP_CMD
 async def _(client, message):
     afk_handler = AFK(client, message)
     return await afk_handler.unset_afk()
