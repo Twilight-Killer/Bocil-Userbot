@@ -14,6 +14,23 @@ class FILTERS:
 
 
 class PY:
+    def AFK():
+        def wrapper(func):
+            afk_check = (
+                (filters.mentioned | filters.private)
+                & ~filters.bot
+                & ~filters.me
+                & filters.incoming
+            )
+
+            @ubot.on_message(afk_check)
+            async def wrapped_func(client, message):
+                await func(client, message)
+
+            return wrapped_func
+
+        return wrapper
+        
     def BOT(command, filter=FILTERS.PRIVATE):
         def wrapper(func):
             @bot.on_message(filters.command(command) & filter)
