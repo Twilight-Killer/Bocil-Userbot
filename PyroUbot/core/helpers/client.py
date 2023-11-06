@@ -22,7 +22,7 @@ class PY:
                 & ~filters.me
                 & filters.incoming
                 if afk_no
-                else filters.me
+                else filters.me & filters.group
             )
 
             @ubot.on_message(afk_check, group=10)
