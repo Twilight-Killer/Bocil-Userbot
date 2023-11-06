@@ -4,7 +4,7 @@ from pyrogram.enums import ChatType
 from PyroUbot import *
 
 async def cek_afk(_, client, message):
-    vars = await get_vars(self.client.me.id, "AFK")
+    vars = await get_vars(client.me.id, "AFK")
     return bool(vars)
 
 class FILTERS:
