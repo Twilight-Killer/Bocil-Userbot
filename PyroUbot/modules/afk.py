@@ -65,13 +65,13 @@ async def _(client, message):
     await afk_handler.set_afk()
 
 
-@PY.AFK(True)
+@PY.AFK()
 async def _(client, message):
     afk_handler = AFK(client, message)
     await afk_handler.get_afk()
 
 
-@PY.AFK(False)
+@PY.UBOT("unafk")
 async def _(client, message):
     afk_handler = AFK(client, message)
     return await afk_handler.unset_afk()
