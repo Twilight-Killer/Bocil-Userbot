@@ -2,7 +2,7 @@ from glob import glob
 from os.path import basename, dirname, isfile
 
 
-def loadHelpers():
+def loadP():
     mod_paths = glob(f"{dirname(__file__)}/*.py")
     return sorted(
         [
@@ -13,6 +13,6 @@ def loadHelpers():
     )
 
 
-for module_name in loadHelpers():
+for module_name in loadP():
     import_statement = f"from PyroUbot.core.plugins.{module_name} import *"
     exec(import_statement)
