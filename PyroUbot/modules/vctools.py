@@ -126,7 +126,7 @@ async def _(client, message):
     add_list(client, chat_id)
 
 
-@PY.UBOT("leavevc", SUDO=True)
+@PY.UBOT("leavevc")
 async def _(client, message):
     msg = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ....</b>")
     try:
