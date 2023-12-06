@@ -137,6 +137,6 @@ async def _(client, message):
     return await msg.edit("<b>ʙᴇʀʜᴀsɪʟ ᴛᴜʀᴜɴ ᴅᴀʀɪ ᴏʙʀᴏʟᴀɴ sᴜᴀʀᴀ</b>")
 
 
-@PY.UBOT("listvc", FILTERS.OWNER)
+@PY.UBOT("listvc", FILTERS.ME_OWNER)
 async def _(client, message):
     await message.reply(get_list())
