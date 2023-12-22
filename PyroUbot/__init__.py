@@ -1,3 +1,6 @@
+import uvloop
+uvloop.install()
+
 import logging
 import os
 import re
@@ -23,6 +26,8 @@ logging.basicConfig(
     level=logging.ERROR,
     handlers=[logging.StreamHandler(), ConnectionHandler()],
 )
+
+
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
