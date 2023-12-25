@@ -7,11 +7,11 @@ from PyroUbot import *
 
 
 async def broadcast_group_cmd(client, message):
-    msg = await message.reply("<emoji id=5971865795582495562>🔺</emoji> sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ..." if clien.me.is_premium else "sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ...", quote=True)
+    msg = await message.reply("<emoji id=5971865795582495562>🔺</emoji> sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ..." if client.me.is_premium else "sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ...", quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit("<emoji id=6226399941388928924>👓</emoji> ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ" if clien.me.is_premium else "ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ")
+        return await msg.edit("<emoji id=6226399941388928924>👓</emoji> ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ" if client.me.is_premium else "ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
@@ -41,17 +41,17 @@ async def broadcast_group_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b><emoji id=5895735846698487922>🌐</emoji> ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> <emoji id=5021905410089550576>✅</emoji> ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ɢʀᴏᴜᴘ</b>\n<b> <emoji id=5019523782004441717>❌</emoji> ɢᴀɢᴀʟ ᴋᴇ: {failed} ɢʀᴏᴜᴘ</b>" if clien.me.is_premium else f"<b>❏ ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> ├ ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ɢʀᴏᴜᴘ</b>\n<b> ╰ ɢᴀɢᴀʟ ᴋᴇ: {failed} ɢʀᴏᴜᴘ</b>",
+        f"<b><emoji id=5895735846698487922>🌐</emoji> ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> <emoji id=5021905410089550576>✅</emoji> ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ɢʀᴏᴜᴘ</b>\n<b> <emoji id=5019523782004441717>❌</emoji> ɢᴀɢᴀʟ ᴋᴇ: {failed} ɢʀᴏᴜᴘ</b>" if client.me.is_premium else f"<b>❏ ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> ├ ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ɢʀᴏᴜᴘ</b>\n<b> ╰ ɢᴀɢᴀʟ ᴋᴇ: {failed} ɢʀᴏᴜᴘ</b>",
         quote=True,
     )
 
 
 async def broadcast_users_cmd(client, message):
-    msg = await message.reply("<emoji id=5971865795582495562>🔺</emoji> sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ..." if clien.me.is_premium else "sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ...", quote=True)
+    msg = await message.reply("<emoji id=5971865795582495562>🔺</emoji> sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ..." if client.me.is_premium else "sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ...", quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit("<emoji id=6226399941388928924>👓</emoji> ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ" if clien.me.is_premium else "ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ")
+        return await msg.edit("<emoji id=6226399941388928924>👓</emoji> ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ" if client.me.is_premium else "ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ")
 
     chats = await get_global_id(client, "users")
 
@@ -80,7 +80,7 @@ async def broadcast_users_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b><emoji id=5895735846698487922>🌐</emoji> ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> <emoji id=5021905410089550576>✅</emoji> ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ᴜsᴇʀs</b>\n<b> <emoji id=5019523782004441717>❌</emoji> ɢᴀɢᴀʟ ᴋᴇ: {failed} ᴜsᴇʀs</b>" if clien.me.is_premium else f"<b>❏ ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> ├ ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ᴜsᴇʀs</b>\n<b> ╰ ɢᴀɢᴀʟ ᴋᴇ: {failed} ᴜsᴇʀs</b>",
+        f"<b><emoji id=5895735846698487922>🌐</emoji> ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> <emoji id=5021905410089550576>✅</emoji> ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ᴜsᴇʀs</b>\n<b> <emoji id=5019523782004441717>❌</emoji> ɢᴀɢᴀʟ ᴋᴇ: {failed} ᴜsᴇʀs</b>" if client.me.is_premium else f"<b>❏ ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> ├ ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ᴜsᴇʀs</b>\n<b> ╰ ɢᴀɢᴀʟ ᴋᴇ: {failed} ᴜsᴇʀs</b>",
         quote=True,
     )
 
