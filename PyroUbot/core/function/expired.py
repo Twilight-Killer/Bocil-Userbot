@@ -27,7 +27,6 @@ async def expiredUserbots():
                     await rem_expired_date(X.me.id)
                     ubot._get_my_id.remove(X.me.id)
                     ubot._ubot.remove(X)
-                    await X.log_out()
                     await bot.send_message(
                         LOGS_MAKER_UBOT,
                         MSG.EXPIRED_MSG_BOT(X),
@@ -36,6 +35,7 @@ async def expiredUserbots():
                     await bot.send_message(
                         X.me.id, "<b>💬 ᴍᴀsᴀ ᴀᴋᴛɪꜰ ᴀɴᴅᴀ ᴛᴇʟᴀʜ ʙᴇʀᴀᴋʜɪʀ"
                     )
+                    await X.log_out()
             except Exception as e:
                 print(f"Error: - {X.me.id} - :{str(e)}")
         await asyncio.sleep(10)
