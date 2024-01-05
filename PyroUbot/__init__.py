@@ -23,7 +23,7 @@ class ConnectionHandler(logging.Handler):
                 os.system(f"kill -9 {os.getpid()} && python3 -m PyroUbot")
 
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s")
