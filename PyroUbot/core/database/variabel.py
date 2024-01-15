@@ -3,6 +3,31 @@ from PyroUbot.core.database import mongodb
 varsdb = mongodb.vars
 
 
+async def set_vars(bot_id, vars_name, value, query="vars"):
+    update_data = {"$set": {f"{query}.{vars_name}": value}}
+    await varsdb.update_one({"_id": bot_id}, update_data, upsert=True)
+
+
+async def get_vars(bot_id, vars_name, query="vars"):
+    result = await varsdb.find_one({"_id": bot_id})
+    return result.get(query, {}).get(vars_name, None) if result else None
+
+
+async def remove_vars(bot_id, vars_name, query="vars"):
+    remove_data = {"$unset": {f"{query}.{vars_name}": ""}}
+    await varsdb.update_one({"_id": bot_id}, remove_data)
+
+
+async def all_vars(user_id, query="vars"):
+    result = await varsdb.find_one({"_id": user_id})
+    return result.get(query) if result else None
+
+
+async def remove_all_vars(bot_id):
+    await varsdb.delete_one({"_id": bot_id})
+
+
+
 async def get_list_from_vars(user_id, vars_name, query="vars"):
     vars_data = await get_vars(user_id, vars_name, query)
     return [int(x) for x in str(vars_data).split()] if vars_data else []
@@ -19,25 +44,6 @@ async def remove_from_vars(user_id, vars_name, value, query="vars"):
     if value in vars_list:
         vars_list.remove(value)
         await set_vars(user_id, vars_name, " ".join(map(str, vars_list)), query)
-
-
-async def set_vars(bot_id, vars_name, value):
-    update_data = {"$set": {f"vars.{vars_name}": value}}
-    await varsdb.update_one({"_id": bot_id}, update_data, upsert=True)
-
-
-async def get_vars(bot_id, vars_name):
-    result = await varsdb.find_one({"_id": bot_id})
-    return result.get("vars").get(vars_name) if result else None
-
-
-async def remove_all_vars(bot_id):
-    await varsdb.delete_one({"_id": bot_id})
-
-
-async def remove_vars(bot_id, vars_name, query="vars"):
-    remove_data = {"$unset": {f"{query}.{vars_name}": ""}}
-    await varsdb.update_one({"_id": bot_id}, remove_data)
 
 
 async def get_pm_id(user_id):
