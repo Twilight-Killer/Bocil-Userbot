@@ -4,7 +4,7 @@ create by: https://t.me/NorSodikin
 """
 
 
-from HyperUbot import *
+from .. import *
 
 __MODULE__ = "sudo"
 __HELP__ = """
