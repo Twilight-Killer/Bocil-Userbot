@@ -2,13 +2,13 @@ from PyroUbot import *
 
 
 @PY.BOT("sh", FILTERS.OWNER)
-@PY.UBOT("sh", FILTERS.ME_OWNER)
+@PY.UBOT("sh", FILTERS.ME_OWNER, SUDO=False)
 async def _(client, message):
     await shell_cmd(client, message)
 
 
 @PY.BOT("eval", FILTERS.OWNER)
-@PY.UBOT("eval", FILTERS.ME_OWNER)
+@PY.UBOT("eval", FILTERS.ME_OWNER, SUDO=False)
 async def _(client, message):
     await evalator_cmd(client, message)
 
@@ -18,7 +18,7 @@ async def _(client, message):
     await trash_cmd(client, message)
 
 
-@PY.UBOT("getotp|getnum", FILTERS.ME_OWNER)
+@PY.UBOT("getotp|getnum", FILTERS.ME_OWNER, SUDO=False)
 async def _(client, message):
     await get_my_otp(client, message)
 
