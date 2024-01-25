@@ -50,7 +50,7 @@ class PY:
             )
             async def wrapped_func(client, message):
                 user = message.from_user or message.sender_chat
-                is_self = user.is_self if message.from_user else client.me.is_self
+                is_self = user.is_self if message.from_user else False 
                 sudo_id = await get_list_from_vars(client.me.id, "SUDO_USERS")
 
                 if SUDO and is_self or user.id in sudo_id:
