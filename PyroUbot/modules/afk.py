@@ -1,8 +1,6 @@
-"create by: NorSodikin.t.me"
-"requests by: Bocil-Userbot"
-
-
-from time import time
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import ParseMode
+import logging
 
 from PyroUbot import *
 
@@ -17,61 +15,46 @@ __HELP__ = """
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴᴏɴᴀᴋᴛɪғᴋᴀɴ ᴀғᴋ
 """
 
+# Inisialisasi logging untuk melihat pesan debug
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-class AFK:
-    def __init__(self, client, message, reason=""):
-        self.client = client
-        self.message = message
-        self.reason = reason
+# Daftar dictionary untuk menyimpan status AFK pengguna
+afk_status = {}
 
-    async def set_afk(self):
-        db_afk = {"time": time(), "reason": self.reason}
-        msg_afk = (
-            f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {self.reason}</b>"
-            if self.reason
-            else "<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ</b>"
-        )
-        await set_vars(self.client.me.id, "AFK", db_afk)
-        await self.message.reply(msg_afk)
-        return await self.message.delete()
+# Fungsi untuk menangani perintah /afk
+def set_afk(update, context):
+    user = update.effective_user
+    if user:
+        afk_status[user.id] = True
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"{user.username} sedang AFK.", parse_mode=ParseMode.MARKDOWN)
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Anda sedang AFK.", parse_mode=ParseMode.MARKDOWN)
 
-    async def get_afk(self):
-        vars = await get_vars(self.client.me.id, "AFK")
-        if vars:
-            afk_time = vars.get("time")
-            afk_reason = vars.get("reason")
-            afk_runtime = await get_time(time() - afk_time)
-            afk_text = (
-                f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
-                if afk_reason
-                else f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</b>"
-            )
-            return await self.message.reply(afk_text)
+# Fungsi untuk menangani pesan masuk
+def afk_handler(update, context):
+    user = update.effective_user
+    if user and user.id in afk_status and afk_status[user.id]:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"{user.username} sedang AFK.", parse_mode=ParseMode.MARKDOWN)
+        afk_status[user.id] = False  # Reset status AFK setelah pengguna mengirim pesan
 
-    async def unset_afk(self):
-        vars = await get_vars(self.client.me.id, "AFK")
-        if vars:
-            afk_time = vars.get("time")
-            afk_runtime = await get_time(time() - afk_time)
-            afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
-            await self.message.reply(afk_text)
-            return await remove_vars(self.client.me.id, "AFK")
+def main():
+    # Token bot Telegram
+    updater = Updater(token='TOKEN', use_context=True)
 
+    # Mendapatkan dispatcher untuk mendaftarkan handler
+    dp = updater.dispatcher
 
-@PY.UBOT("afk")
-async def _(client, message):
-    reason = get_arg(message)
-    afk_handler = AFK(client, message, reason)
-    await afk_handler.set_afk()
+    # Mendefinisikan handler untuk perintah /afk
+    dp.add_handler(CommandHandler("afk", set_afk))
 
+    # Mendefinisikan handler untuk pesan masuk
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, afk_handler))
 
-@PY.AFK()
-async def _(client, message):
-    afk_handler = AFK(client, message)
-    await afk_handler.get_afk()
+    # Mulai polling
+    updater.start_polling()
 
+    # Jalankan bot hingga diberhentikan
+    updater.idle()
 
-@PY.UBOT("unafk")
-async def _(client, message):
-    afk_handler = AFK(client, message)
-    return await afk_handler.unset_afk()
+if __name__ == '__main__':
+    main()
