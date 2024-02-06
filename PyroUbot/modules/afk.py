@@ -39,7 +39,7 @@ def afk_handler(update, context):
 
 def main():
     # Token bot Telegram
-    updater = Updater(token='TOKEN', use_context=True)
+    updater = Updater(token='6807297202:AAE3hqDpN5dwqGbpo1nu2_8i9QXOS5NOSEA', use_context=True)
 
     # Mendapatkan dispatcher untuk mendaftarkan handler
     dp = updater.dispatcher
