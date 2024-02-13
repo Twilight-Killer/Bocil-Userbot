@@ -33,7 +33,6 @@ class AFK:
         )
         await set_vars(self.client.me.id, "AFK", db_afk)
         await self.message.reply(msg_afk)
-        return await self.message.delete()
 
     async def get_afk(self):
         vars = await get_vars(self.client.me.id, "AFK")
@@ -55,7 +54,6 @@ class AFK:
             afk_runtime = await get_time(time() - afk_time)
             afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
             await self.message.reply(afk_text)
-            await self.message.delete()
             return await remove_vars(self.client.me.id, "AFK")
 
 
