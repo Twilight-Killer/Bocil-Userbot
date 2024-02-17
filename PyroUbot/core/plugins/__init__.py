@@ -1,18 +1,11 @@
-from glob import glob
-from os.path import basename, dirname, isfile
+import importlib.util
+import os
 
+plugin_dir = os.path.join(os.path.dirname(__file__), "core", "plugins")
 
-def loadP():
-    mod_paths = glob(f"{dirname(__file__)}/*.py")
-    return sorted(
-        [
-            basename(f)[:-3]
-            for f in mod_paths
-            if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
-        ]
-    )
-
-
-for module_name in loadP():
-    import_statement = f"from PyroUbot.core.plugins.{module_name} import *"
-    exec(import_statement)
+for file_name in os.listdir(plugin_dir):
+    if file_name.endswith(".py") and not file_name.startswith("__"):
+        module_name = file_name[:-3]
+        spec = importlib.util.spec_from_file_location(module_name, os.path.join(plugin_dir, file_name))
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
