@@ -1,4 +1,5 @@
 import asyncio
+import os
 
 from pyrogram import idle
 
@@ -39,12 +40,12 @@ async def main():
     ]
     await asyncio.gather(*tasks, bot.start())
     await asyncio.gather(loadPlugins(), expiredUserbots(), idle())
+    
 
-PLUGINS = ["plugin1", "plugin2", "plugin3"]
-
-async def loadPlugins():
-    plugins = [p for p in PLUGINS]
-
+def loadPlugins():
+    plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
+    plugins = [os.path.splitext(f)[0] for f in os.listdir(plugins_dir) if f.endswith(".py") and f != "__init__.py"]
+    
     tasks = [
         asyncio.create_task(import_plugin(plugin)) for plugin in plugins
     ]
@@ -56,7 +57,6 @@ async def import_plugin(plugin):
         print(f"[✅ 𝐋𝐎𝐀𝐃𝐄𝐃] - {plugin}")
     except Exception as e:
         print(f"[❌ 𝐅𝐀𝐈𝐋𝐄𝐃] - {plugin} - {e}")
-
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop_policy().get_event_loop()
