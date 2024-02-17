@@ -44,12 +44,17 @@ async def main():
 async def loadPlugins():
     plugins = [p for p in PLUGINS]
 
-    for plugin in plugins:
-        try:
-            __import__(f"PyroUbot.plugins.{plugin}")
-            print(f"[✅ 𝐋𝐎𝐀𝐃𝐄𝐃] - {plugin}")
-        except Exception as e:
-            print(f"[❌ 𝐅𝐀𝐈𝐋𝐄𝐃] - {plugin} - {e}")
+    tasks = [
+        asyncio.create_task(import_plugin(plugin)) for plugin in plugins
+    ]
+    await asyncio.gather(*tasks)
+
+async def import_plugin(plugin):
+    try:
+        __import__(f"PyroUbot.plugins.{plugin}")
+        print(f"[✅ 𝐋𝐎𝐀𝐃𝐄𝐃] - {plugin}")
+    except Exception as e:
+        print(f"[❌ 𝐅𝐀𝐈𝐋𝐄𝐃] - {plugin} - {e}")
 
 
 if __name__ == "__main__":
