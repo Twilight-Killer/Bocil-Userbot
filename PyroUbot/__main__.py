@@ -49,7 +49,6 @@ def loadPlugins():
     tasks = [
         asyncio.create_task(import_plugin(plugin)) for plugin in plugins
     ]
-    await asyncio.gather(*tasks)
 
 async def import_plugin(plugin):
     try:
