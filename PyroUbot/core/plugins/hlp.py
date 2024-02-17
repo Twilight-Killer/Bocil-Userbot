@@ -66,14 +66,14 @@ async def menu_callback(client, callback_query):
         )
     if prev_match:
         curr_page = int(prev_match.group(1))
-        await callback_query.edit_message_reply_markup(
+        await callback_query.edit_message_text(
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(curr_page - 1, HELP_COMMANDS, "help")
             ),
         )
     if next_match:
         next_page = int(next_match.group(1))
-        await callback_query.edit_message_reply_markup(
+        await callback_query.edit_message_text(
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(next_page + 1, HELP_COMMANDS, "help")
             ),
