@@ -41,6 +41,17 @@ async def main():
     await asyncio.gather(loadPlugins(), expiredUserbots(), idle())
 
 
+async def loadPlugins():
+    plugins = [p for p in PLUGINS]
+
+    for plugin in plugins:
+        try:
+            __import__(f"PyroUbot.plugins.{plugin}")
+            print(f"[✅ 𝐋𝐎𝐀𝐃𝐄𝐃] - {plugin}")
+        except Exception as e:
+            print(f"[❌ 𝐅𝐀𝐈𝐋𝐄𝐃] - {plugin} - {e}")
+
+
 if __name__ == "__main__":
     loop = asyncio.get_event_loop_policy().get_event_loop()
     loop.run_until_complete(main())
