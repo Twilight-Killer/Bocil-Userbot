@@ -4,9 +4,10 @@ import re
 import asyncio
 
 from pyrogram import Client, filters
+from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
-from pyrogram.errors import FloodWait
+from pyromod import listen
 from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
@@ -17,7 +18,7 @@ class ConnectionError(Exception):
 
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for error_type in ["OSError", "TimeoutError"]:
+        for error_type in ["OSErro", "TimeoutError"]:
             if error_type in record.getMessage():
                 self.handle_error(record.getMessage())
 
@@ -95,6 +96,28 @@ class Bot(Client):
         await super().start()
 
 
+class Bot(Client):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, device_model="V1PremUbot")
+
+    def on_message(self, filters=None, group=-1):
+        def decorator(func):
+            self.add_handler(MessageHandler(func, filters), group)
+            return func
+
+        return decorator
+
+    def on_callback_query(self, filters=None, group=-1):
+        def decorator(func):
+            self.add_handler(CallbackQueryHandler(func, filters), group)
+            return func
+
+        return decorator
+
+    async def start(self):
+        await super().start()
+
+
 class Ubot(Client):
     _ubot = []
     _prefix = {}
@@ -103,9 +126,8 @@ class Ubot(Client):
     _get_my_peer = {}
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs, device_model="BuruTaniUbot")
+        super().__init__(**kwargs, device_model="V1PremUbot")
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
-
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             for ub in self._ubot:
