@@ -1,5 +1,6 @@
 import importlib.util
 import os
+from PyroUbot.core.plugins import *
 
 plugin_dir = os.path.join(os.path.dirname(__file__), "core", "plugins")
 
