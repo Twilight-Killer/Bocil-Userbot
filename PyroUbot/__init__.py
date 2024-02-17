@@ -4,12 +4,10 @@ import re
 import asyncio
 
 from pyrogram import Client, filters
-from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
-from pyromod import listen
+from pyrogram.errors import FloodWait
 from pytgcalls import GroupCallFactory
-
 
 from PyroUbot.config import *
 
@@ -19,7 +17,7 @@ class ConnectionError(Exception):
 
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for error_type in ["OSErro", "TimeoutError"]:
+        for error_type in ["OSError", "TimeoutError"]:
             if error_type in record.getMessage():
                 self.handle_error(record.getMessage())
 
