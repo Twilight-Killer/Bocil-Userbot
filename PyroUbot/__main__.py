@@ -40,6 +40,7 @@ async def main():
     await asyncio.gather(*tasks, bot.start())
     await asyncio.gather(loadPlugins(), expiredUserbots(), idle())
 
+PLUGINS = ["plugin1", "plugin2", "plugin3"]
 
 async def loadPlugins():
     plugins = [p for p in PLUGINS]
