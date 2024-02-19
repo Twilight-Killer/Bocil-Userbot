@@ -55,7 +55,7 @@ async def stats_command(client, message):
     inline_keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/BuruTani_Ubot")
+                InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/metahoe")
             ]
         ]
     )
