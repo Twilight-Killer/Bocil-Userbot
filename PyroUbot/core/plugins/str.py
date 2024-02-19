@@ -37,7 +37,8 @@ async def send_msg_to_owner(client, message):
 async def ping_cmd(client, message):
     uptime = await get_time((time() - start_time))
     start = datetime.now()
-
+    delta_ping_formatted = "{:.3f}".format(delta_ping)
+   
     ping_task = asyncio.create_task(client.invoke(Ping(ping_id=0)))
     emot_1_task = asyncio.create_task(get_vars(client.me.id, "EMOJI_PING_PONG"))
     emot_2_task = asyncio.create_task(get_vars(client.me.id, "EMOJI_UPTIME"))
@@ -57,21 +58,20 @@ async def ping_cmd(client, message):
     emot_mention = emot_3 if emot_3 else "6226371543065167427"
 
     if client.me.is_premium:
-        _ping = f"""
-        <b><emoji id={emot_pong}>🏓</emoji> ᴘᴏɴɢ:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
-        <b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
-        <b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
-        """
-    else:
-        _ping = f"""
-        <b>❏ ᴋᴇᴄᴇᴘᴀᴛᴀɴ ᴊᴀʀɪɴɢᴀɴ<b>
-        <b>├  𝟻+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
-        <b>├  ᴛɪᴍᴇ:</b> <code>{uptime}</code>
-        <b>╰  ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
-        """
+    _ping = f"""
+    <b><emoji id={emot_pong}>🏓</emoji> ᴘᴏɴɢ:</b> <code>{delta_ping_formatted.replace('.', ',')} ms</code>
+    <b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
+    <b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
+    """
+else:
+    _ping = f"""
+    <b>❏ ᴋᴇᴄᴇᴘᴀᴛᴀɴ ᴊᴀʀɪɴɢᴀɴ<b>
+    <b>├ 𝟻+:</b> <code>{delta_ping_formatted.replace('.', ',')} ms</code>
+    <b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
+    <b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
+    """
 
-    await message.reply(_ping)
-
+await message.reply(_ping)
 
 async def start_cmd(client, message):
     await send_msg_to_owner(client, message)
