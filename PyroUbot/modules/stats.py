@@ -9,7 +9,7 @@ from PyroUbot import *
 
 @bot.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
-    uptime = datetime.now() - bot.start_time
+    uptime = dt.now() - bot.start_time
     total_users = len(ubot._ubot)
     cpu_usage = psutil.cpu_percent()
     memory_usage = psutil.virtual_memory().percent
