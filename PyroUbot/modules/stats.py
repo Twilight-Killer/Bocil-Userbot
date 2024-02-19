@@ -63,8 +63,7 @@ async def stats_command(client, message):
     # Reply with stats message and inline keyboard
     await message.reply(
         text=stats_message,
-        reply_markup=inline_keyboard,
-        parse_mode="html"
+        reply_markup=inline_keyboard
     )
     
     # Reply with stats message
