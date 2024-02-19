@@ -6,10 +6,6 @@ from pyrogram import filters, __version__ as pyrogram_version
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import filters
 
-@ubot.on_message(filters.command("start") & filters.user("username"))
-async def start_command(client, message):
-    await message.reply("Hello!")
-
 from PyroUbot import ubot
 
 @ubot.on_message(filters.command("stats") & filters.user)
