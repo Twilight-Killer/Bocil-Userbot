@@ -3,7 +3,7 @@ import subprocess
 import platform
 import asyncio
 from pyrogram import filters, __version__ as pyrogram_version
-from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import ubot
 
