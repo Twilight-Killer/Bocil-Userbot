@@ -6,16 +6,23 @@ from pyrogram import filters
 
 from PyroUbot import ubot
 
+async def get_time(seconds):
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    return days, hours, minutes, seconds
+
 @ubot.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
     # Get system information
     system = platform.system()
     release = platform.release()
-    pyrogram_version = platform.python_version()
+    pyrogram_version = platform.__version__()
 
     # Calculate uptime
     uptime_seconds = (datetime.now() - ubot.start_time).total_seconds()
-    uptime_str = str(timedelta(seconds=uptime_seconds))
+    days, hours, minutes, seconds = await get_time(uptime_seconds)
+    uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
 
     # Get bot information
     total_users = len(ubot._ubot)
@@ -34,7 +41,7 @@ async def stats_command(client, message):
 
     # Create stats message
     stats_message = (
-        f"<b>SYSTEM UBOT</b>\n"
+        f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
         f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_server}\n"
         f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
         f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
