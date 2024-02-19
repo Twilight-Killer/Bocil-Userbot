@@ -47,6 +47,6 @@ async def _(client, callback_query):
     await hapus_ubot(client, callback_query)
 
 
-@PY.BOT("stats" FILTERS.OWNER)
+@PY.BOT("stats")
 async def _(_, message: Message):
     await stats_command(_, message: Message)
