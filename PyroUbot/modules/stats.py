@@ -23,7 +23,7 @@ async def ping_server(server):
     else:
         return "Unknown"
 
-@bot.on_message(filters.command("stats") & filters.me)
+@PY.BOT("stats")
 async def stats_command(client, message):
     # Get system information
     system = platform.system()
