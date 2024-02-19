@@ -78,7 +78,6 @@ async def get_channel_messages(channel):
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
-        self.start_time = datetime.now()  # Menyimpan waktu mulai bot
     
     def on_message(self, filters=None, group=-1):
         def decorator(func):
@@ -234,6 +233,12 @@ class Bot(Client):
 
     async def start(self):
         await super().start()
+
+
+class Bot(Client):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, device_model="BuruTaniUbot")
+        self.start_time = datetime.now()  # Inisialisasi start_time saat membuat objek bot
 
 
 bot = Bot(
