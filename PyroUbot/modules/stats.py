@@ -13,7 +13,7 @@ async def stats_command(client, message):
     cpu_usage = psutil.cpu_percent()
     memory_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage("/").percent
-    uptime_str = str(uptime).split(".")[0]
+    uptime_str = str(uptime).split(":")[0]
 
     await message.reply(
         f"<b>👤 Total Users: {total_users}</b>\n"
