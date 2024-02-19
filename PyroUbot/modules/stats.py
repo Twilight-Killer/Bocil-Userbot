@@ -5,6 +5,8 @@ import time
 from datetime import datetime
 from pyrogram import filters
 
+from PyroUbot import *
+
 @ubot.on_message(filters.command("stats") & FILTERS.PRIVATE)
 async def stats_command(client, message):
     # Get system information
