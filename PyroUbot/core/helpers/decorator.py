@@ -25,10 +25,3 @@ async def install_my_peer(client):
     client._get_my_peer[client_id] = {"pm": pm_chats, "gc": gc_chats}
 
 
-async def installPeer():
-    try:
-        for client in ubot._ubot:
-            await install_my_peer(client)
-    except Exception:
-        pass
-    await bot.send_message(OWNER_ID, "✅ sᴇᴍᴜᴀ ᴘᴇᴇʀ_ɪᴅ ʙᴇʀʜᴀsɪʟ ᴅɪɪɴsᴛᴀʟʟ")
