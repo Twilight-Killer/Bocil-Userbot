@@ -2,8 +2,7 @@ from datetime import datetime, timedelta
 import subprocess
 import platform
 import asyncio
-from pyrogram import filters
-from pyrogram import __version__
+from pyrogram import filters, __version__ as pyrogram_version
 
 from PyroUbot import ubot
 
@@ -18,7 +17,6 @@ async def stats_command(client, message):
     # Get system information
     system = platform.system()
     release = platform.release()
-    pyrogram_version = __version__()
 
     # Calculate uptime
     uptime_seconds = (datetime.now() - ubot.start_time).total_seconds()
