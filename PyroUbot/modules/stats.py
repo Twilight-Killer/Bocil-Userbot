@@ -35,7 +35,7 @@ async def stats_command(client, message):
     uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
 
     # Get bot information
-    total_users = len(ubot._ubot)
+    total_users = len(bot._bot)
 
     # Get ping to server
     server = "example.com"  # Server to ping (change this to your server)
@@ -46,7 +46,7 @@ async def stats_command(client, message):
 
     # Create stats message
     stats_message = (
-        f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
+        f"<b>sᴛᴀᴛs ʙᴏᴛ</b>\n"
         f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_result}\n"
         f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
         f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
