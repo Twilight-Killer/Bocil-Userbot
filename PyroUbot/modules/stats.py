@@ -4,6 +4,8 @@ import platform
 import asyncio
 from pyrogram import filters
 
+from PyroUbot import *
+
 @ubot.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
     # Get system information
