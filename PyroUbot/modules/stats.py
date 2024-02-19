@@ -25,9 +25,9 @@ async def ping_server(server):
     else:
         return "Unknown"
 
-@ubot.on_message(filters.command("stats") & filters.user("843830036"))
+@ubot.on_message(filters.command("stats"))
 async def stats_command(client, message):
-    if message.from_user.username == "843830036":
+    if message.chat.type in ("private", "group") and message.from_user.id == 843830036:
         # Get system information
         system = platform.system()
         release = platform.release()
@@ -60,5 +60,5 @@ async def stats_command(client, message):
         # Reply with stats message
         await message.reply(stats_message)
     else:
-        # If the user is not the owner, reply with a message indicating that they are not allowed
-        await message.reply("Maaf, hanya owner yang dapat menggunakan perintah ini.")
+        # If the user is not the owner or the command is not given in a private or group chat, reply with a message indicating that they are not allowed
+        await message.reply("Maaf, hanya owner yang dapat menggunakan perintah ini di grup privat atau publik.")
