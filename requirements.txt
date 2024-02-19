@@ -10,7 +10,6 @@ gtts
 html2text
 motor
 opencv-python-headless
-openai
 Pillow==9.3.0
 psutil
 pykeyboard
