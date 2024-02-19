@@ -1,14 +1,6 @@
-from datetime import datetime
-import platform
-import asyncio
-import subprocess
-from pyrogram import filters, __version__ as pyrogram_version
+from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from PyroUbot import ubot
-
-start_time = datetime.now()
-
-@ubot.on_message(filters.command("stats") | filters.private)
+@ubot.on_message(filters.command("stats") & filters.user)
 async def stats_command(client, message):
     # Get system information
     system = platform.system()
@@ -41,15 +33,13 @@ async def stats_command(client, message):
         f"ᴏᴡɴᴇʀ: {owner}\n"
     )
 
-    # Reply with stats message
-    await message.reply(stats_message)
+    # Create InlineKeyboardButton
+    button_text = "Click Me!"
+    button_callback_data = "button_clicked"
+    button = InlineKeyboardButton(button_text, callback_data=button_callback_data)
 
-async def ping_server(server):
-    process = await asyncio.create_subprocess_exec('ping', '-c', '4', server, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = await process.communicate()
-    output = stdout.decode('utf-8')
-    if "64 bytes from" in output:
-        ping_time = output.split("time=")[1].split(" ")[0]
-        return f"{ping_time}ms"
-    else:
-        return "Unknown"
+    # Create InlineKeyboardMarkup with the button
+    reply_markup = InlineKeyboardMarkup([[button]])
+
+    # Reply with stats message and button
+    await message.reply(stats_message, reply_markup=reply_markup)
