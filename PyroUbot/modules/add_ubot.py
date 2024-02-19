@@ -49,4 +49,4 @@ async def _(client, callback_query):
 
 @PY.BOT("stats")
 async def _(client, message):
-    await stats_command(client message)
+    await stats_command(client, message)
