@@ -58,20 +58,21 @@ async def ping_cmd(client, message):
     emot_mention = emot_3 if emot_3 else "6226371543065167427"
 
     if client.me.is_premium:
-    _ping = f"""
+        _ping = f"""
     <b><emoji id={emot_pong}>🏓</emoji> ᴘᴏɴɢ:</b> <code>{delta_ping_formatted.replace('.', ',')} ms</code>
     <b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
     <b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
     """
-else:
-    _ping = f"""
+   else:
+        _ping = f"""
     <b>❏ ᴋᴇᴄᴇᴘᴀᴛᴀɴ ᴊᴀʀɪɴɢᴀɴ<b>
     <b>├ 𝟻+:</b> <code>{delta_ping_formatted.replace('.', ',')} ms</code>
     <b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
     <b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
     """
 
-await message.reply(_ping)
+    await message.reply(_ping)
+
 
 async def start_cmd(client, message):
     await send_msg_to_owner(client, message)
