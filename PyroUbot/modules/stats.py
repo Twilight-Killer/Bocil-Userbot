@@ -24,9 +24,9 @@ async def ping_server(server):
     else:
         return "Unknown"
 
-@bot.on_message(filters.command("stats") & filters.user("ㅤ Pemilik saham tele"))
+@bot.on_message(filters.command("stats") & filters.user("843830036"))
 async def stats_command(client, message):
-    if message.from_user.username == "ㅤ Pemilik saham tele":
+    if message.from_user.username == "843830036":
         # Get system information
         system = platform.system()
         release = platform.release()
