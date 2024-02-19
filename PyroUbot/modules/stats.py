@@ -1,13 +1,14 @@
-from datetime import datetime, timedelta
-import subprocess
+from datetime import datetime
 import platform
 import asyncio
+import subprocess
 from pyrogram import filters, __version__ as pyrogram_version
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import ubot
 
-@ubot.on_message(filters.command("stats") & filters.user)
+start_time = datetime.now()
+
+@ubot.on_message(filters.command("stats") | filters.private)
 async def stats_command(client, message):
     # Get system information
     system = platform.system()
@@ -25,7 +26,7 @@ async def stats_command(client, message):
     ping_task = asyncio.create_task(ping_server(server))
 
     # Get owner information
-    owner = "pemilik saham telegram"  # Change this to your bot owner's name
+    owner = "Owner Name"  # Change this to your bot owner's name
 
     # Wait for all tasks to complete
     ping_result = await ping_task
@@ -40,13 +41,15 @@ async def stats_command(client, message):
         f"ᴏᴡɴᴇʀ: {owner}\n"
     )
 
-    # Create InlineKeyboardButton
-    button_text = "Click Me!"
-    button_callback_data = "button_clicked"
-    button = InlineKeyboardButton(button_text, callback_data=button_callback_data)
+    # Reply with stats message
+    await message.reply(stats_message)
 
-    # Create InlineKeyboardMarkup with the button
-    reply_markup = InlineKeyboardMarkup([[button]])
-
-    # Reply with stats message and button
-    await message.reply(stats_message, reply_markup=reply_markup)
+async def ping_server(server):
+    process = await asyncio.create_subprocess_exec('ping', '-c', '4', server, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = await process.communicate()
+    output = stdout.decode('utf-8')
+    if "64 bytes from" in output:
+        ping_time = output.split("time=")[1].split(" ")[0]
+        return f"{ping_time}ms"
+    else:
+        return "Unknown"
