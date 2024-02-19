@@ -9,7 +9,6 @@ from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pyromod import listen
 from pytgcalls import GroupCallFactory
-from datetime import datetime
 
 from PyroUbot.config import *
 
@@ -78,7 +77,7 @@ async def get_channel_messages(channel):
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
-    
+
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(MessageHandler(func, filters), group)
@@ -198,47 +197,6 @@ class Ubot(Client):
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
         print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃")
-
-class Bot(Client):  
-    async def stats_command(self, message: Message):
-        uptime = datetime.now() - bot.start_time
-        total_users = len(self._ubot)
-        cpu_usage = psutil.cpu_percent()
-        memory_usage = psutil.virtual_memory().percent
-        disk_usage = psutil.disk_usage("/").percent
-        uptime_str = str(uptime).split(".")[0]
-
-        await message.reply(
-            f"<b>👤 Total Users: {total_users}</b>\n"
-            f"<b>🕒 Uptime: {uptime_str}</b>\n"
-            f"<b>🖥️ CPU Usage: {cpu_usage}%</b>\n"
-            f"<b>💾 Memory Usage: {memory_usage}%</b>\n"
-            f"<b>💽 Disk Usage: {disk_usage}%</b>",
-            parse_mode=ParseMode.HTML,
-        )
-
-    def on_message(self, filters=None, group=-1):
-        def decorator(func):
-            self.add_handler(MessageHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    def on_callback_query(self, filters=None, group=-1):
-        def decorator(func):
-            self.add_handler(CallbackQueryHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    async def start(self):
-        await super().start()
-
-
-class Bot(Client):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs, device_model="BuruTaniUbot")
-        self.start_time = datetime.now()  # Inisialisasi start_time saat membuat objek bot
 
 
 bot = Bot(
