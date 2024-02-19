@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime as dt
 import psutil
 from pyrogram import filters
 
