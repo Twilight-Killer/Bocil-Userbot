@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import subprocess
 import platform
 import asyncio
-from pyrogram import filters, version as pyrogram_version
+from pyrogram import filters, __version__ as pyrogram_version
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import ubot
