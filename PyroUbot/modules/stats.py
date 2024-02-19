@@ -4,6 +4,8 @@ import psutil
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from PyroUbot import bot, OWNER_ID
 
+from PyroUbot import *
+
 @bot.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
     uptime = dt.now() - bot.start_time
