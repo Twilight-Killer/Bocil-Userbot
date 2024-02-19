@@ -1,19 +1,19 @@
 import subprocess
-import psutil
 import platform
-import time as t  # Menggunakan nama alias untuk modul time
+import time
 from datetime import datetime
 from pyrogram import filters
+from pyrogram.types import Message
 
-from PyroUbot import *
+from PyroUbot import ubot
 
-@ubot.on_message(filters.command("stats") & FILTERS.PRIVATE)
-async def stats_command(client, message):
+@ubot.on_message(filters.command("stats") & filters.private)
+async def stats_command(client, message: Message):
     # Get system information
     system = platform.system()
     release = platform.release()
     pyrogram_version = platform.python_version()
-    uptime_seconds = t.time() - ubot.start_time  # Menggunakan modul time melalui nama alias
+    uptime_seconds = time.time() - ubot.start_time
     uptime_str = str(datetime.timedelta(seconds=uptime_seconds))
 
     # Get bot information
