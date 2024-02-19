@@ -51,14 +51,14 @@ async def stats_command(client, message):
         f"ᴏᴡɴᴇʀ: {owner}\n"
       )
 
-    # Create inline keyboard
-    inline_keyboard = InlineKeyboardMarkup(
+    # Create inline keyboard with button to your bot
+inline_keyboard = InlineKeyboardMarkup(
+    [
         [
-            [
-                InlineKeyboardButton("Button Text", callback_data="button_data")
-            ]
+            InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/BuruTani_Ubot")
         ]
-    )
+    ]
+)
 
     # Reply with stats message and inline keyboard
     await message.reply(
