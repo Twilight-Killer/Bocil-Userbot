@@ -15,53 +15,54 @@ async def get_time(seconds):
 
 start_time = datetime.now()
 
-@ubot.on_message(filters.command("stats") & filters.private)
+@ubot.on_message(filters.command("stats"))
 async def stats_command(client, message):
-    # Get system information
-    system = platform.system()
-    release = platform.release()
+    if message.chat.type in ["private", "supergroup"]:
+        # Get system information
+        system = platform.system()
+        release = platform.release()
 
-    # Calculate uptime
-    uptime_seconds = (datetime.now() - start_time).total_seconds()
-    days, hours, minutes = await get_time(uptime_seconds)
-    uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
+        # Calculate uptime
+        uptime_seconds = (datetime.now() - start_time).total_seconds()
+        days, hours, minutes = await get_time(uptime_seconds)
+        uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
 
-    # Get bot information
-    total_users = len(ubot._ubot)
-    owner = message.from_user.first_name 
+        # Get bot information
+        total_users = len(ubot._ubot)
+        owner = message.from_user.first_name 
 
-    # Get ping to server
-    server = "example.com"  # Server to ping (change this to your server)
-    process = subprocess.Popen(['ping', '-c', '4', server], stdout=subprocess.PIPE)
-    stdout, _ = process.communicate()
-    output = stdout.decode('utf-8')
-    if "64 bytes from" in output:
-        ping_time = output.split("time=")[1].split(" ")[0]
-        ping_server = f"{ping_time}ms"
-    else:
-        ping_server = "Unknown"
+        # Get ping to server
+        server = "example.com"  # Server to ping (change this to your server)
+        process = subprocess.Popen(['ping', '-c', '4', server], stdout=subprocess.PIPE)
+        stdout, _ = process.communicate()
+        output = stdout.decode('utf-8')
+        if "64 bytes from" in output:
+            ping_time = output.split("time=")[1].split(" ")[0]
+            ping_server = f"{ping_time}ms"
+        else:
+            ping_server = "Unknown"
 
-    # Create stats message
-    stats_message = (
-        f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
-        f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_server}\n"
-        f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
-        f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
-        f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
-        f"ᴏᴡɴᴇʀ: {owner}\n"
-      )
+        # Create stats message
+        stats_message = (
+            f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
+            f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_server}\n"
+            f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
+            f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
+            f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
+            f"ᴏᴡɴᴇʀ: {owner}\n"
+          )
 
-    # Create inline keyboard with button to your bot
-    inline_keyboard = InlineKeyboardMarkup(
-        [
+        # Create inline keyboard with button to your bot
+        inline_keyboard = InlineKeyboardMarkup(
             [
-                InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/BuruTani_Ubot")
+                [
+                    InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/BuruTani_Ubot")
+                ]
             ]
-        ]
-    )
+        )
 
-    # Reply with stats message and inline keyboard
-    await message.reply(
-      text=stats_message,
-      reply_markup=inline_keyboard
-    )
+        # Reply with stats message and inline keyboard
+        await message.reply(
+          text=stats_message,
+          reply_markup=inline_keyboard
+        )
