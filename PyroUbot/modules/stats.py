@@ -10,7 +10,9 @@ async def get_time(seconds):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    return days, hours, minutes, seconds
+    return days, hours, minutes
+
+start_time = datetime.now()
 
 @ubot.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
@@ -19,8 +21,8 @@ async def stats_command(client, message):
     release = platform.release()
 
     # Calculate uptime
-    uptime_seconds = (datetime.now() - ubot.start_time).total_seconds()
-    days, hours, minutes, seconds = await get_time(uptime_seconds)
+    uptime_seconds = (datetime.now() - start_time).total_seconds()
+    days, hours, minutes = await get_time(uptime_seconds)
     uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
 
     # Get bot information
