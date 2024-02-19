@@ -32,7 +32,7 @@ async def _(client, message):
     await cek_ubot(client, message)
 
 
-@PY.BOT("bc", FILTERS.OWNER)
+@PY.BOT("gcs", FILTERS.OWNER)
 async def _(client, message):
     await broadcast_bot(client, message)
 
@@ -46,7 +46,3 @@ async def _(client, callback_query):
 async def _(client, callback_query):
     await hapus_ubot(client, callback_query)
 
-
-@PY.BOT("stats")
-async def _(client, message):
-    await stats_command(client, message)
