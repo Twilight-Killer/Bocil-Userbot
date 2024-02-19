@@ -21,7 +21,3 @@ async def installPeer():
     await asyncio.gather(*tasks, return_exceptions=False)
     await bot.send_message(OWNER_ID, "✅ sᴇᴍᴜᴀ ᴘᴇᴇʀ_ɪᴅ ʙᴇʀʜᴀsɪʟ ᴅɪɪɴsᴛᴀʟʟ")
 
-
-# Memanggil fungsi installPeer()
-loop = asyncio.get_event_loop()
-loop.run_until_complete(installPeer())
