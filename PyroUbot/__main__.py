@@ -39,7 +39,7 @@ async def main():
     ]
     await asyncio.gather(*tasks, bot.start())
     await asyncio.gather(loadPlugins(), installPeer(), expiredUserbots(), idle())
-    await bot.send_message(OWNER_ID, "✅ sᴇᴍᴜᴀ ᴘᴇᴇʀ_ɪᴅ ʙᴇʀʜᴀsɪʟ ᴅɪɪɴsᴛᴀʟʟ")
+
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop_policy().get_event_loop()
