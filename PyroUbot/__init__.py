@@ -96,28 +96,6 @@ class Bot(Client):
         await super().start()
 
 
-class Bot(Client):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs, device_model="BuruTaniUbot")
-
-    def on_message(self, filters=None, group=-1):
-        def decorator(func):
-            self.add_handler(MessageHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    def on_callback_query(self, filters=None, group=-1):
-        def decorator(func):
-            self.add_handler(CallbackQueryHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    async def start(self):
-        await super().start()
-
-
 class Ubot(Client):
     _ubot = []
     _prefix = {}
