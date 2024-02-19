@@ -5,8 +5,6 @@ import subprocess
 from pyrogram import filters, __version__ as pyrogram_version
 from PyroUbot import ubot
 
-from PyroUbot import *
-
 start_time = datetime.now()
 
 async def get_time(seconds):
@@ -25,40 +23,36 @@ async def ping_server(server):
     else:
         return "Unknown"
 
-@ubot.on_message(filters.command("stats"))
+@ubot.on_message(filters.command("stats") & filters.me)
 async def stats_command(client, message):
-    if message.chat.type in ("private", "group") and message.from_user.id == 843830036:
-        # Get system information
-        system = platform.system()
-        release = platform.release()
+    # Get system information
+    system = platform.system()
+    release = platform.release()
 
-        # Calculate uptime
-        uptime_seconds = (datetime.now() - start_time).total_seconds()
-        days, hours, minutes = await get_time(uptime_seconds)
-        uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
+    # Calculate uptime
+    uptime_seconds = (datetime.now() - start_time).total_seconds()
+    days, hours, minutes = await get_time(uptime_seconds)
+    uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
 
-        # Get bot information
-        total_users = len(ubot._ubot)
+    # Get bot information
+    total_users = len(ubot._ubot)
 
-        # Get ping to server
-        server = "example.com"  # Server to ping (change this to your server)
-        ping_result = await ping_server(server)
+    # Get ping to server
+    server = "example.com"  # Server to ping (change this to your server)
+    ping_result = await ping_server(server)
 
-        # Get owner information
-        owner = "ㅤ Pemilik saham tele"  # Change this to your bot owner's name
+    # Get owner information
+    owner = "ㅤ Pemilik saham tele"  # Change this to your bot owner's name
 
-        # Create stats message
-        stats_message = (
-            f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
-            f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_result}\n"
-            f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
-            f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
-            f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
-            f"ᴏᴡɴᴇʀ: {owner}\n"
-        )
+    # Create stats message
+    stats_message = (
+        f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
+        f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_result}\n"
+        f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
+        f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
+        f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
+        f"ᴏᴡɴᴇʀ: {owner}\n"
+    )
 
-        # Reply with stats message
-        await message.reply(stats_message)
-    else:
-        # If the user is not the owner or the command is not given in a private or group chat, reply with a message indicating that they are not allowed
-        await message.reply("Maaf, hanya owner yang dapat menggunakan perintah ini di grup privat atau publik.")
+    # Reply with stats message
+    await message.reply(stats_message)
