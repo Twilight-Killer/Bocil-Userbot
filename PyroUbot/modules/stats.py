@@ -64,4 +64,4 @@ async def stats_command(client, message):
     await message.reply(
         text=stats_message,
         reply_markup=inline_keyboard
-    
+    )
