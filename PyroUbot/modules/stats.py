@@ -56,10 +56,11 @@ async def stats_command(client, message):
         [[InlineKeyboardButton("Button Text", callback_data="button_data")]]
     )
 
-    # Reply with stats message and inline keyboard
+     # Reply with stats message and inline keyboard
     await message.reply(
         text=stats_message,
-        reply_markup=inline_keyboard
+        reply_markup=inline_keyboard,
+        parse_mode="html"
     )
     
     # Reply with stats message
