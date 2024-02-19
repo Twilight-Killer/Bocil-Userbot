@@ -8,6 +8,8 @@ import os
 
 from PyroUbot import *
 
+__MODULE__ = "Stats"
+
 @Client.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
     uptime = datetime.now() - bot.start_time
