@@ -3,6 +3,7 @@ import subprocess
 import platform
 import asyncio
 from pyrogram import filters
+from pyrogram import __version__
 
 from PyroUbot import ubot
 
