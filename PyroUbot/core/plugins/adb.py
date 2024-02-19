@@ -395,30 +395,44 @@ async def is_cancel(callback_query, text):
     return False
 
 
-start_time = time()
+async def stats_command(client, message):
+    if message.chat.type in ["private", "supergroup"]:
+        # Set start_time when the bot starts
+        start_time = datetime.now()
 
-async def stats_command(_, message: Message):
-    uptime = time() - start_time
-    uptime_str = format_duration(uptime)
-    await message.reply(
-        f"SYSTEM UBOT\n"
-        f"  ᴘɪɴɢ_sᴇʀᴠᴇʀ: {await ping(message)}\n"
-        f"  ʙᴏᴛ_ᴜsᴇʀ: {len(ubot._ubot)} user\n"
-        f"  ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
-        f"  ᴘʏʀᴏɢʀᴀᴍ: {pyrogram.__version__}\n"
-        f"  ᴏᴡɴᴇʀ: {owner_name}"
-    )
+        # Get system information
+        system = platform.system()
+        release = platform.release()
 
-def format_duration(duration):
-    hours, remainder = divmod(duration, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    return f"{int(hours)}ʜ:{int(minutes)}ᴍ:{int(seconds)}s"
+        # Calculate uptime
+        uptime_seconds = (datetime.now() - start_time).total_seconds()
+        days, hours, minutes = int(uptime_seconds // 86400), int((uptime_seconds % 86400) // 3600), int((uptime_seconds % 3600) // 60)
+        uptime_str = f"{days} hari, {hours} jam, {minutes} menit"
 
-async def ping():
-    start = time()
-    await bot.send_chat_action(message.chat.id, "typing")
-    end = time()
-    duration = round((end - start) * 1000)
-    return f"{duration}ms"
+        # Get bot information
+        total_users = len(ubot._ubot)
+        owner = "kulbetsss.t.me"  # Use the bot owner's username
 
-# Tentukan variabel ubot dan owner_name sesuai dengan kebutuhan Anda
+        # Get ping to server
+        server = "example.com"  # Server to ping (change this to your server)
+        process = subprocess.Popen(['ping', '-c', '4', server], stdout=subprocess.PIPE)
+        stdout, _ = process.communicate()
+        output = stdout.decode('utf-8')
+        if "64 bytes from" in output:
+            ping_time = output.split("time=")[1].split(" ")[0]
+            ping_server = f"{ping_time}ms"
+        else:
+            ping_server = "Unknown"
+
+        # Create stats message
+        stats_message = (
+            f"<b>sᴛᴀᴛs ᴜʙᴏᴛ</b>\n"
+            f"ᴘɪɴɢ_sᴇʀᴠᴇʀ: {ping_server}\n"
+            f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
+            f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
+            f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
+            f"ᴏᴡɴᴇʀ: {owner}\n"
+          )
+
+        # Send the stats message using the client's send_message method
+        await client.send_message(message.chat.id, stats_message, parse_mode="html")
