@@ -12,11 +12,16 @@ from PyroUbot import *
 async def alive_cmd(client, message):
     msg = await message.reply("<b>sɪʟᴀʜᴋᴀɴ ᴛᴜɴɢɢᴜ</b>", quote=True)
     try:
-        x = await client.get_inline_bot_results(
-            bot.me.username, f"alive {message.id} {client.me.id}"
+        x = await asyncio.wait_for(
+            client.get_inline_bot_results(
+                bot.me.username, f"alive {message.id} {client.me.id}"
+            ),
+            timeout=5  # Set timeout to 5 seconds
         )
         await message.reply_inline_bot_result(x.query_id, x.results[0].id, quote=True)
         await msg.delete()
+    except asyncio.TimeoutError:
+        await msg.edit("❌ ᴡᴀᴋᴛᴜ ʜᴀʙɪs")
     except Exception as error:
         await msg.edit(error)
 
