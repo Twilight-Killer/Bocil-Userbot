@@ -18,7 +18,7 @@ async def stats_command(client, message):
     # Get system information
     system = platform.system()
     release = platform.release()
-    pyrogram_version = platform.__version__()
+    pyrogram_version = __version__()
 
     # Calculate uptime
     uptime_seconds = (datetime.now() - ubot.start_time).total_seconds()
