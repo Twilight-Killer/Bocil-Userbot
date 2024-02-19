@@ -58,17 +58,16 @@ async def ping_cmd(client, message):
 
     if client.me.is_premium:
         _ping = f"""
-        <b><emoji id={emot_pong}>🏓</emoji> ᴘᴏɴɢ:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
-        <b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
-        <b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
+<b><emoji id={emot_pong}>🏓</emoji> ᴘᴏɴɢ:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
+<b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
+<b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
         """
     else:
         _ping = f""" 
-        <b>❏ 𝟻+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
-        <b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
-        <b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
+<b>❏ 𝟻+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
+<b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
+<b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
         """
-
     await message.reply(_ping)
 
 
