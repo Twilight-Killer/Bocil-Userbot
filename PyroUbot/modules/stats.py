@@ -19,7 +19,7 @@ async def stats_command(client, message):
 
     # Get bot information
     total_users = len(ubot._ubot)
-    owner = "kulbetsss.t.me"
+    owner = "cil"
 
     # Get ping to server
     server = "example.com"  # Server to ping (change this to your server)
@@ -43,4 +43,4 @@ async def stats_command(client, message):
     )
 
     # Reply with stats message
-    await message.reply(stats_message, parse_mode="html")
+    await message.reply(stats_message, parse_mode="markdown")
