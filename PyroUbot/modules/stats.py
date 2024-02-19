@@ -8,7 +8,7 @@ from PyroUbot import ubot
 
 start_time = datetime.now()
 
-@ubot.on_message(filters.command("stats") | filters.private)
+@ubot.on_message(filters.command("stats"))
 async def stats_command(client, message):
     # Get system information
     system = platform.system()
@@ -43,13 +43,3 @@ async def stats_command(client, message):
 
     # Reply with stats message
     await message.reply(stats_message)
-
-async def ping_server(server):
-    process = await asyncio.create_subprocess_exec('ping', '-c', '4', server, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = await process.communicate()
-    output = stdout.decode('utf-8')
-    if "64 bytes from" in output:
-        ping_time = output.split("time=")[1].split(" ")[0]
-        return f"{ping_time}ms"
-    else:
-        return "Unknown"
