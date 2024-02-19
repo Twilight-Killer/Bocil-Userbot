@@ -393,3 +393,28 @@ async def is_cancel(callback_query, text):
         )
         return True
     return False
+
+
+async def stats_command(_, message: Message):
+    uptime = time() - start_time
+    uptime_str = format_duration(uptime)
+    await message.reply(
+        f"SYSTEM UBOT\n"
+        f"  ᴘɪɴɢ_sᴇʀᴠᴇʀ: {await ping()}\n"
+        f"  ʙᴏᴛ_ᴜsᴇʀ: {len(ubot._ubot)} user\n"
+        f"  ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
+        f"  ᴘʏʀᴏɢʀᴀᴍ: {pyrogram.__version__}\n"
+        f"  ᴏᴡɴᴇʀ: {owner_name}"
+    )
+
+def format_duration(duration):
+    hours, remainder = divmod(duration, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{int(hours)}ʜ:{int(minutes)}ᴍ:{int(seconds)}s"
+
+async def ping():
+    start = time()
+    await bot.send_chat_action(chat_id, "typing")
+    end = time()
+    duration = round((end - start) * 1000)
+    return f"{duration}ms"
