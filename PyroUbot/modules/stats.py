@@ -3,7 +3,7 @@ import platform
 import asyncio
 import subprocess
 from pyrogram import filters, __version__ as pyrogram_version
-from PyroUbot import ubot
+from PyroUbot import bot
 
 start_time = datetime.now()
 
@@ -23,7 +23,7 @@ async def ping_server(server):
     else:
         return "Unknown"
 
-@ubot.on_message(filters.command("stats") & filters.user("ㅤ Pemilik saham tele"))
+@bot.on_message(filters.command("stats") & filters.user("ㅤ Pemilik saham tele"))
 async def stats_command(client, message):
     if message.from_user.username == "ㅤ Pemilik saham tele":
         # Get system information
