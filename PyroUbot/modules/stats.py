@@ -4,7 +4,7 @@ import platform
 import asyncio
 from pyrogram import filters
 
-from PyroUbot import *
+from PyroUbot import bot
 
 @ubot.on_message(filters.command("stats") & filters.private)
 async def stats_command(client, message):
