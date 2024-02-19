@@ -3,8 +3,9 @@ import platform
 import asyncio
 import subprocess
 from pyrogram import filters, __version__ as pyrogram_version
-
 from PyroUbot import ubot
+
+from PyroUbot import *
 
 start_time = datetime.now()
 
