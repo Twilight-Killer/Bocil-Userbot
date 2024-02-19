@@ -395,6 +395,8 @@ async def is_cancel(callback_query, text):
     return False
 
 
+start_time = time()
+
 async def stats_command(_, message: Message):
     uptime = time() - start_time
     uptime_str = format_duration(uptime)
@@ -414,7 +416,9 @@ def format_duration(duration):
 
 async def ping():
     start = time()
-    await bot.send_chat_action(chat_id, "typing")
+    await bot.send_chat_action(message.chat.id, "typing")
     end = time()
     duration = round((end - start) * 1000)
     return f"{duration}ms"
+
+# Tentukan variabel ubot dan owner_name sesuai dengan kebutuhan Anda
