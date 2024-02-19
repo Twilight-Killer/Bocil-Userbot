@@ -3,6 +3,7 @@ import subprocess
 import platform
 import asyncio
 from pyrogram import filters, __version__ as pyrogram_version
+from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import ubot
 
@@ -27,7 +28,7 @@ async def stats_command(client, message):
 
     # Get bot information
     total_users = len(ubot._ubot)
-    owner = "cil"
+    owner = ""
 
     # Get ping to server
     server = "example.com"  # Server to ping (change this to your server)
@@ -47,8 +48,19 @@ async def stats_command(client, message):
         f"ʙᴏᴛ_ᴜsᴇʀ: {total_users} user\n"
         f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
         f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
-        f"ᴏᴡɴᴇʀ: {owner}"
+        f"ᴏᴡɴᴇʀ: {owner}\n"
     )
 
+   # Create inline keyboard
+    inline_keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("Button Text", callback_data="button_data")]]
+    )
+
+    # Reply with stats message and inline keyboard
+    await message.reply(
+        text=stats_message,
+        reply_markup=inline_keyboard
+    )
+    
     # Reply with stats message
     await message.reply(stats_message)
