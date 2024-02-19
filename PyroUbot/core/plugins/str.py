@@ -63,9 +63,8 @@ async def ping_cmd(client, message):
         <b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
         """
     else:
-        _ping = f"""
-        <b>❏ ᴋᴇᴄᴇᴘᴀᴛᴀɴ ᴊᴀʀɪɴɢᴀɴ<b>
-        <b>├ 𝟻+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
+        _ping = f""" 
+        <b>❏ 𝟻+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
         <b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
         <b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
         """
