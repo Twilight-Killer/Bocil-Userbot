@@ -3,7 +3,6 @@ import subprocess
 import platform
 import asyncio
 from pyrogram import filters, __version__ as pyrogram_version
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import ubot
 
@@ -51,17 +50,5 @@ async def stats_command(client, message):
         f"ᴏᴡɴᴇʀ: {owner}\n"
       )
 
-    # Create inline keyboard with button to your bot
-    inline_keyboard = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/metahoe")
-            ]
-        ]
-    )
-
-    # Reply with stats message and inline keyboard
-    await message.reply(
-      stats_message,
-      reply_markup=inline_keyboard
-    )
+    # Reply with stats message
+    await message.reply(stats_message)
