@@ -63,14 +63,13 @@ async def ping_cmd(client, message):
     <b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
     <b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
     """
-   else:
+    else:
         _ping = f"""
     <b>❏ ᴋᴇᴄᴇᴘᴀᴛᴀɴ ᴊᴀʀɪɴɢᴀɴ<b>
     <b>├ 𝟻+:</b> <code>{delta_ping_formatted.replace('.', ',')} ms</code>
     <b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
     <b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
     """
-
     await message.reply(_ping)
 
 
