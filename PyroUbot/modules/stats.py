@@ -1,20 +1,19 @@
+from datetime import datetime, timedelta
 import subprocess
 import platform
-import time
-from datetime import datetime
+import asyncio
 from pyrogram import filters
-from pyrogram.types import Message
-
-from PyroUbot import ubot
 
 @ubot.on_message(filters.command("stats") & filters.private)
-async def stats_command(client, message: Message):
+async def stats_command(client, message):
     # Get system information
     system = platform.system()
     release = platform.release()
     pyrogram_version = platform.python_version()
-    uptime_seconds = time.time() - ubot.start_time
-    uptime_str = str(datetime.timedelta(seconds=uptime_seconds))
+
+    # Calculate uptime
+    uptime_seconds = (datetime.now() - ubot.start_time).total_seconds()
+    uptime_str = str(timedelta(seconds=uptime_seconds))
 
     # Get bot information
     total_users = len(ubot._ubot)
