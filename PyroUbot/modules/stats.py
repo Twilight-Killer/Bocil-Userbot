@@ -1,7 +1,7 @@
 import subprocess
 import psutil
 import platform
-import time
+import time as t  # Menggunakan nama alias untuk modul time
 from datetime import datetime
 from pyrogram import filters
 
@@ -13,7 +13,7 @@ async def stats_command(client, message):
     system = platform.system()
     release = platform.release()
     pyrogram_version = platform.python_version()
-    uptime_seconds = time.time() - ubot.start_time
+    uptime_seconds = t.time() - ubot.start_time  # Menggunakan modul time melalui nama alias
     uptime_str = str(datetime.timedelta(seconds=uptime_seconds))
 
     # Get bot information
