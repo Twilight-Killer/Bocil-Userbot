@@ -43,4 +43,4 @@ async def stats_command(client, message):
     )
 
     # Reply with stats message
-    await message.reply(stats_message, parse_mode="markdown")
+    await message.reply(stats_message)
