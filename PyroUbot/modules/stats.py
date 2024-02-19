@@ -28,7 +28,7 @@ async def stats_command(client, message):
 
     # Get bot information
     total_users = len(ubot._ubot)
-    owner = ""
+    owner = message.from_user.first_name 
 
     # Get ping to server
     server = "example.com"  # Server to ping (change this to your server)
@@ -52,16 +52,16 @@ async def stats_command(client, message):
       )
 
     # Create inline keyboard with button to your bot
-inline_keyboard = InlineKeyboardMarkup(
-    [
+    inline_keyboard = InlineKeyboardMarkup(
         [
-            InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/BuruTani_Ubot")
+            [
+                InlineKeyboardButton("ᴏʀᴅᴇʀ ᴜʙᴏᴛ", url="https://t.me/BuruTani_Ubot")
+            ]
         ]
-    ]
-)
+    )
 
     # Reply with stats message and inline keyboard
     await message.reply(
       text=stats_message,
       reply_markup=inline_keyboard
-)
+    )
