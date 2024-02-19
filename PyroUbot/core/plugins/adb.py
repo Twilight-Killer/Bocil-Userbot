@@ -402,7 +402,7 @@ async def stats_command(_, message: Message):
     uptime_str = format_duration(uptime)
     await message.reply(
         f"SYSTEM UBOT\n"
-        f"  ᴘɪɴɢ_sᴇʀᴠᴇʀ: {await ping()}\n"
+        f"  ᴘɪɴɢ_sᴇʀᴠᴇʀ: {await ping(message)}\n"
         f"  ʙᴏᴛ_ᴜsᴇʀ: {len(ubot._ubot)} user\n"
         f"  ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
         f"  ᴘʏʀᴏɢʀᴀᴍ: {pyrogram.__version__}\n"
