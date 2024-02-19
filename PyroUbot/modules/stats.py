@@ -49,14 +49,18 @@ async def stats_command(client, message):
         f"ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ: {uptime_str}\n"
         f"ᴘʏʀᴏɢʀᴀᴍ: {pyrogram_version}\n"
         f"ᴏᴡɴᴇʀ: {owner}\n"
-    )
+      )
 
-   # Create inline keyboard
+    # Create inline keyboard
     inline_keyboard = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Button Text", callback_data="button_data")]]
+        [
+            [
+                InlineKeyboardButton("Button Text", callback_data="button_data")
+            ]
+        ]
     )
 
-     # Reply with stats message and inline keyboard
+    # Reply with stats message and inline keyboard
     await message.reply(
         text=stats_message,
         reply_markup=inline_keyboard,
