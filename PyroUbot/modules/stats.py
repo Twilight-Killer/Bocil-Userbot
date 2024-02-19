@@ -4,7 +4,6 @@ import platform
 import asyncio
 from pyrogram import filters, __version__ as pyrogram_version
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram import filters
 
 from PyroUbot import ubot
 
