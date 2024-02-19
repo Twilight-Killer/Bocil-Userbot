@@ -9,6 +9,7 @@ from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pyromod import listen
 from pytgcalls import GroupCallFactory
+from datetime import datetime
 
 from PyroUbot.config import *
 
@@ -128,6 +129,7 @@ class Ubot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
+        self.start_time = datetime.now() 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             for ub in self._ubot:
