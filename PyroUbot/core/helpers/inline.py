@@ -219,9 +219,6 @@ async def create_button(m):
     return buttons, text
 
 
-# Inisialisasi aplikasi Pyrogram
-app = Client("my_bot")
-
 # Deklarasi variabel global untuk menyimpan tautan tombol yang sudah ada
 buttons_text = "Pilih menu:\n[DANA](#dana)\n[OVO](#ovo)\n[QRIS](#qris)\n[BCA](#bca)\n[Kembali](#back)"
 buttons_data = "dana\novo\nqris\nbca\nback"
