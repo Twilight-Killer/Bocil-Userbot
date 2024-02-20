@@ -68,7 +68,7 @@ async def confirm_callback(client, callback_query):
 
 async def tambah_or_kurang(client, callback_query):
     BULAN = int(callback_query.data.split()[1])
-    HARGA = 25
+    HARGA = 20
     QUERY = callback_query.data.split()[0]
     try:
         if QUERY == "kurang":
