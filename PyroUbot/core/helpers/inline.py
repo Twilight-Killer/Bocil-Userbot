@@ -191,68 +191,19 @@ class INLINE:
         return wrapper
 
 
-async def create_button(m):
-    buttons = InlineKeyboard(row_width=1)
-    keyboard = []
-    msg = []
-    if "~>" not in m.text.split(None, 1)[1]:
-        for X in m.text.split(None, 1)[1].split():
-            X_parts = X.split(":", 1)
-            keyboard.append(
-                InlineKeyboardButton(X_parts[0].replace("_", " "), url=X_parts[1])
-            )
-            msg.append(X_parts[0])
-        buttons.add(*keyboard)
-        if m.reply_to_message:
-            text = m.reply_to_message.text
-        else:
-            text = " ".join(msg)
-    else:
-        for X in m.text.split("~>", 1)[1].split():
-            X_parts = X.split(":", 1)
-            keyboard.append(
-                InlineKeyboardButton(X_parts[0].replace("_", " "), url=X_parts[1])
-            )
-        buttons.add(*keyboard)
-        text = m.text.split("~>", 1)[0].split(None, 1)[1]
-
-    return buttons, text
-
-
-# Deklarasi variabel global untuk menyimpan tautan tombol yang sudah ada
-buttons_text = "Pilih menu:\n[DANA](#dana)\n[OVO](#ovo)\n[QRIS](#qris)\n[BCA](#bca)\n[Kembali](#back)"
-buttons_data = "dana\novo\nqris\nbca\nback"
-
-# Fungsi untuk membuat tombol
-async def notes_create_button(text):
+async def notes_create_button(text, back_button=False):
     buttons = InlineKeyboard(row_width=2)
     keyboard = []
-    split_text = text.split("\n")
-    for line in split_text[1:]:
-        split_line = line.split("[", 1)
-        button_text = split_line[0].replace("_", " ")
-        if "](" in split_line[1]:
-            button_url = split_line[1].split("](", 1)[1][:-1]
-            keyboard.append(InlineKeyboardButton(button_text, url=button_url))
-        else:
-            button_data = split_line[1].replace("]", "")
-            keyboard.append(InlineKeyboardButton(button_text, callback_data=button_data))
-    buttons.add(*keyboard)
-
+    split_text = text.split("~>", 1)
+    for X in split_text[1].split():
+        split_X = X.split(":", 1)
+        button_text = split_X[0].replace("_", " ")
+        button_url = split_X[1]
+        keyboard.append(InlineKeyboardButton(button_text, url=button_url))
+    if back_button:
+        keyboard.append(InlineKeyboardButton("Back to Main Menu", callback_data="back_to_main"))
+    while len(keyboard) > 0:
+        buttons.add(*keyboard[:4])
+        keyboard = keyboard[4:]
     text_button = split_text[0]
     return buttons, text_button
-
-# Fungsi untuk memperbarui tombol-tombol
-async def update_buttons():
-    global buttons_text, buttons_data
-    new_text = "Pilih menu:\n[DANA](#dana)\n[OVO](#ovo)\n[QRIS](#qris)\n[BCA](#bca)\n[Kembali](#back)\n[Tambah Menu](#add_menu)"
-    new_data = "dana\novo\nqris\nbca\nback\nadd_menu"
-    buttons_text = new_text
-    buttons_data = new_data
-
-# Example usage
-async def example_usage():
-    buttons, text_button = await notes_create_button(buttons_text)
-    print(text_button)
-    print(buttons)
-
