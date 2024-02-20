@@ -256,26 +256,3 @@ async def example_usage():
     print(text_button)
     print(buttons)
 
-# Fungsi untuk menangani tombol yang ditekan
-@app.on_callback_query()
-async def handle_callback_query(client, callback_query):
-    data = callback_query.data
-    if data == "dana":
-        await callback_query.answer("Anda memilih DANA")
-        # Tambahkan logika untuk menangani aksi terkait DANA di sini
-    elif data == "ovo":
-        await callback_query.answer("Anda memilih OVO")
-        # Tambahkan logika untuk menangani aksi terkait OVO di sini
-    elif data == "qris":
-        await callback_query.answer("Anda memilih QRIS")
-        # Tambahkan logika untuk menangani aksi terkait QRIS di sini
-    elif data == "bca":
-        await callback_query.answer("Anda memilih BCA")
-        # Tambahkan logika untuk menangani aksi terkait BCA di sini
-    elif data == "back":
-        await callback_query.answer("Anda kembali ke menu sebelumnya")
-        # Tambahkan logika untuk kembali ke menu sebelumnya di sini
-    elif data == "add_menu":
-        await update_buttons()
-        await example_usage()
-      
