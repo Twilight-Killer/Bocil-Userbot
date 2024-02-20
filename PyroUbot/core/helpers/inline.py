@@ -191,7 +191,35 @@ class INLINE:
         return wrapper
 
 
-async def notes_create_button(text, back_button=False):
+async def create_button(m):
+    buttons = InlineKeyboard(row_width=1)
+    keyboard = []
+    msg = []
+    if "~>" not in m.text.split(None, 1)[1]:
+        for X in m.text.split(None, 1)[1].split():
+            X_parts = X.split(":", 1)
+            keyboard.append(
+                InlineKeyboardButton(X_parts[0].replace("_", " "), url=X_parts[1])
+            )
+            msg.append(X_parts[0])
+        buttons.add(*keyboard)
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            text = " ".join(msg)
+    else:
+        for X in m.text.split("~>", 1)[1].split():
+            X_parts = X.split(":", 1)
+            keyboard.append(
+                InlineKeyboardButton(X_parts[0].replace("_", " "), url=X_parts[1])
+            )
+        buttons.add(*keyboard)
+        text = m.text.split("~>", 1)[0].split(None, 1)[1]
+
+    return buttons, text
+
+
+async def notes_create_button(text):
     buttons = InlineKeyboard(row_width=2)
     keyboard = []
     split_text = text.split("~>", 1)
@@ -200,10 +228,6 @@ async def notes_create_button(text, back_button=False):
         button_text = split_X[0].replace("_", " ")
         button_url = split_X[1]
         keyboard.append(InlineKeyboardButton(button_text, url=button_url))
-    if back_button:
-        keyboard.append(InlineKeyboardButton("Back to Main Menu", callback_data="back_to_main"))
-    while len(keyboard) > 0:
-        buttons.add(*keyboard[:4])
-        keyboard = keyboard[4:]
+    buttons.add(*keyboard)
     text_button = split_text[0]
     return buttons, text_button
