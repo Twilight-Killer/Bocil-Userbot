@@ -219,7 +219,7 @@ async def create_button(m):
     return buttons, text
 
 
-async def notes_create_button(text):
+async def notes_create_button(text, back_button=False):
     buttons = InlineKeyboard(row_width=2)
     keyboard = []
     split_text = text.split("~>", 1)
@@ -228,6 +228,10 @@ async def notes_create_button(text):
         button_text = split_X[0].replace("_", " ")
         button_url = split_X[1]
         keyboard.append(InlineKeyboardButton(button_text, url=button_url))
-    buttons.add(*keyboard)
+    if back_button:
+        keyboard.append(InlineKeyboardButton("Back to Main Menu", callback_data="back_to_main"))
+    while len(keyboard) > 0:
+        buttons.add(*keyboard[:4])
+        keyboard = keyboard[4:]
     text_button = split_text[0]
     return buttons, text_button
