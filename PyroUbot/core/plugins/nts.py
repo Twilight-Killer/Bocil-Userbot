@@ -113,7 +113,6 @@ async def notes_cmd(client, message):
     await message.reply(msg)
 
 
-@app.on_callback_query()
 async def handle_callback_query(client, callback_query):
     data = callback_query.data
     if data == "dana":
