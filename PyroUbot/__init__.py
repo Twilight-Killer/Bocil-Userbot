@@ -175,6 +175,10 @@ class Ubot(Client):
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
         print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃")
+        
+        while True:
+            detect_deleted_devices()
+            await asyncio.sleep(120) 
 
 
 bot = Bot(
