@@ -16,7 +16,7 @@ async def alive_cmd(client, message):
             client.get_inline_bot_results(
                 bot.me.username, f"alive {message.id} {client.me.id}"
             ),
-            timeout=5  # Set timeout to 5 seconds
+            timeout=10  # Set timeout to 5 seconds
         )
         await message.reply_inline_bot_result(x.query_id, x.results[0].id, quote=True)
         await msg.delete()
