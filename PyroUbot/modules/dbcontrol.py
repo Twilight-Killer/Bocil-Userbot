@@ -14,7 +14,7 @@ async def _(client, message):
 
 
 @PY.BOT("getprem", FILTERS.OWNER)
-@PY.UBOT("getprem", FILTERS.ME_OWNER
+@PY.UBOT("getprem", FILTERS.ME_OWNER)
 async def _(cliebt, message):
     await get_prem_user(client, message)
 
