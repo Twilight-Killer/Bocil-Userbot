@@ -1,14 +1,14 @@
 from PyroUbot import *
 
 
-@PY.BOT("prem", FILTERS.OWNER)
-@PY.UBOT("prem", FILTERS.ME_OWNER, SUDO=False)
+@PY.BOT("prem")
+@PY.UBOT("prem")
 async def _(client, message):
     await prem_user(client, message)
 
 
 @PY.BOT("unprem", FILTERS.OWNER)
-@PY.UBOT("unprem", FILTERS.ME_OWNER, SUDO=False)
+@PY.UBOT("unprem", FILTERS.ME_OWNER)
 async def _(client, message):
     await unprem_user(client, message)
 
