@@ -31,9 +31,10 @@ class PY:
 
         return wrapper
         
-    def BOT(command, filter=FILTERS.PRIVATE):
+    def BOT(command, filter=False):
         def wrapper(func):
-            @bot.on_message(filters.command(command) & filter)
+            message_filters = filters.command(command) & filter if filter else filters.command(command)
+            @bot.on_message(message_filters)
             async def wrapped_func(client, message):
                 await func(client, message)
 
