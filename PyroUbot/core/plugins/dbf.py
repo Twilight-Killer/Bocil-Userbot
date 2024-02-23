@@ -63,6 +63,10 @@ async def prem_user(client, message):
 async def unprem_user(client, message):
     user_id = await extract_user(message)
     Tm = await message.reply("<b>ᴘʀᴏᴄᴇssɪɴɢ . . .</b>")
+    if message.from_user.id not in await get_seles():
+        return await Tm.edit(
+            "ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ᴀɴᴅᴀ ʜᴀʀᴜs ᴍᴇɴᴊᴀᴅɪ ʀᴇsᴇʟʟᴇʀ ᴛᴇʀʟᴇʙɪʜ ᴅᴀʜᴜʟᴜ"
+        )
     if not user_id:
         return await Tm.edit(
             "<b>ʙᴀʟᴀs ᴘᴇsᴀɴ ᴘᴇɴɢɢᴜɴᴀ ᴀᴛᴀᴜ ʙᴇʀɪᴋᴀɴ ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ</b>"
