@@ -7,8 +7,8 @@ async def _(client, message):
     await prem_user(client, message)
 
 
-@PY.BOT("unprem", PY.FILTERS.OWNER)
-@PY.UBOT("unprem", PY.FILTERS.ME_OWNER)
+@PY.BOT("unprem", FILTERS.OWNER)
+@PY.UBOT("unprem", FILTERS.ME_OWNER)
 async def _(client, message):
     await unprem_user(client, message)
 
