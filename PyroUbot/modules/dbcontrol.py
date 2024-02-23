@@ -2,6 +2,10 @@ from PyroUbot import *
 
 
 @PY.BOT("prem")
+async def _(client, message):
+    await prem_user(client, message)
+
+
 @PY.UBOT("prem")
 async def _(client, message):
     await prem_user(client, message)
