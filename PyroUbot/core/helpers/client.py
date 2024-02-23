@@ -14,6 +14,7 @@ class FILTERS:
 
 
 class PY:
+    @staticmethod
     def AFK():
         def wrapper(func):
             afk_check = (
@@ -30,7 +31,8 @@ class PY:
             return wrapped_func
 
         return wrapper
-        
+
+    @staticmethod
     def BOT(command, filter=False):
         def wrapper(func):
             message_filters = filters.command(command) & filter if filter else filters.command(command)
@@ -42,6 +44,7 @@ class PY:
 
         return wrapper
 
+    @staticmethod
     def UBOT(command, filter=FILTERS.ME, SUDO=True):
         def decorator(func):
             @ubot.on_message(
@@ -63,7 +66,8 @@ class PY:
             return wrapped_func
 
         return decorator
-   
+
+    @staticmethod
     def INLINE(command):
         def wrapper(func):
             @bot.on_inline_query(filters.regex(command))
@@ -74,6 +78,7 @@ class PY:
 
         return wrapper
 
+    @staticmethod
     def CALLBACK(command):
         def wrapper(func):
             @bot.on_callback_query(filters.regex(command))
@@ -84,6 +89,7 @@ class PY:
 
         return wrapper
 
+    @staticmethod
     def PRIVATE(func):
         async def function(client, message):
             user = message.from_user
