@@ -1,6 +1,5 @@
 import asyncio
 from gc import get_objects
-import time
 
 from pyrogram.errors import FloodWait
 
@@ -135,70 +134,3 @@ async def send_inline(client, inline_query):
                 )
             ],
         )
-
-
-# Enable/disable auto-gcast
-AUTO_GCAST_ENABLED = True
-
-# Auto-gcast settings
-AUTO_GCAST_LIMIT = 5  # Maximum number of auto-gcasts per interval
-AUTO_GCAST_TEXT = "Hello, this is an auto-gcast message!"  # Auto-gcast message
-AUTO_GCAST_DELAY = 60  # Auto-gcast interval in seconds
-
-# Auto-gcast list
-AUTO_GCAST_LIST = []
-
-# Function to send auto-gcast message
-async def send_auto_gcast(client):
-    for chat_id in AUTO_GCAST_LIST:
-        await client.send_message(chat_id, AUTO_GCAST_TEXT)
-
-# Auto-gcast loop
-async def auto_gcast_loop(client):
-    while AUTO_GCAST_ENABLED:
-        await send_auto_gcast(client)
-        time.sleep(AUTO_GCAST_DELAY)
-
-# Command to enable/disable auto-gcast
-@PY.UBOT("autogcast")
-async def toggle_auto_gcast(_, message):
-    global AUTO_GCAST_ENABLED
-    AUTO_GCAST_ENABLED = not AUTO_GCAST_ENABLED
-    if AUTO_GCAST_ENABLED:
-        await message.reply("Auto-gcast enabled!")
-        await auto_gcast_loop(message._client)
-    else:
-        await message.reply("Auto-gcast disabled!")
-
-# Command to set auto-gcast text
-@PY.UBOT("setgcast")
-async def set_auto_gcast_text(_, message):
-    global AUTO_GCAST_TEXT
-    args = message.text.split(maxsplit=1)
-    if len(args) > 1:
-        AUTO_GCAST_TEXT = args[1]
-        await message.reply(f"Auto-gcast text set to: {AUTO_GCAST_TEXT}")
-    else:
-        await message.reply("Usage: /setgcast [text]")
-
-# Command to add chat to auto-gcast list
-@PY.UBOT("addgcast")
-async def add_auto_gcast_chat(_, message):
-    global AUTO_GCAST_LIST
-    chat_id = message.chat.id
-    if chat_id not in AUTO_GCAST_LIST:
-        AUTO_GCAST_LIST.append(chat_id)
-        await message.reply("Chat added to auto-gcast list!")
-    else:
-        await message.reply("Chat is already in auto-gcast list!")
-
-# Command to remove chat from auto-gcast list
-@PY.UBOT("removegcast")
-async def remove_auto_gcast_chat(_, message):
-    global AUTO_GCAST_LIST
-    chat_id = message.chat.id
-    if chat_id in AUTO_GCAST_LIST:
-        AUTO_GCAST_LIST.remove(chat_id)
-        await message.reply("Chat removed from auto-gcast list!")
-    else:
-        await message.reply("Chat is not in auto-gcast list!")
