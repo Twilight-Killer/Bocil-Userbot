@@ -15,6 +15,6 @@ __HELP__ = """
 """
 
 
-@PY.UBOT("id", FILTERS.ME)
+@PY.UBOT("id")
 async def _(client, message):
     await id_cmd(client, message)
