@@ -45,9 +45,9 @@ class PY:
         return wrapper
 
     @staticmethod
-def UBOT(command, filter=FILTERS.ME, SUDO=True):
-    def decorator(func):
-        @ubot.on_message(
+    def UBOT(command, filter=FILTERS.ME, SUDO=True):
+        def decorator(func):
+            @ubot.on_message(
             ubot.cmd_prefix(command) & filter
             if not SUDO
             else ubot.cmd_prefix(command) & filters.user(SUDO_USERS)
