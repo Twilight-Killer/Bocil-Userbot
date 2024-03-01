@@ -46,3 +46,13 @@ async def _(client, callback_query):
 async def _(client, callback_query):
     await hapus_ubot(client, callback_query)
 
+
+@PY.BOT("status", FILTERS.GROUP)
+async def _(_, message):
+    await status_command_handler(_, message)
+
+
+@PY.CALLBACK("status")
+async def _(client, callback_query):
+    await status_callback_handler(client, callback_query)
+
