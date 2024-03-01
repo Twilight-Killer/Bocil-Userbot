@@ -393,3 +393,70 @@ async def is_cancel(callback_query, text):
         )
         return True
     return False
+
+
+async def status_callback_handler(client, callback_query):
+    user_id = callback_query.from_user.id
+    username = callback_query.from_user.username
+    name = callback_query.from_user.first_name + (" " + callback_query.from_user.last_name if callback_query.from_user.last_name else "")
+    uptime = await get_time(time() - start_time)
+    text = ""
+
+    ubot_aktif_status = "ᴀᴋᴛɪᴠᴀᴛᴇᴅ✅" if user_id in ubot._get_my_id else "ʙᴇʟᴜᴍ ᴅɪ ᴀᴋᴛɪғᴋᴀɴ❎"
+    ubot_status = "ᴘʀᴇᴍɪᴜᴍ🇲🇨" if user_id in ubot._get_my_id else "ʙᴇʟᴜᴍ ɴʏᴀʟᴀ❎"
+    
+    exp = await get_expired_date(user_id) if user_id in ubot._get_my_id else None
+    waktu = exp.strftime("%d-%m-%Y") if exp else "ɴᴏɴᴇ"
+
+    text = f"""
+<b>🔴sᴛᴀᴛᴜs ᴜʙᴏᴛ </b>
+  <b>ᴜʙᴏᴛ sᴛᴀᴛᴜs:</b> {ubot_status}
+  <b>ᴜʙᴏᴛ ᴀᴋᴛɪғ sᴛᴀᴛᴜs:</b> {ubot_aktif_status}
+  <b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{username}
+  <b>ɪᴅ ᴘᴇɴɢɢᴜɴᴀ:</b> {user_id}
+  <b>ɴᴀᴍᴇ:</b> {name}
+  <b>ᴇxᴘɪʀᴇᴅ_ᴏɴ:</b> {waktu}
+  <b>ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ:</b> {uptime}
+"""
+
+    buttons = [
+        [InlineKeyboardButton("💵 Beli Userbot", callback_data=f"bahan")],
+        [InlineKeyboardButton("🔙 Kembali", callback_data=f"home {user_id}")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    try:
+        await callback_query.message.edit_text(text, reply_markup=reply_markup)
+    except pyrogram.errors.exceptions.forbidden_403 as e:
+        await callback_query
+
+
+async def status_command_handler(_, message: Message):
+    user_id = message.from_user.id
+    username = message.from_user.username
+    name = message.from_user.first_name + (" " + message.from_user.last_name if message.from_user.last_name else "")
+    uptime = await get_time(time() - start_time)
+
+    ubot_aktif_status = "ᴀᴋᴛɪᴠᴀᴛᴇᴅ✅" if user_id in ubot._get_my_id else "ʙᴇʟᴜᴍ ᴅɪ ᴀᴋᴛɪғᴋᴀɴ❎"
+    ubot_status = "ᴘʀᴇᴍɪᴜᴍ🇲🇨" if user_id in ubot._get_my_id else "ʙᴇʟᴜᴍ ɴʏᴀʟᴀ❎"
+    
+    exp = await get_expired_date(user_id) if user_id in ubot._get_my_id else None
+    waktu = exp.strftime("%d-%m-%Y") if exp else "ɴᴏɴᴇ"
+
+    text = f"""
+<b>🔴sᴛᴀᴛᴜs ᴜʙᴏᴛ </b>
+  <b>ᴜʙᴏᴛ sᴛᴀᴛᴜs:</b> {ubot_status}
+  <b>ᴜʙᴏᴛ ᴀᴋᴛɪғ sᴛᴀᴛᴜs:</b> {ubot_aktif_status}
+  <b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{username}
+  <b>ɪᴅ ᴘᴇɴɢɢᴜɴᴀ:</b> {user_id}
+  <b>ɴᴀᴍᴇ:</b> {name}
+  <b>ᴇxᴘɪʀᴇᴅ_ᴏɴ:</b> {waktu}
+  <b>ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ:</b> {uptime}
+"""
+
+    buttons = [
+        [InlineKeyboardButton("💵 Beli Userbot", callback_data="bahan")],
+    ]
+    reply_markup = InlineKeyboardMarkup(buttons)
+
+    await message.reply_text(text, reply_markup=reply_markup)
