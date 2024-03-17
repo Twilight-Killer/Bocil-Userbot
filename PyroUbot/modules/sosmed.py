@@ -1,7 +1,7 @@
 from PyroUbot import *
 
-MODULE = "sosmed"
-HELP = """
+__MODULE__ = "sosmed"
+__HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sᴏsᴍᴇᴅ 』</b>
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}sosmed</code> [ʟɪɴᴋ]
