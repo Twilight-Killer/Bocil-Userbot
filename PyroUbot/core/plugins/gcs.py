@@ -141,13 +141,13 @@ auto_gcast_text = "Hello, this is an auto-gcast message!"
 auto_gcast_delay = 5
 
 # Auto-gcast function
-async def auto_gcast(app):
+async def auto_gcast():
     global auto_gcast_on
     global auto_gcast_text
     global auto_gcast_delay
 
     while auto_gcast_on:
-        async for dialog in app.iter_dialogs():
+        async for dialog in iter_dialogs():
             try:
                 await app.send_message(dialog.chat.id, auto_gcast_text)
             except Exception as e:
@@ -165,7 +165,7 @@ async def toggle_auto_gcast(_, message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            await auto_gcast(app)  # Pass app as an argument
+            await auto_gcast()  # Pass app as an argument
         elif query.startswith("of"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
