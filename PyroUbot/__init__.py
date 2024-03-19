@@ -73,7 +73,7 @@ class Bot(Client):
         await super().start()
 
 class Ubot(Client):
-    _ubot = []
+    _get_my_id = []
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
