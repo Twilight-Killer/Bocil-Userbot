@@ -73,10 +73,11 @@ class Bot(Client):
         await super().start()
 
 class Ubot(Client):
+    _ubot = []
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
-
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             for ub in self._ubot:
