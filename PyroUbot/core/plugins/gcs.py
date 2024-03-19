@@ -140,20 +140,18 @@ auto_gcast_on = False
 auto_gcast_text = "Hello, this is an auto-gcast message!"
 auto_gcast_delay = 5
 
-async def auto_gcast():
+async def auto_gcast(client):
     global auto_gcast_on
     global auto_gcast_text
     global auto_gcast_delay
+    global group_chat_ids
 
     while auto_gcast_on:
-        async for dialog in app.iter_dialogs():
-            if dialog.chat.type == "group" or dialog.chat.type == "supergroup":
-                try:
-                    members_count = await app.get_chat_members_count(dialog.chat.id)
-                    for _ in range(members_count):
-                        await app.send_message(dialog.chat.id, auto_gcast_text)
-                except Exception as e:
-                    print(f"Failed to send message to {dialog.chat.id}: {e}")
+        for chat_id in group_chat_ids:
+            try:
+                await client.send_message(chat_id, auto_gcast_text)
+            except Exception as e:
+                print(f"Failed to send message to {chat_id}: {e}")
         await asyncio.sleep(auto_gcast_delay)
 
 async def toggle_auto_gcast(_, message):
