@@ -136,22 +136,22 @@ async def send_inline(client, inline_query):
         )
 
 
-# Placeholder function for sending messages
-async def send_message(chat_id, text):
-    print(f"Sending message to {chat_id}: {text}")
-
 auto_gcast_on = False
 auto_gcast_text = "Hello, this is an auto-gcast message!"
 auto_gcast_delay = 5
 
-# Auto-gcast function
-async def auto_gcast():
+async def auto_gcast(client):
+    global auto_gcast_on
+    global auto_gcast_text
+    global auto_gcast_delay
+
     while auto_gcast_on:
-        for chat_id in broadcast_list:
-            try:
-                await send_message(chat_id, auto_gcast_text)
-            except Exception as e:
-                print(f"Failed to send message to {chat_id}: {e}")
+        async for dialog in client.iter_dialogs():
+            if dialog.chat.type == "group" or dialog.chat.type == "supergroup":
+                try:
+                    await client.send_message(dialog.chat.id, auto_gcast_text)
+                except Exception as e:
+                    print(f"Failed to send message to {dialog.chat.id}: {e}")
         await asyncio.sleep(auto_gcast_delay)
 
 async def toggle_auto_gcast(_, message):
@@ -164,8 +164,8 @@ async def toggle_auto_gcast(_, message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            asyncio.create_task(auto_gcast())  # Pass app as an argument
-        elif query.startswith("of"):
+            asyncio.create_task(auto_gcast(_))  # Pass client as an argument
+        elif query.startswith("off"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
         elif query.startswith("text"):
@@ -175,7 +175,6 @@ async def toggle_auto_gcast(_, message):
             auto_gcast_delay = int(message.command[2])
             await message.reply(f"Auto-gcast delay set to {auto_gcast_delay} seconds.")
         elif query.startswith("list"):
-            # Handle displaying the auto-gcast text list
             await message.reply(f"Auto-gcast text: {auto_gcast_text}")
         else:
             await message.reply("Invalid query. Use '/autogcast on', '/autogcast off', '/autogcast text <text>', '/autogcast delay <delay>', or '/autogcast list'.")
