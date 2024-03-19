@@ -147,7 +147,7 @@ async def auto_gcast():
     global auto_gcast_delay
 
     while auto_gcast_on:
-        async for dialog in iter_dialogs():
+        async for dialog in():
             try:
                 await app.send_message(dialog.chat.id, auto_gcast_text)
             except Exception as e:
