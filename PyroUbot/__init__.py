@@ -1,42 +1,19 @@
+import asyncio
 import logging
 import os
 import re
-import asyncio
-
 from pyrogram import Client, filters
-from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pyromod import listen
 from pytgcalls import GroupCallFactory
-
 from PyroUbot.config import *
-
-
-class ConnectionError(Exception):
-    pass
-
-class ConnectionHandler(logging.Handler):
-    def emit(self, record):
-        for error_type in ["OSErro", "TimeoutError"]:
-            if error_type in record.getMessage():
-                self.handle_error(record.getMessage())
-
-    def handle_error(self, error_message):
-        self.log_error(error_message)
-        raise ConnectionError(error_message)
-
-    def log_error(self, error_message):
-        with open("error_log.txt", "a") as log_file:
-            log_file.write(f"Error: {error_message}\n")
 
 # Konfigurasi logging
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
-
 logger = logging.getLogger(__name__)
-handler = ConnectionHandler()
-logger.addHandler(handler)
 
+# Maksimum percobaan dan penanganan kesalahan
 max_retries = 3
 retries = 0
 
@@ -95,17 +72,11 @@ class Bot(Client):
     async def start(self):
         await super().start()
 
-
 class Ubot(Client):
-    _ubot = []
-    _prefix = {}
-    _get_my_id = []
-    _translate = {}
-    _get_my_peer = {}
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
+
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             for ub in self._ubot:
@@ -176,7 +147,6 @@ class Ubot(Client):
         self._translate[self.me.id] = "id"
         print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃")
 
-
 bot = Bot(
     name="bot",
     api_id=API_ID,
@@ -184,9 +154,3 @@ bot = Bot(
     bot_token=BOT_TOKEN,
 )
 ubot = Ubot(name="ubot")
-
-
-from PyroUbot.core.database import *
-from PyroUbot.core.function import *
-from PyroUbot.core.helpers import *
-from PyroUbot.core.plugins import *
