@@ -155,7 +155,7 @@ async def auto_gcast(app):
         await asyncio.sleep(auto_gcast_delay)
 
 
-async def toggle_auto_gcast(_, message: Message):
+async def toggle_auto_gcast(app, _, message: Message):
     global auto_gcast_on
     global auto_gcast_text
     global auto_gcast_delay
@@ -165,7 +165,7 @@ async def toggle_auto_gcast(_, message: Message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            await auto_gcast(app)
+            await auto_gcast(app)  # Pass app as an argument
         elif query.startswith("of"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
