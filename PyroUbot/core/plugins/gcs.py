@@ -166,7 +166,7 @@ async def toggle_auto_gcast(_, message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            asyncio.create_task(auto_gcast(_))  # Pass app as an argument
+            asyncio.create_task(auto_gcast())  # Pass app as an argument
         elif query.startswith("off"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
