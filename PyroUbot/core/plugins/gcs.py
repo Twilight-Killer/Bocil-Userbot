@@ -155,7 +155,7 @@ async def auto_gcast(app):
         await asyncio.sleep(auto_gcast_delay)
 
 
-async def toggle_auto_gcast(app, _, message: Message):
+async def toggle_auto_gcast(_, message):
     global auto_gcast_on
     global auto_gcast_text
     global auto_gcast_delay
