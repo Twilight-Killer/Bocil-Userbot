@@ -140,16 +140,18 @@ auto_gcast_on = False
 auto_gcast_text = "Hello, this is an auto-gcast message!"
 auto_gcast_delay = 5
 
-async def auto_gcast(client):
+async def auto_gcast():
     global auto_gcast_on
     global auto_gcast_text
     global auto_gcast_delay
 
     while auto_gcast_on:
-        async for dialog in client.iter_dialogs():
+        async for dialog in app.iter_dialogs():
             if dialog.chat.type == "group" or dialog.chat.type == "supergroup":
                 try:
-                    await client.send_message(dialog.chat.id, auto_gcast_text)
+                    members_count = await app.get_chat_members_count(dialog.chat.id)
+                    for _ in range(members_count):
+                        await app.send_message(dialog.chat.id, auto_gcast_text)
                 except Exception as e:
                     print(f"Failed to send message to {dialog.chat.id}: {e}")
         await asyncio.sleep(auto_gcast_delay)
@@ -164,7 +166,7 @@ async def toggle_auto_gcast(_, message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            asyncio.create_task(auto_gcast(_))  # Pass client as an argument
+            asyncio.create_task(auto_gcast(_))  # Pass app as an argument
         elif query.startswith("off"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
