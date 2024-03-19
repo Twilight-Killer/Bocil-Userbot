@@ -141,7 +141,7 @@ auto_gcast_text = "Hello, this is an auto-gcast message!"
 auto_gcast_delay = 5
 
 # Auto-gcast function
-async def auto_gcast():
+async def auto_gcast(app):
     global auto_gcast_on
     global auto_gcast_text
     global auto_gcast_delay
