@@ -154,3 +154,8 @@ bot = Bot(
     bot_token=BOT_TOKEN,
 )
 ubot = Ubot(name="ubot")
+
+from PyroUbot.core.database import *
+from PyroUbot.core.function import *
+from PyroUbot.core.helpers import *
+from PyroUbot.core.plugins import *
