@@ -165,7 +165,7 @@ async def toggle_auto_gcast(_, message: Message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            await auto_gcast()
+            await auto_gcast(app)
         elif query.startswith("of"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
