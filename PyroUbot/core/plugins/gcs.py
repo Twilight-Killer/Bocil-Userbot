@@ -134,3 +134,52 @@ async def send_inline(client, inline_query):
                 )
             ],
         )
+
+
+auto_gcast_on = False
+auto_gcast_text = "Hello, this is an auto-gcast message!"
+auto_gcast_delay = 5
+
+# Auto-gcast function
+async def auto_gcast():
+    global auto_gcast_on
+    global auto_gcast_text
+    global auto_gcast_delay
+
+    while auto_gcast_on:
+        async for dialog in app.iter_dialogs():
+            try:
+                await app.send_message(dialog.chat.id, auto_gcast_text)
+            except Exception as e:
+                print(f"Failed to send message to {dialog.chat.id}: {e}")
+        await asyncio.sleep(auto_gcast_delay)
+
+
+@PY.UBOT("autogcast")
+async def toggle_auto_gcast(_, message: Message):
+    global auto_gcast_on
+    global auto_gcast_text
+    global auto_gcast_delay
+
+    if len(message.command) > 1:
+        query = message.command[1].lower()
+        if query.startswith("on"):
+            auto_gcast_on = True
+            await message.reply("Auto-gcast is now on!")
+            await auto_gcast()
+        elif query.startswith("of"):
+            auto_gcast_on = False
+            await message.reply("Auto-gcast is now off!")
+        elif query.startswith("text"):
+            auto_gcast_text = " ".join(message.command[2:])
+            await message.reply("Auto-gcast text set.")
+        elif query.startswith("delay"):
+            auto_gcast_delay = int(message.command[2])
+            await message.reply(f"Auto-gcast delay set to {auto_gcast_delay} seconds.")
+        elif query.startswith("list"):
+            # Handle displaying the auto-gcast text list
+            await message.reply(f"Auto-gcast text: {auto_gcast_text}")
+        else:
+            await message.reply("Invalid query. Use '/autogcast on', '/autogcast off', '/autogcast text <text>', '/autogcast delay <delay>', or '/autogcast list'.")
+    else:
+        await message.reply("Please specify a query. Use '/autogcast on', '/autogcast off', '/autogcast text <text>', '/autogcast delay <delay>', or '/autogcast list'.")
