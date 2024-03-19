@@ -155,7 +155,6 @@ async def auto_gcast():
         await asyncio.sleep(auto_gcast_delay)
 
 
-@PY.UBOT("autogcast")
 async def toggle_auto_gcast(_, message: Message):
     global auto_gcast_on
     global auto_gcast_text
