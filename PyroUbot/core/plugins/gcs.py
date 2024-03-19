@@ -136,24 +136,23 @@ async def send_inline(client, inline_query):
         )
 
 
+# Placeholder function for sending messages
+async def send_message(chat_id, text):
+    print(f"Sending message to {chat_id}: {text}")
+
 auto_gcast_on = False
 auto_gcast_text = "Hello, this is an auto-gcast message!"
 auto_gcast_delay = 5
 
 # Auto-gcast function
 async def auto_gcast():
-    global auto_gcast_on
-    global auto_gcast_text
-    global auto_gcast_delay
-
     while auto_gcast_on:
-        async for dialog in():
+        for chat_id in broadcast_list:
             try:
-                await app.send_message(dialog.chat.id, auto_gcast_text)
+                await send_message(chat_id, auto_gcast_text)
             except Exception as e:
-                print(f"Failed to send message to {dialog.chat.id}: {e}")
+                print(f"Failed to send message to {chat_id}: {e}")
         await asyncio.sleep(auto_gcast_delay)
-
 
 async def toggle_auto_gcast(_, message):
     global auto_gcast_on
@@ -165,7 +164,7 @@ async def toggle_auto_gcast(_, message):
         if query.startswith("on"):
             auto_gcast_on = True
             await message.reply("Auto-gcast is now on!")
-            await auto_gcast()  # Pass app as an argument
+            asyncio.create_task(auto_gcast())  # Pass app as an argument
         elif query.startswith("of"):
             auto_gcast_on = False
             await message.reply("Auto-gcast is now off!")
@@ -181,4 +180,4 @@ async def toggle_auto_gcast(_, message):
         else:
             await message.reply("Invalid query. Use '/autogcast on', '/autogcast off', '/autogcast text <text>', '/autogcast delay <delay>', or '/autogcast list'.")
     else:
-        await message.reply("Please specify a query. Use '/autogcast on', '/autogcast off', '/autogcast text <text>', '/autogcast delay <delay>', or '/autogcast list'.")
+        await message.reply("Please provide a valid query for auto-gcast.")
