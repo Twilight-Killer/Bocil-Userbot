@@ -75,6 +75,7 @@ class Bot(Client):
 class Ubot(Client):
     _get_my_id = []
     _ubot = []
+    _prefix = {}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
