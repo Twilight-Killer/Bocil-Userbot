@@ -76,6 +76,7 @@ class Ubot(Client):
     _get_my_id = []
     _ubot = []
     _prefix = {}
+    _translate = {}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
