@@ -231,14 +231,14 @@ async def auto_gcast_command(client, message):
         result = set_text(query, value)
         value = {"text": result}
     elif query.upper() == "DELAY":
-        result = set_delay(value)  # Memperbaiki pemanggilan set_delay()
+        result = set_delay(query, value)
         value = {"text": result}
     elif query.upper() == "LIMIT":
         value = toggle_limit(query, value)
     elif query.upper() == "ADD":
-        value = add_text(value)
+        value = add_text(query, value)
     elif query.upper() == "LIST":
-        value = list_texts(value)
+        value = list_texts(query, value)
     
     success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])  # Kirim pesan ke semua grup atau supergrup
     value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
