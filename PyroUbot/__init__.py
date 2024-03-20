@@ -5,7 +5,6 @@ import re
 from pyrogram import Client, filters
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
-from pyrogram.errors.exceptions.flood_ import FloodWait
 from pyromod import listen
 from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
