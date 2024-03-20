@@ -219,7 +219,7 @@ async def send_to_all_groups(client, chat_id, message):
     await client.send_message(chat_id, message)
 
 
-async def auto_gcast_command(client, chat_id, message):
+async def auto_gcast_command(client, message):
     global auto_gcast_data
     split = message.text.split(maxsplit=2)
     if len(split) != 3:
