@@ -171,15 +171,13 @@ def set_delay(query, value):
     except ValueError:
         return "Silakan masukkan angka untuk delay"
 
-# Fungsi untuk mengaktifkan/menonaktifkan limit auto_gcast
 def toggle_limit(query, value):
     global auto_gcast_data
     if query.upper() == "ON":
         auto_gcast_data["limit"] = True
     elif query.upper() == "OFF":
         auto_gcast_data["limit"] = False
-    value["text"] = f"Limit Auto-GCAST sekarang {'aktif' if auto_gcast_data['limit'] else 'non-aktif'}"
-    return value
+    return f"Limit Auto-GCAST sekarang {'aktif' if auto_gcast_data['limit'] else 'non-aktif'}"
 
 # Fungsi untuk menambahkan teks ke daftar teks
 def add_text(query, value):
