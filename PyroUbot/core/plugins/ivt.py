@@ -44,7 +44,7 @@ async def inviteall_cmd(client, message):
         failed = 0
         invite_id.append(message.chat.id)
         await Tm.edit_text(f"ᴍᴇɴɢᴜɴᴅᴀɴɢ ᴀɴɢɢᴏᴛᴀ ᴅᴀʀɪ {chat.title}")
-        async for member in client.get_chat_members(chat.id):
+        async for member in client.iter_chat_members(chat.id):
             stats = [
                 UserStatus.ONLINE,
                 UserStatus.OFFLINE,
@@ -54,11 +54,10 @@ async def inviteall_cmd(client, message):
             if member.user.status in stats:
                 try:
                     await client.add_chat_members(message.chat.id, member.user.id)
-                    done = done + 1
-                    await asyncio.sleep(int(message.command[2]))
-                except Exception:
-                    failed = failed + 1
-                    await asyncio.sleep(int(message.command[2]))
+                    done += 1
+                except Exception as e:
+                    failed += 1
+                await asyncio.sleep(int(message.command[2]))
         invite_id.remove(message.chat.id)
         await Tm.delete()
         return await message.reply(
