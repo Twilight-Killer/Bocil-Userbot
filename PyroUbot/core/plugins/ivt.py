@@ -5,9 +5,6 @@ from pyrogram.enums import UserStatus
 from PyroUbot import *
 
 
-# Pastikan PREFIX telah didefinisikan sebelumnya di dalam modul PyroUbot
-PREFIX = ["[0]"]
-
 async def invite_cmd(client, message):
     mg = await message.reply("<b>ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ᴘᴇɴɢɢᴜɴᴀ!</b>")
     if len(message.command) < 2:
@@ -47,7 +44,7 @@ async def inviteall_cmd(client, message):
         failed = 0
         invite_id.append(message.chat.id)
         await Tm.edit_text(f"ᴍᴇɴɢᴜɴᴅᴀɴɢ ᴀɴɢɢᴏᴛᴀ ᴅᴀʀɪ {chat.title}")
-        async for member in client.iter_chat_members(chat.id):
+        async for member in client.get_chat_members(chat.id):
             stats = [
                 UserStatus.ONLINE,
                 UserStatus.OFFLINE,
