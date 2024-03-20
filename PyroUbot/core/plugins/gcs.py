@@ -229,9 +229,6 @@ async def auto_gcast_command(client, message):
         result = set_text(query, value)
         value = {"text": result}
     elif query.upper() == "DELAY":
-        if not auto_gcast_data["status"]:
-            await message.reply("Auto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'")
-            return
         result = set_delay(query, value)
         value = {"text": result}
     elif query.upper() == "LIMIT":
@@ -241,11 +238,11 @@ async def auto_gcast_command(client, message):
     elif query.upper() == "LIST":
         value = list_texts(query, value)
     
-    if auto_gcast_data["status"]:
+    if isinstance(value, dict) and "text" in value:  # Memeriksa apakah value adalah dictionary dan memiliki key 'text'
         success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])  # Kirim pesan ke semua grup atau supergrup
         value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
         value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
     else:
-        value["text"] += "\n\nAuto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'"
+        value += "\n\nAuto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'"
     
-    await message.reply(value["text"])
+    await message.reply(value)
