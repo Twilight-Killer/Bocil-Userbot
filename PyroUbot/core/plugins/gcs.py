@@ -160,7 +160,7 @@ def toggle_auto_gcast(query, value):
 def set_text(query, value):
     global auto_gcast_data
     auto_gcast_data["text"] = query
-    value["text"] = f"Teks Auto-GCAST diatur menjadi: {query}"
+    value = f"Teks Auto-GCAST diatur menjadi: {query}"
     return value
 
 # Fungsi untuk mengatur delay auto_gcast
@@ -225,15 +225,16 @@ async def auto_gcast_command(client, message):
     if query.upper() == "ON" or query.upper() == "OFF":
         value = toggle_auto_gcast(query, value)
     elif query.upper() == "TEXT":
-        value = set_text(value, value)
+        result = set_text(query, value)
+        value = {"text": result}
     elif query.upper() == "DELAY":
-        value = set_delay(value, value)
+        value = set_delay(query, value)
     elif query.upper() == "LIMIT":
         value = toggle_limit(query, value)
     elif query.upper() == "ADD":
-        value = add_text(value, value)
+        value = add_text(query, value)
     elif query.upper() == "LIST":
-        value = list_texts(value, value)
+        value = list_texts(query, value)
     
     success_count, fail_count = await send_to_all_groups(client, value["text"])  # Kirim pesan ke semua grup atau supergrup
     value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
