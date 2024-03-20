@@ -214,12 +214,12 @@ async def send_to_all_groups(client, chat_id, message):
     
 async def auto_gcast_command(client, message):
     global auto_gcast_data
-    split = message.text.split('-', maxsplit=1)
-    if len(split) != 2:
+    split = message.text.split(maxsplit=2)
+    if len(split) != 3:
         await message.reply("Format perintah salah. Gunakan: .auto_gcast <query> - <value>")
         return
 
-    query, value = split[0].strip(), split[1].strip()
+    query, value = split[1], split[2]
     if query.upper() == "ON" or query.upper() == "OFF":
         value = toggle_auto_gcast(query, value)
     elif query.upper() == "TEXT":
