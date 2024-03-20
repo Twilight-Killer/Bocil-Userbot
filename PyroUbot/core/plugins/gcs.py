@@ -186,15 +186,13 @@ def add_text(query, value):
     value["text"] = f"Teks '{query}' telah ditambahkan ke daftar teks"
     return value
 
-# Fungsi untuk menampilkan daftar teks yang akan dikirim
 def list_texts(query, value):
     global auto_gcast_data
     texts = "\n".join(auto_gcast_data["texts"])
     if not texts:
-        value["text"] = "Daftar teks kosong"
+        return "Daftar teks kosong"
     else:
-        value["text"] = f"Daftar teks yang akan dikirim:\n{texts}"
-    return value
+        return f"Daftar teks yang akan dikirim:\n{texts}"
 
 
 def add_to_all_groups(func):
