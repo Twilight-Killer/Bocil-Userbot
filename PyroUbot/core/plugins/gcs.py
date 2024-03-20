@@ -239,7 +239,7 @@ async def auto_gcast_command(client, message):
     elif query.upper() == "LIST":
         value = list_texts(query, value)
     
-    success_count, fail_count = await send_to_all_groups(client, chat.id, value["text"]) 
+    success_count, fail_count = await send_to_all_groups(client, value["text"])  # Kirim pesan ke semua grup atau supergrup
     value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
     value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
     
