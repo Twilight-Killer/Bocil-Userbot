@@ -163,6 +163,8 @@ def set_text(query, value):
 
 def set_delay(query, value):
     global auto_gcast_data
+    if not auto_gcast_data["status"]:
+        return "Auto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'"
     try:
         auto_gcast_data["delay"] = int(value)
         return f"Delay Auto-GCAST diatur menjadi: {value} menit"
@@ -229,6 +231,9 @@ async def auto_gcast_command(client, message):
         result = set_text(query, value)
         value = {"text": result}
     elif query.upper() == "DELAY":
+        if not auto_gcast_data["status"]:
+            await message.reply("Auto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'")
+            return
         result = set_delay(query, value)
         value = {"text": result}
     elif query.upper() == "LIMIT":
@@ -238,8 +243,11 @@ async def auto_gcast_command(client, message):
     elif query.upper() == "LIST":
         value = list_texts(query, value)
     
-    success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])  # Kirim pesan ke semua grup atau supergrup
-    value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
-    value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
+    if auto_gcast_data["status"]:
+        success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])  # Kirim pesan ke semua grup atau supergrup
+        value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
+        value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
+    else:
+        value["text"] += "\n\nAuto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'"
     
     await message.reply(value["text"])
