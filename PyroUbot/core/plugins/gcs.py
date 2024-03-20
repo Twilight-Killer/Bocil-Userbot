@@ -205,10 +205,10 @@ async def send_to_all_groups(client, message):
     global auto_gcast_data
     success_count = 0
     fail_count = 0
-    async for dialog in client.iter_dialogs():
+    async for chat_id in chats
         if dialog.chat.type in ["group", "supergroup"]:
             try:
-                await client.send_message(dialog.chat.id, message)
+                await client.send_message(chat_id, send)
                 success_count += 1
             except Exception as e:
                 fail_count += 1
