@@ -134,3 +134,90 @@ async def send_inline(client, inline_query):
                 )
             ],
         )
+
+# Data auto_gcast
+auto_gcast_data = {
+    "status": False,    # ON/OFF
+    "text": "",         # TEXT
+    "delay": 0,         # DELAY
+    "limit": False,     # LIMIT
+    "failed_text": "",  # TEXT yang gagal terkirim
+    "success_text": "", # TEXT yang berhasil terkirim
+    "texts": []         # Daftar teks yang akan dikirim
+}
+
+# Fungsi untuk mengaktifkan/menonaktifkan auto_gcast
+def toggle_auto_gcast(query, value):
+    global auto_gcast_data
+    if query.upper() == "ON":
+        auto_gcast_data["status"] = True
+    elif query.upper() == "OFF":
+        auto_gcast_data["status"] = False
+    value["text"] = f"Auto-GCAST sekarang {'aktif' if auto_gcast_data['status'] else 'non-aktif'}"
+    return value
+
+# Fungsi untuk mengatur teks auto_gcast
+def set_text(query, value):
+    global auto_gcast_data
+    auto_gcast_data["text"] = query
+    value["text"] = f"Teks Auto-GCAST diatur menjadi: {query}"
+    return value
+
+# Fungsi untuk mengatur delay auto_gcast
+def set_delay(query, value):
+    global auto_gcast_data
+    try:
+        auto_gcast_data["delay"] = int(query)
+        value["text"] = f"Delay Auto-GCAST diatur menjadi: {query} detik"
+    except ValueError:
+        value["text"] = "Silakan masukkan angka untuk delay"
+    return value
+
+# Fungsi untuk mengaktifkan/menonaktifkan limit auto_gcast
+def toggle_limit(query, value):
+    global auto_gcast_data
+    if query.upper() == "ON":
+        auto_gcast_data["limit"] = True
+    elif query.upper() == "OFF":
+        auto_gcast_data["limit"] = False
+    value["text"] = f"Limit Auto-GCAST sekarang {'aktif' if auto_gcast_data['limit'] else 'non-aktif'}"
+    return value
+
+# Fungsi untuk menambahkan teks ke daftar teks
+def add_text(query, value):
+    global auto_gcast_data
+    auto_gcast_data["texts"].append(query)
+    value["text"] = f"Teks '{query}' telah ditambahkan ke daftar teks"
+    return value
+
+# Fungsi untuk menampilkan daftar teks yang akan dikirim
+def list_texts(query, value):
+    global auto_gcast_data
+    texts = "\n".join(auto_gcast_data["texts"])
+    if not texts:
+        value["text"] = "Daftar teks kosong"
+    else:
+        value["text"] = f"Daftar teks yang akan dikirim:\n{texts}"
+    return value
+
+# Fungsi utama untuk menangani perintah
+async def auto_gcast_command(client, message):
+    global auto_gcast_data
+    split = message.text.split(maxsplit=2)
+    if len(split) != 3:
+        await message.reply("Format perintah salah. Gunakan: .auto_gcast <query> - <value>")
+        return
+    query, value = split[1], split[2]
+    if query.upper() == "ON" or query.upper() == "OFF":
+        value = toggle_auto_gcast(query, value)
+    elif query.upper() == "TEXT":
+        value = set_text(value, value)
+    elif query.upper() == "DELAY":
+        value = set_delay(value, value)
+    elif query.upper() == "LIMIT":
+        value = toggle_limit(query, value)
+    elif query.upper() == "ADD":
+        value = add_text(value, value)
+    elif query.upper() == "LIST":
+        value = list_texts(value, value)
+    await message.reply(value["text"])
