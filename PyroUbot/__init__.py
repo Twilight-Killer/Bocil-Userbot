@@ -5,13 +5,14 @@ import re
 from pyrogram import Client, filters
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
+from pyrogram.errors.exceptions.flood_ import FloodWait
 from pyromod import listen
 from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 # Konfigurasi logging
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
-logger = logging.getLogger(name)
+logger = logging.getLogger(__name__)
 
 # Maksimum percobaan dan penanganan kesalahan
 max_retries = 3
@@ -52,8 +53,8 @@ async def get_channel_messages(channel):
         return messages
 
 class Bot(Client):
-    def init(self, **kwargs):
-        super().init(**kwargs, device_model="BuruTaniUbot")
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, device_model="BuruTaniUbot")
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
@@ -78,9 +79,10 @@ class Ubot(Client):
     _prefix = {}
     _translate = {}
 
-    def init(self, **kwargs):
-        super().init(**kwargs, device_model="BuruTaniUbot")
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs, device_model="BuruTaniUbot")
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
+
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             for ub in self._ubot:
@@ -111,17 +113,17 @@ class Ubot(Client):
                     if not text.startswith(prefix):
                         continue
 
-                    without_prefix = text[len(prefix) :]
+                    without_prefix = text[len(prefix):]
 
                     for command in cmd.split("|"):
                         if not re.match(
-                            rf"^(?:{command}(?:@?{username})?)(?:\s|$)",
-                            without_prefix,
-                            flags=re.IGNORECASE | re.UNICODE,
+                                rf"^(?:{command}(?:@?{username})?)(?:\s|$)",
+                                without_prefix,
+                                flags=re.IGNORECASE | re.UNICODE,
                         ):
                             continue
 
-without_command = re.sub(
+                        without_command = re.sub(
                             rf"{command}(?:@?{username})?\s?",
                             "",
                             without_prefix,
