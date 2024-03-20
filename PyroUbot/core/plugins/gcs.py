@@ -200,7 +200,21 @@ def list_texts(query, value):
         value["text"] = f"Daftar teks yang akan dikirim:\n{texts}"
     return value
 
-# Fungsi utama untuk menangani perintah
+# Fungsi utama untuk mengirim pesan ke semua grup atau supergrup
+async def send_to_all_groups(client, message):
+    global auto_gcast_data
+    success_count = 0
+    fail_count = 0
+    async for dialog in client.iter_dialogs():
+        if dialog.chat.type in ["group", "supergroup"]:
+            try:
+                await client.send_message(dialog.chat.id, message)
+                success_count += 1
+            except Exception as e:
+                fail_count += 1
+    return success_count, fail_count
+
+# Fungsi utama untuk menangani perintah auto_gcast
 async def auto_gcast_command(client, message):
     global auto_gcast_data
     split = message.text.split(maxsplit=2)
@@ -220,4 +234,9 @@ async def auto_gcast_command(client, message):
         value = add_text(value, value)
     elif query.upper() == "LIST":
         value = list_texts(value, value)
+    
+    success_count, fail_count = await send_to_all_groups(client, value["text"])  # Kirim pesan ke semua grup atau supergrup
+    value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
+    value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
+    
     await message.reply(value["text"])
