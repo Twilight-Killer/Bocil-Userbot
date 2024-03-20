@@ -210,12 +210,8 @@ def add_to_all_groups(func):
     return wrapper
 
 async def send_to_all_groups(client, chat_id, message):
-    try:
-        await client.send_message(chat_id, message)
-        return 1, 0  # Success count = 1, fail count = 0
-    except Exception as e:
-        return 0, 1  # Success count = 0, fail count = 1
-
+    await client.send_message(chat_id, message)
+    
 async def auto_gcast_command(client, message):
     global auto_gcast_data
     split = message.text.split(maxsplit=2)
