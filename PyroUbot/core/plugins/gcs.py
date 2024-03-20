@@ -226,8 +226,8 @@ async def auto_gcast_command(client, message):
     if query.upper() == "ON" or query.upper() == "OFF":
         value = toggle_auto_gcast(query, value)
     elif query.upper() == "TEXT":
-    result = set_text(query, value)
-    value = {"text": result}
+        result = set_text(query, value)
+        value = {"text": result}
     elif query.upper() == "DELAY":
         result = set_delay(value)
         value = {"text": result}
