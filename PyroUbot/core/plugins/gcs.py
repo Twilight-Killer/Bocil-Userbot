@@ -156,12 +156,10 @@ def toggle_auto_gcast(query, value):
     value["text"] = f"Auto-GCAST sekarang {'aktif' if auto_gcast_data['status'] else 'non-aktif'}"
     return value
 
-# Fungsi untuk mengatur teks auto_gcast
 def set_text(query, value):
     global auto_gcast_data
-    auto_gcast_data["text"] = query
-    value = f"Teks Auto-GCAST diatur menjadi: {query}"
-    return value
+    auto_gcast_data["text"] = value
+    return f"Teks Auto-GCAST diatur menjadi: {value}"
 
 # Fungsi untuk mengatur delay auto_gcast
 def set_delay(query, value):
