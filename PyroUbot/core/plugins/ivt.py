@@ -5,6 +5,9 @@ from pyrogram.enums import UserStatus
 from PyroUbot import *
 
 
+# Pastikan PREFIX telah didefinisikan sebelumnya di dalam modul PyroUbot
+PREFIX = ["[0]"]
+
 async def invite_cmd(client, message):
     mg = await message.reply("<b>ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ᴘᴇɴɢɢᴜɴᴀ!</b>")
     if len(message.command) < 2:
