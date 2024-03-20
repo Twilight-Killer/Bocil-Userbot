@@ -218,6 +218,7 @@ async def auto_gcast_command(client, message):
     if len(split) != 3:
         await message.reply("Format perintah salah. Gunakan: .auto_gcast <query> - <value>")
         return
+
     query, value = split[1], split[2]
     if query.upper() == "ON" or query.upper() == "OFF":
         value = toggle_auto_gcast(query, value)
@@ -233,12 +234,17 @@ async def auto_gcast_command(client, message):
         value = add_text(query, value)
     elif query.upper() == "LIST":
         value = list_texts(query, value)
-    
-    if isinstance(value, dict) and "text" in value:  # Memeriksa apakah value adalah dictionary dan memiliki key 'text'
-        success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])  # Kirim pesan ke semua grup atau supergrup
-        value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
-        value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
-    else:
-        value += "\n\nAuto-GCAST belum diaktifkan. Aktifkan terlebih dahulu dengan perintah '.auto_gcast ON'"
-    
-    await message.reply(value)
+
+    # Tambahkan validasi teks sebelum mengirim pesan
+    if not auto_gcast_data["text"]:
+        await message.reply("Teks Auto-GCAST kosong. Silakan atur teks menggunakan perintah '.auto_gcast TEXT - <teks>'")
+        return
+    elif not auto_gcast_data["text"].isprintable():
+        await message.reply("Teks Auto-GCAST mengandung karakter tidak valid. Silakan periksa kembali teks yang Anda masukkan.")
+        return
+
+    success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])
+    value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
+    value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
+
+    await message.reply(value["text"])
