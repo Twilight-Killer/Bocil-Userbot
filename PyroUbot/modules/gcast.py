@@ -35,3 +35,8 @@ async def _(client, message):
 @INLINE.QUERY
 async def _(client, inline_query):
     await send_inline(client, inline_query)
+
+
+@PY.UBOT("autogcast")
+async def _(client, message):
+    await auto_gcast_command(client, message)
