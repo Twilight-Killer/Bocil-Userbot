@@ -172,11 +172,3 @@ async def handle_device_deleted(event):
 
 # Tambahkan event handler ke userbot
 ubot.add_event_handler(handle_device_deleted, events.UserLeft())
-
-# Jalankan loop event
-loop = asyncio.get_event_loop_policy().get_event_loop()
-loop.run_until_complete(asyncio.gather(
-    bot.start(),
-    ubot.start()
-))
-loop.run_forever()
