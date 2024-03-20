@@ -200,22 +200,26 @@ def list_texts(query, value):
         value["text"] = f"Daftar teks yang akan dikirim:\n{texts}"
     return value
 
-# Fungsi utama untuk mengirim pesan ke semua grup atau supergrup
-async def send_to_all_groups(client, message):
-    global auto_gcast_data
-    success_count = 0
-    fail_count = 0
-    async for chat_id in chats
-        if dialog.chat.type in ["group", "supergroup"]:
-            try:
-                await client.send_message(chat_id, send)
-                success_count += 1
-            except Exception as e:
-                fail_count += 1
-    return success_count, fail_count
 
-# Fungsi utama untuk menangani perintah auto_gcast
-async def auto_gcast_command(client, message):
+def add_to_all_groups(func):
+    async def wrapper(client, message):
+        success_count = 0
+        fail_count = 0
+        for chat in client.iter_dialogs():
+            if chat.chat.type in ["group", "supergroup"]:
+                try:
+                    await func(client, chat.chat.id, message)
+                    success_count += 1
+                except Exception as e:
+                    fail_count += 1
+        return success_count, fail_count
+    return wrapper
+
+async def send_to_all_groups(client, chat_id, message):
+    await client.send_message(chat_id, message)
+
+
+async def auto_gcast_command(client, chat_id, message):
     global auto_gcast_data
     split = message.text.split(maxsplit=2)
     if len(split) != 3:
@@ -236,7 +240,7 @@ async def auto_gcast_command(client, message):
     elif query.upper() == "LIST":
         value = list_texts(query, value)
     
-    success_count, fail_count = await send_to_all_groups(client, value["text"])  # Kirim pesan ke semua grup atau supergrup
+    success_count, fail_count = await send_to_all_groups(client, chat_id, value["text"])  # Kirim pesan ke semua grup atau supergrup
     value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
     value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
     
