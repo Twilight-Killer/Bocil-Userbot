@@ -161,15 +161,13 @@ def set_text(query, value):
     auto_gcast_data["text"] = value
     return f"Teks Auto-GCAST diatur menjadi: {value}"
 
-# Fungsi untuk mengatur delay auto_gcast
 def set_delay(query, value):
     global auto_gcast_data
     try:
-        auto_gcast_data["delay"] = int(query)
-        value["text"] = f"Delay Auto-GCAST diatur menjadi: {query} detik"
+        auto_gcast_data["delay"] = int(value)
+        return f"Delay Auto-GCAST diatur menjadi: {value} menit"
     except ValueError:
-        value["text"] = "Silakan masukkan angka untuk delay"
-    return value
+        return "Silakan masukkan angka untuk delay"
 
 # Fungsi untuk mengaktifkan/menonaktifkan limit auto_gcast
 def toggle_limit(query, value):
