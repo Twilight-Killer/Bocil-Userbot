@@ -75,6 +75,6 @@ async def cancel_cmd(client, message):
         )
     try:
         invite_id.remove(message.chat.id)
-        await message.reply_text("ok inviteall berhasil dibatalkan")
+        await message.reply_text("ᴏᴋ ɪɴᴠɪᴛᴇᴀʟʟ ʙᴇʀʜᴀsɪʟ ᴅɪʙᴀᴛᴀʟᴋᴀɴ")
     except Exception as e:
         await message.reply_text(e)
