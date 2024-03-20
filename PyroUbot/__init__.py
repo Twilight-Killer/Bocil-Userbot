@@ -1,136 +1,4 @@
-import asyncio
-import logging
-import os
-import re
-from pyrogram import Client, filters, events
-from pyrogram.handlers import CallbackQueryHandler, MessageHandler
-from pyrogram.types import Message
-from pyromod import listen
-from pytgcalls import GroupCallFactory
-from PyroUbot.config import *
-
-# Konfigurasi logging
-logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-# Maksimum percobaan dan penanganan kesalahan
-max_retries = 3
-retries = 0
-
-while retries < max_retries:
-    try:
-        # Simulasi koneksi yang gagal (ganti dengan kode sesuai kebutuhan)
-        raise OSError("Koneksi Gagal")
-    except OSError as e:
-        logger.error(f"Terjadi kesalahan: {e}")
-        retries += 1
-        if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
-        else:
-            print("Gagal setelah beberapa percobaan.")
-            break
-    except ConnectionError as ce:
-        logger.error(f"Terjadi kesalahan koneksi: {ce}")
-        retries += 1
-        if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
-        else:
-            print("Gagal setelah beberapa percobaan.")
-            break
-
-# Fungsi untuk melakukan permintaan ke kanal
-async def get_channel_messages(channel):
-    try:
-        # Lakukan permintaan ke kanal
-        messages = await bot.get_messages(channel)
-        return messages
-    except FloodWait as e:
-        # Tangani kesalahan FloodWait dengan menunggu waktu yang diberikan oleh Telegram
-        await asyncio.sleep(e.x)
-        # Coba kembali permintaan setelah menunggu
-        messages = await get_channel_messages(channel)
-        return messages
-
-class Bot(Client):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs, device_model="BuruTaniUbot")
-
-    def on_message(self, filters=None, group=-1):
-        def decorator(func):
-            self.add_handler(MessageHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    def on_callback_query(self, filters=None, group=-1):
-        def decorator(func):
-            self.add_handler(CallbackQueryHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    async def start(self):
-        await super().start()
-
-class Ubot(Client):
-    _get_my_id = []
-    _ubot = []
-    _prefix = {}
-    _translate = {}
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs, device_model="BuruTaniUbot")
-        self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
-
-    async def delete_userbot(self, user_id):
-        for i, ub in enumerate(self._ubot):
-            if ub.me.id == user_id:
-                del self._ubot[i]
-                del self._prefix[user_id]
-                del self._translate[user_id]
-                break
-
-    def on_message(self, filters=None, group=-1):
-        def decorator(func):
-            for ub in self._ubot:
-                ub.add_handler(MessageHandler(func, filters), group)
-            return func
-
-        return decorator
-
-    def set_prefix(self, user_id, prefix):
-        self._prefix[user_id] = prefix
-
-    async def get_prefix(self, user_id):
-        return self._prefix.get(user_id, [".", ",", ":", ";", "!"])
-
-    def cmd_prefix(self, cmd):
-        command_re = re.compile(r"([\"'])(.*?)(?<!\\)\1|(\S+)")
-
-        async def func(_, client, message):
-            if message.text:
-                text = message.text.strip().encode("utf-8").decode("utf-8")
-                username = client.me.username or ""
-                prefixes = await self.get_prefix(client.me.id)
-
-                if not text:
-                    return False
-
-                for prefix in prefixes:
-                    if not text.startswith(prefix):
-                        continue
-
-                    without_prefix = text[len(prefix) :]
-
-                    for command in cmd.split("|"):
-                        if not re.match(
-                            rf"^(?:{command}(?:@?{username})?)(?:\s|$)",
-                            without_prefix,
-                            flags=re.IGNORECASE | re.UNICODE,
-                        ):
-                            continue
-
-                        without_command = re.sub(
+without_command = re.sub(
                             rf"{command}(?:@?{username})?\s?",
                             "",
                             without_prefix,
@@ -155,8 +23,11 @@ class Ubot(Client):
             self._prefix[self.me.id] = handler
         else:
             self._prefix[self.me.id] = [".", ",", ":", ";", "!"]
+        self._ubot.append(self)
+        self._get_my_id.append(self.me.id)
+        self._translate[self.me.id] = "id"
+        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃")
 
-# Inisialisasi bot dan userbot
 bot = Bot(
     name="bot",
     api_id=API_ID,
@@ -164,22 +35,6 @@ bot = Bot(
     bot_token=BOT_TOKEN,
 )
 ubot = Ubot(name="ubot")
-
-# Tambahkan event handler untuk penghapusan perangkat
-async def handle_device_deleted(event):
-    user_id = event.user_id
-    await ubot.delete_userbot(user_id)
-
-# Tambahkan event handler ke userbot
-ubot.add_event_handler(handle_device_deleted, events.UserLeft())
-
-# Jalankan loop event
-loop = asyncio.get_event_loop_policy().get_event_loop()
-loop.run_until_complete(asyncio.gather(
-    bot.start(),
-    ubot.start()
-))
-loop.run_forever()
 
 from PyroUbot.core.database import *
 from PyroUbot.core.function import *
