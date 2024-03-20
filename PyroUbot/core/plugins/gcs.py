@@ -228,18 +228,19 @@ async def auto_gcast_command(client, message):
     if query.upper() == "ON" or query.upper() == "OFF":
         value = toggle_auto_gcast(query, value)
     elif query.upper() == "TEXT":
-        result = set_text(query, value)
+        result = set_text(value)
         value = {"text": result}
     elif query.upper() == "DELAY":
-        value = set_delay(query, value)
+        result = set_delay(value)
+        value = {"text": result}
     elif query.upper() == "LIMIT":
         value = toggle_limit(query, value)
     elif query.upper() == "ADD":
-        value = add_text(query, value)
+        value = add_text(value)
     elif query.upper() == "LIST":
-        value = list_texts(query, value)
+        value = list_texts(value)
     
-    success_count, fail_count = await send_to_all_groups(client, value["text"])  # Kirim pesan ke semua grup atau supergrup
+    success_count, fail_count = await send_to_all_groups(client, message.chat.id, auto_gcast_data["text"])  # Kirim pesan ke semua grup atau supergrup
     value["text"] += f"\n\nBerhasil mengirim ke {success_count} grup/supergroup" if success_count > 0 else ""
     value["text"] += f"\nGagal mengirim ke {fail_count} grup/supergroup" if fail_count > 0 else ""
     
