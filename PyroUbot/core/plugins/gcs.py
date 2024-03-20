@@ -231,7 +231,7 @@ async def auto_gcast_command(client, message):
         result = set_text(query, value)
         value = {"text": result}
     elif query.upper() == "DELAY":
-        result = set_delay(value)
+        result = set_delay(value)  # Memperbaiki pemanggilan set_delay()
         value = {"text": result}
     elif query.upper() == "LIMIT":
         value = toggle_limit(query, value)
