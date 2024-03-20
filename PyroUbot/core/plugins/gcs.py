@@ -215,7 +215,7 @@ def add_to_all_groups(func):
         return success_count, fail_count
     return wrapper
 
-async def send_to_all_groups(client, chat_id, message):
+async def send_to_all_groups(client, message):
     await client.send_message(chat_id, message)
 
 
