@@ -2,7 +2,7 @@ import asyncio
 import logging
 import os
 import re
-from pyrogram import Client, filters
+from pyrogram import Client, filters, events
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pyromod import listen
@@ -81,6 +81,15 @@ class Ubot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, device_model="BuruTaniUbot")
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
+
+    async def delete_userbot(self, user_id):
+        for i, ub in enumerate(self._ubot):
+            if ub.me.id == user_id:
+                del self._ubot[i]
+                del self._prefix[user_id]
+                del self._translate[user_id]
+                break
+
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             for ub in self._ubot:
@@ -146,11 +155,8 @@ class Ubot(Client):
             self._prefix[self.me.id] = handler
         else:
             self._prefix[self.me.id] = [".", ",", ":", ";", "!"]
-        self._ubot.append(self)
-        self._get_my_id.append(self.me.id)
-        self._translate[self.me.id] = "id"
-        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃")
 
+# Inisialisasi bot dan userbot
 bot = Bot(
     name="bot",
     api_id=API_ID,
@@ -159,7 +165,18 @@ bot = Bot(
 )
 ubot = Ubot(name="ubot")
 
-from PyroUbot.core.database import *
-from PyroUbot.core.function import *
-from PyroUbot.core.helpers import *
-from PyroUbot.core.plugins import *
+# Tambahkan event handler untuk penghapusan perangkat
+async def handle_device_deleted(event):
+    user_id = event.user_id
+    await ubot.delete_userbot(user_id)
+
+# Tambahkan event handler ke userbot
+ubot.add_event_handler(handle_device_deleted, events.UserLeft())
+
+# Jalankan loop event
+loop = asyncio.get_event_loop_policy().get_event_loop()
+loop.run_until_complete(asyncio.gather(
+    bot.start(),
+    ubot.start()
+))
+loop.run_forever()
