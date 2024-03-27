@@ -50,10 +50,6 @@ LT = []
 
 @PY.UBOT("auto_gcast")
 async def _(client, message):
-    """
-    CREATE BY: NORSODIKIN.T.ME
-    REQUEST BY: MYMASKY.T.ME
-    """
     msg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs...</b>", quote=True)
     type, value = extract_type_and_text(message)
     auto_text_vars = await get_vars(client.me.id, "AUTO_TEXT")
