@@ -49,7 +49,6 @@ LT = []
 
 
 @PY.UBOT("auto_gcast")
-@PY.TOP_CMD
 async def _(client, message):
     """
     CREATE BY: NORSODIKIN.T.ME
