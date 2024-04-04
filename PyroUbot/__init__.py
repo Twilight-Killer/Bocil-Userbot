@@ -4,8 +4,6 @@ import re
 import asyncio
 import uvloop
 
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
 from pyrogram import Client, filters
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
@@ -13,9 +11,6 @@ from pyromod import listen
 from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
-
-class ConnectionError(Exception):
-    pass
 
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
@@ -65,8 +60,11 @@ async def get_channel_messages(channel):
         return messages
     except FloodWait as e:
         await asyncio.sleep(e.x)
-        messages = await get_channel_messages(channel)
-        return messages
+        chat = await bot.get_chat(e.chat_id)
+        chat_name = chat.title if chat.title else chat.first_name
+        print(f"FloodWait: {chat_name} harus menunggu {e.x} detik sebelum mengirim pesan lagi.")
+        await bot.send_message(e.chat_id, f"Maaf, {chat_name}, Anda harus menunggu {e.x} detik sebelum mengirim pesan lagi.")
+        return await get_channel_messages(channel)
 
 class Bot(Client):
     def __init__(self, **kwargs):
