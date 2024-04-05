@@ -1,5 +1,6 @@
 aiofiles
 aiohttp
+uvloop
 python-dotenv
 attrify
 bs4
