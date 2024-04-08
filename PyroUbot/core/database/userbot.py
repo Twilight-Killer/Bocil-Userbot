@@ -20,20 +20,26 @@ async def get_user_data():
         })
     return data
 
-# Menggunakan async def untuk fungsi-fungsi yang melakukan operasi yang membutuhkan waktu
 async def add_ubot(user_id, api_id, api_hash, session_string):
+    """
+    Add a userbot to the database.
+    """
     await ubotdb.update_one(
         {"user_id": user_id},
         {"$set": {"api_id": api_id, "api_hash": api_hash, "session_string": session_string}},
         upsert=True,
     )
 
-# Menggunakan async def untuk fungsi-fungsi yang melakukan operasi yang membutuhkan waktu
 async def remove_ubot(user_id):
+    """
+    Remove a userbot from the database.
+    """
     await ubotdb.delete_one({"user_id": user_id})
 
-# Menggunakan async def untuk fungsi-fungsi yang melakukan operasi yang membutuhkan waktu
 async def get_userbots():
+    """
+    Get all userbots from the database.
+    """
     data = []
     async for ubot in ubotdb.find({"user_id": {"$exists": 1}}):
         data.append(
