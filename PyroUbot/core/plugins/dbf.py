@@ -22,25 +22,31 @@ async def prem_user(client, message):
     if not user_id:
         return await Tm.edit(f"<b>{message.text} ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ - ʙᴜʟᴀɴ</b>")
     try:
-        get_id = (await client.get_users(user_id)).id
+        user = await client.get_users(user_id)
     except Exception as error:
-        return await Tm.edit(error)
+        return await Tm.edit(str(error))
     if not get_bulan:
         get_bulan = 1
     premium = await get_prem()
-    if get_id in premium:
+    if user.id in premium:
         return await Tm.edit("ᴅɪᴀ sᴜᴅᴀʜ ʙɪsᴀ ᴍᴇᴍʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ")
-    added = await add_prem(get_id)
+    added = await add_prem(user.id)
     if added:
         now = datetime.now(timezone("Asia/Jakarta"))
         expired = now + relativedelta(months=int(get_bulan))
-        await set_expired_date(get_id, expired)
-        await Tm.edit(
-            f"✅ {get_id} ᴛᴇʟᴀʜ ᴅɪ ᴀᴋᴛɪғᴋᴀɴ sᴇʟᴀᴍᴀ {get_bulan} ʙᴜʟᴀɴ\n\nsɪʟᴀʜᴋᴀɴ ʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ ᴅɪ @{bot.me.username}"
+        await set_expired_date(user.id, expired)
+        info_msg = (
+            "💬 INFORMATION\n"
+            f" ɴᴀᴍᴇ: {user.first_name} {user.last_name or ''}\n"
+            f" ɪᴅ: {user.id}\n"
+            " ᴋᴇᴛᴇʀᴀɴɢᴀɴ: premium\n"
+            f" ᴇxᴘɪʀᴇᴅ: {get_bulan} ʙᴜʟᴀɴ\n"
+            f" ʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ ᴅɪ @{bot.me.username}"
         )
+        await Tm.edit(info_msg)
         await bot.send_message(
             OWNER_ID,
-            f"• {message.from_user.id} ─> {get_id} •",
+            f"• {message.from_user.id} ─> {user_id} •",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -49,7 +55,7 @@ async def prem_user(client, message):
                             callback_data=f"profil {message.from_user.id}",
                         ),
                         InlineKeyboardButton(
-                            "ᴘʀᴏғɪʟ 👤", callback_data=f"profil {get_id}"
+                            "ᴘʀᴏғɪʟ 👤", callback_data=f"profil {user_id}"
                         ),
                     ],
                 ]
@@ -104,7 +110,7 @@ async def get_prem_user(client, message):
 # ========================== #
 
 
-async def add_blaclist(client, message):
+async def add_blacklist(client, message):
     Tm = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ . . .</b>")
     if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
         chat_id = message.chat.id
@@ -114,13 +120,12 @@ async def add_blaclist(client, message):
         add_blacklist = await add_chat(client.me.id, chat_id)
         if add_blacklist:
             return await Tm.edit(
-                f"{message.chat.title} ʙᴇʀʜᴀsɪʟ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ ᴋᴇ ᴅᴀғᴛᴀʀ ʜɪᴛᴀᴍ"
+                f"ɢʀᴏᴜᴘ:{message.chat.title}\n ᴋᴇᴛᴇʀᴀɴɢᴀɴ: diblacklist"
             )
         else:
             return await Tm.edit("ᴛᴇʀᴊᴀᴅɪ ᴋᴇsᴀʟᴀʜᴀɴ ʏᴀɴɢ ᴛɪᴅᴀᴋ ᴅɪᴋᴇᴛᴀʜᴜɪ")
     else:
         return await Tm.edit("ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʙᴇʀғᴜɴɢsɪ ᴅɪ ɢʀᴏᴜᴘ sᴀJᴀ")
-
 
 async def del_blacklist(client, message):
     Tm = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ . . .</b>")
@@ -137,7 +142,7 @@ async def del_blacklist(client, message):
                 )
             del_blacklist = await remove_chat(client.me.id, chat_id)
             if del_blacklist:
-                return await Tm.edit(f"{chat_id} ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs ᴅᴀʀɪ ᴅᴀғᴛᴀʀ ʜɪᴛᴀᴍ")
+                return await Tm.edit(f"{chat_id}\n ᴋᴇᴛᴇʀᴀɴɢᴀɴ:ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs ᴅᴀʀɪ ᴅᴀғᴛᴀʀ ʜɪᴛᴀᴍ")
             else:
                 return await Tm.edit("ᴛᴇʀᴊᴀᴅɪ ᴋᴇsᴀʟᴀʜᴀɴ ʏᴀɴɢ ᴛɪᴅᴀᴋ ᴅɪᴋᴇᴛᴀʜᴜɪ")
         except Exception as error:
@@ -250,7 +255,7 @@ async def expired_add(client, message):
     elif user_id not in ubot._get_my_id:
         return await Tm.edit(f"<b>{user_id} ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴅᴀʟᴀᴍ sʏsᴛᴇᴍ</b>")
     try:
-        get_id = (await client.get_users(user_id)).id
+        user = await client.get_users(user_id)
     except Exception as error:
         return await Tm.edit(error)
     if not get_day:
@@ -258,20 +263,40 @@ async def expired_add(client, message):
     now = datetime.now(timezone("Asia/Jakarta"))
     expire_date = now + timedelta(days=int(get_day))
     await set_expired_date(user_id, expire_date)
-    await Tm.edit(f"{get_id} ᴛᴇʟᴀʜ ᴅɪᴀᴋᴛɪғᴋᴀɴ sᴇʟᴀᴍᴀ {get_day} ʜᴀʀɪ.")
+    await Tm.edit(
+            "💬 INFORMATION\n"
+            f" ɴᴀᴍᴇ: {user.first_name} {user.last_name or ''}\n"
+            f" ɪᴅ: {user.id}\n"
+            f" ᴇxᴘɪʀᴇᴅ_sᴇʟᴀᴍᴀ: {get_day}ʜᴀʀɪ\n"
+             " ᴋᴇᴛᴇʀᴀɴɢᴀɴ: ᴛᴀᴍʙᴀʜ ᴇxᴘᴇʀᴇᴅ\n"
+    )
 
 
 async def expired_cek(client, message):
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply("ᴘᴇɴɢɢᴜɴᴀ ᴛɪᴅᴀᴋ ᴛᴇᴍᴜᴋᴀɴ")
-    expired_date = await get_expired_date(user_id)
+    user = await client.get_users(user_id)
+    expired_date = await get_expired_date(user_id) if user_id in ubot._get_my_id else None
+    prefix = ", ".join(ubot._prefix.get(user_id, [".", ",", ":", ";", "!"]))
     if expired_date is None:
-        await message.reply(f"{user_id} ʙᴇʟᴜᴍ ᴅɪᴀᴋᴛɪғᴋᴀɴ.")
+        await message.reply(
+            "💬 INFORMATION\n"
+            f" ɴᴀᴍᴇ: {user.first_name} {user.last_name or ''}\n"
+            f" ɪᴅ: {user.id}\n"
+            f" ᴇxᴘɪʀᴇᴅ: {expired_date}\n"
+             " ᴋᴇᴛᴇʀᴀɴɢᴀɴ: ʙᴇʟᴜᴍ ᴅɪᴀᴋᴛɪғᴋᴀɴ\n"
+            f" ᴘʀᴇғɪx: {prefix}\n"
+        )
     else:
         remaining_days = (expired_date - datetime.now()).days
+        prefix = ", ".join(ubot._prefix.get(user_id, [".", ",", ":", ";", "!"]))
         await message.reply(
-            f"{user_id} ᴀᴋᴛɪғ ʜɪɴɢɢᴀ {expired_date.strftime('%d-%m-%Y %H:%M:%S')}. sɪsᴀ ᴡᴀᴋᴛᴜ ᴀᴋᴛɪғ {remaining_days} ʜᴀʀɪ."
+            "💬 INFORMATION\n"
+            f" ɴᴀᴍᴇ: {user.first_name} {user.last_name or ''}\n"
+            f" ɪᴅ: {user.id}\n"
+            f" ᴇxᴘɪʀᴇᴅ: {remaining_days} ʜᴀʀɪ\n"
+            f" ᴘʀᴇғɪx: {prefix}\n"
         )
 
 
