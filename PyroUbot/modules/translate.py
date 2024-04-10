@@ -12,6 +12,9 @@ __HELP__ = """
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}set_lang</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʀᴜʙᴀʜ ʙᴀʜᴀsᴀ ᴛʀᴀɴsʟᴀᴛᴇ
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tiny</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ]
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʀᴜʙᴀʜ sᴛɪᴄᴋᴇʀ ᴍᴇɴᴊᴀᴅɪ ᴋᴇᴄɪʟ
 """
 
 
@@ -40,3 +43,8 @@ async def _(client, inline_query):
 @INLINE.DATA
 async def _(client, callback_query):
     await set_bahasa_callback(client, callback_query)
+
+
+@PY.UBOT("tiny")
+async def _(client, message):
+    await tiny_cmd(client, message)
