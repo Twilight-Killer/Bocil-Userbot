@@ -11,11 +11,12 @@ gtts
 html2text
 motor
 opencv-python-headless
-Pillow==9.3.0
+openai
+Pillow==10.3.0
 psutil
 pykeyboard
 pySmartDL
-pyromod==1.1
+pyromod==3.1.6
 pytz
 pymediainfo
 pymongo
