@@ -2,7 +2,9 @@ import asyncio
 from datetime import datetime
 from gc import get_objects
 from time import time
+import psutil
 
+from datetime import datetime, timedelta
 from pyrogram.raw.functions import Ping
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -38,7 +40,7 @@ async def ping_cmd(client, message):
     uptime = await get_time((time() - start_time))
     start = datetime.now()
 
-    ping_task = client.invoke(Ping(ping_id=0))
+    ping_task = client.send(Ping(ping_id=0))
     emot_1_task = get_vars(client.me.id, "EMOJI_PING_PONG")
     emot_2_task = get_vars(client.me.id, "EMOJI_UPTIME")
     emot_3_task = get_vars(client.me.id, "EMOJI_MENTION")
@@ -54,15 +56,15 @@ async def ping_cmd(client, message):
 
     if client.me.is_premium:
         _ping = f"""
-<b><emoji id={emot_pong}>🏓</emoji> ᴘᴏɴɢ:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
-<b><emoji id={emot_uptime}>⏰</emoji> ᴜᴘᴛɪᴍᴇ:</b> <code>{uptime}</code>
-<b><emoji id={emot_mention}>👑</emoji> ᴍᴇɴᴛɪᴏɴ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
+<b><emoji id="{emot_pong}">🏓</emoji> Pong:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
+<b><emoji id="{emot_uptime}">⏰</emoji> Uptime:</b> <code>{uptime}</code>
+<b><emoji id="{emot_mention}">👑</emoji> Mention:</b> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
         """
     else:
         _ping = f""" 
-<b>❏ 𝟻+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
-<b>├ ᴛɪᴍᴇ:</b> <code>{uptime}</code>
-<b>╰ ᴊᴇɴᴇɴɢ:</b> <a href=tg://user?id={client.me.id}>{client.me.first_name} {client.me.last_name or ''}</a>
+<b>❏ 5+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
+<b>├ Time:</b> <code>{uptime}</code>
+<b>╰ Jeneng:</b> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
         """
     await message.reply(_ping)
 
@@ -114,3 +116,43 @@ async def start_cmd(client, message):
                 await send.delete()
             except Exception as error:
                 await send.edit(error)
+
+
+async def get_system_status():
+    cpu_percent = psutil.cpu_percent()
+    ram_percent = psutil.virtual_memory().percent
+    disk_percent = psutil.disk_usage('/').percent
+    memory_usage = psutil.virtual_memory().used / 1024 / 1024
+
+    start = datetime.now()
+
+    uptime = await get_time(time() - start_time)
+    user_count = len(ubot._ubot)
+    ping = (datetime.now() - start).microseconds / 1000
+
+    status_message = (
+        f"🖥️ [SYSTEM UBOT]\n"
+        f"PING: {ping} ms\n"
+        f"UBOT: {user_count} user\n"
+        f"UPTIME: {uptime}\n"
+        f"OWNER: None\n\n"
+        f"📊 [STATUS SERVER]\n"
+        f"CPU: {cpu_percent}%\n"
+        f"RAM: {ram_percent}%\n"
+        f"DISK: {disk_percent}%\n"
+        f"MEMORY: {memory_usage:.2f} MB"
+    )
+
+    refresh_button = InlineKeyboardButton("Refresh", callback_data="refresh")
+    back_button = InlineKeyboardButton("Kembali", callback_data="menu")
+    keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
+
+    return status_message, keyboard
+
+async def callback_query_refresh(client, callback_query):
+    status_message, keyboard = await get_system_status()
+    await callback_query.message.edit_text(status_message, reply_markup=keyboard)
+
+async def callback_query_halder(client, callback_query):
+    status_message, keyboard = await get_system_status()
+    await callback_query.edit_message_text(status_message, reply_markup=keyboard)
