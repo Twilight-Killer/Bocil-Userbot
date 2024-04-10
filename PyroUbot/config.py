@@ -16,4 +16,6 @@ LOGS_MAKER_UBOT = int(os.getenv("LOGS_MAKER_UBOT"))
 
 MAX_BOT = int(os.getenv("MAX_BOT"))
 
+OPENAI_KEY = os.getenv("OPENAI_KEY")
+
 MONGO_URL = os.getenv("MONGO_URL")
