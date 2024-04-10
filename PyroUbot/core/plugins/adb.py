@@ -417,16 +417,7 @@ async def hapus_ubot(client, callback_query):
             )
 
 
-async def is_cancel(callback_query, text):
-    if text.startswith("/cancel"):
-        await bot.send_message(
-            callback_query.from_user.id, "<b>ᴍᴇᴍʙᴀᴛᴀʟᴋᴀɴ ᴘʀᴏsᴇs!</b>"
-        )
-        return True
-    return False
-
-
-async def status_callback_handler(client, callback_query):
+  async def status_callback_handler(client, callback_query):
     user_id = callback_query.from_user.id
     username = callback_query.from_user.username
     name = callback_query.from_user.first_name + (" " + callback_query.from_user.last_name if callback_query.from_user.last_name else "")
@@ -438,7 +429,8 @@ async def status_callback_handler(client, callback_query):
     
     exp = await get_expired_date(user_id) if user_id in ubot._get_my_id else None
     waktu = exp.strftime("%d-%m-%Y") if exp else "ɴᴏɴᴇ"
-
+    prefix = ", ".join(ubot._prefix.get(user_id, [".", ",", ":", ";", "!"]))
+    
     text = f"""
 <b>🔴sᴛᴀᴛᴜs ᴜʙᴏᴛ </b>
   <b>ᴜʙᴏᴛ sᴛᴀᴛᴜs:</b> {ubot_status}
@@ -448,6 +440,7 @@ async def status_callback_handler(client, callback_query):
   <b>ɴᴀᴍᴇ:</b> {name}
   <b>ᴇxᴘɪʀᴇᴅ_ᴏɴ:</b> {waktu}
   <b>ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ:</b> {uptime}
+  <b>ᴘʀᴇғɪx:<b> {prefix}
 """
 
     buttons = [
@@ -467,13 +460,14 @@ async def status_command_handler(_, message: Message):
     username = message.from_user.username
     name = message.from_user.first_name + (" " + message.from_user.last_name if message.from_user.last_name else "")
     uptime = await get_time(time() - start_time)
-
+    
     ubot_aktif_status = "ᴀᴋᴛɪᴠᴀᴛᴇᴅ✅" if user_id in ubot._get_my_id else "ʙᴇʟᴜᴍ ᴅɪ ᴀᴋᴛɪғᴋᴀɴ❎"
     ubot_status = "ᴘʀᴇᴍɪᴜᴍ🇲🇨" if user_id in ubot._get_my_id else "ʙᴇʟᴜᴍ ɴʏᴀʟᴀ❎"
     
     exp = await get_expired_date(user_id) if user_id in ubot._get_my_id else None
     waktu = exp.strftime("%d-%m-%Y") if exp else "ɴᴏɴᴇ"
-
+    prefix = ", ".join(ubot._prefix.get(user_id, [".", ",", ":", ";", "!"]))
+   
     text = f"""
 <b>🔴sᴛᴀᴛᴜs ᴜʙᴏᴛ </b>
   <b>ᴜʙᴏᴛ sᴛᴀᴛᴜs:</b> {ubot_status}
@@ -483,6 +477,7 @@ async def status_command_handler(_, message: Message):
   <b>ɴᴀᴍᴇ:</b> {name}
   <b>ᴇxᴘɪʀᴇᴅ_ᴏɴ:</b> {waktu}
   <b>ʙᴏᴛ_ᴜᴘᴛɪᴍᴇ:</b> {uptime}
+  <b>ᴘʀᴇғɪx:<b> {prefix}
 """
 
     buttons = [
