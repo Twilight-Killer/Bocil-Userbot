@@ -1,6 +1,7 @@
 import importlib
 import random
 from datetime import datetime, timedelta
+from time import time
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pytz import timezone
@@ -58,14 +59,13 @@ async def login_cmd(client, message):
         return await info.edit(f"<code>{error}</code>")
 
 
-async def restart_cmd(client, message):
-    msg = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ</b>", quote=True)
-    if message.from_user.id not in ubot._get_my_id:
-        return await msg.edit(
-            f"<b>ᴀɴᴅᴀ ᴛɪᴅᴀᴋ ʙɪsᴀ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ. ᴅɪᴋᴀʀᴇɴᴀᴋᴀɴ ᴀɴᴅᴀ ʙᴜᴋᴀɴ ᴘᴇɴɢɢᴜɴᴀ @{bot.me.username}</b>"
-        )
+@PY.CALLBACK("restart")
+@INLINE.DATA
+async def restart_confirm_callback(client, callback_query):
+    user_id = callback_query.from_user.id
+    # Menghapus userbot dan melakukan restart
     for X in ubot._ubot:
-        if message.from_user.id == X.me.id:
+        if user_id == X.me.id:
             for _ubot_ in await get_userbots():
                 if X.me.id == int(_ubot_["name"]):
                     try:
@@ -77,8 +77,14 @@ async def restart_cmd(client, message):
                             importlib.reload(
                                 importlib.import_module(f"PyroUbot.modules.{mod}")
                             )
-                        return await msg.edit(
-                            f"<b>✅ ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b>"
+                        # Tambahkan tombol "Kembali"
+                        back_button = InlineKeyboardButton("Kembali", callback_data="menu")
+                        restart_button = InlineKeyboardButton("Restart", callback_data="restart")
+                        keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
+                        await callback_query.edit_message_text(
+                            f"<b>🇲🇨 ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b>",
+                            reply_markup=keyboard
                         )
                     except Exception as error:
-                        return await msg.edit(f"<b>{error}</b>")
+                        await callback_query.answer(f"Terjadi kesalahan saat merestart: {error}")
+                        return
