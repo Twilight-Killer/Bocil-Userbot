@@ -24,9 +24,6 @@ __HELP__ = """
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}list_efek</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ ᴅᴀғᴛᴀʀ ᴇғᴇᴋ
-  
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}colong</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇᴅɪᴀ ᴛɪᴍᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴍʙɪʟ ᴍᴇᴅɪᴀ ᴛɪᴍᴇʀ ᴅᴀɴ ᴍᴇɴʏɪᴍᴘᴀɴ ᴋᴇ ᴘᴇsᴀɴ ᴛᴇʀsɪᴍᴘᴀɴ
 """
 
 
@@ -55,16 +52,6 @@ async def _(client, message):
     await convert_audio(client, message)
 
 
-@PY.UBOT("efek")
-async def _(client, message):
-    await convert_efek(client, message)
-
-
 @PY.UBOT("list_efek")
 async def _(client, message):
     await list_cmd_efek(client, message)
-
-
-@PY.UBOT("colong")
-async def _(client, message):
-    await colong_cmn(client, message)
