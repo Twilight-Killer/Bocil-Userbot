@@ -1,6 +1,6 @@
 from PyroUbot import *
 
-__MODULE__ = "translate"
+__MODULE__ = "translate&tiny"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴛʀᴀɴsʟᴀᴛᴇ 』</b>
 
