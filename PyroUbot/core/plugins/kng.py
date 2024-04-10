@@ -1,6 +1,7 @@
 import asyncio
 import imghdr
 import os
+import emoji
 
 from pyrogram.errors import *
 from pyrogram.raw.functions.messages import *
