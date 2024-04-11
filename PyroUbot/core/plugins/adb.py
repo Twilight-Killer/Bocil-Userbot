@@ -417,7 +417,7 @@ async def hapus_ubot(client, callback_query):
             )
 
 
-  async def status_callback_handler(client, callback_query):
+async def status_callback_handler(client, callback_query):
     user_id = callback_query.from_user.id
     username = callback_query.from_user.username
     name = callback_query.from_user.first_name + (" " + callback_query.from_user.last_name if callback_query.from_user.last_name else "")
