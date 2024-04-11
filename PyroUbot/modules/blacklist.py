@@ -18,7 +18,7 @@ __HELP__ = """
 """
 
 
-@PY.UBOT("addbll")
+@PY.UBOT("addbl")
 async def _(client, message):
     await add_blaclist(client, message)
 
