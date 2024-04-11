@@ -16,7 +16,7 @@ Pillow==10.3.0
 psutil
 pykeyboard
 pySmartDL
-pyromod==3.1.6
+pyromod==1.1.0
 pytz
 pymediainfo
 pymongo
