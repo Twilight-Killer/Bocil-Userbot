@@ -4,7 +4,7 @@ __MODULE__ = "blacklist"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʙʟᴀᴄᴋʟɪsᴛ 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}bladd</code>
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}addbll</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇᴍᴀsᴜᴋᴋᴀɴ ɢʀᴏᴜᴘ ᴋᴇ ᴅᴀꜰᴛᴀʀ ʜɪᴛᴀᴍ sᴜᴘᴀʏᴀ ɢᴄᴀsᴛ ᴋᴀʟɪᴀɴ ᴛɪᴅᴀᴋ ᴍᴀsᴜᴋ ᴋᴇ ɢʀᴏᴜᴘ
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unbl</code>
@@ -18,9 +18,9 @@ __HELP__ = """
 """
 
 
-@PY.UBOT("bladd")
+@PY.UBOT("addbl")
 async def _(client, message):
-    await add_blaclist(client, message)
+    await add_blacklist(client, message)
 
 
 @PY.UBOT("unbl")
