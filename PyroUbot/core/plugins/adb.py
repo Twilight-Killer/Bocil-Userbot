@@ -417,6 +417,15 @@ async def hapus_ubot(client, callback_query):
             )
 
 
+async def is_cancel(callback_query, text):
+    if text.startswith("/cancel"):
+        await bot.send_message(
+            callback_query.from_user.id, "<b>ᴍᴇᴍʙᴀᴛᴀʟᴋᴀɴ ᴘʀᴏsᴇs!</b>"
+        )
+        return True
+    return False
+
+
 async def status_callback_handler(client, callback_query):
     user_id = callback_query.from_user.id
     username = callback_query.from_user.username
