@@ -142,7 +142,7 @@ async def del_blacklist(client, message):
                 )
             del_blacklist = await remove_chat(client.me.id, chat_id)
             if del_blacklist:
-                return await Tm.edit(f"{chat_id}\n ᴋᴇᴛᴇʀᴀɴɢᴀɴ:ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs ᴅᴀʀɪ ᴅᴀғᴛᴀʀ ʜɪᴛᴀᴍ")
+                return await Tm.edit(f"{chat_id}\n\n ᴋᴇᴛᴇʀᴀɴɢᴀɴ:ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs ᴅᴀʀɪ ᴅᴀғᴛᴀʀ ʜɪᴛᴀᴍ")
             else:
                 return await Tm.edit("ᴛᴇʀᴊᴀᴅɪ ᴋᴇsᴀʟᴀʜᴀɴ ʏᴀɴɢ ᴛɪᴅᴀᴋ ᴅɪᴋᴇᴛᴀʜᴜɪ")
         except Exception as error:
