@@ -143,8 +143,8 @@ async def get_system_status():
         f"MEMORY: {memory_usage:.2f} MB"
     )
 
-    refresh_button = InlineKeyboardButton("Refresh", callback_data="refresh")
-    back_button = InlineKeyboardButton("Kembali", callback_data="menu")
+    refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
+    back_button = InlineKeyboardButton("ᴋᴇᴍʙᴀʟɪ", callback_data="menu")
     keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
 
     return status_message, keyboard
