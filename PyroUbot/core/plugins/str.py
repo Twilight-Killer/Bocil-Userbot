@@ -130,12 +130,15 @@ async def get_system_status():
     user_count = len(ubot._ubot)
     ping = (datetime.now() - start).microseconds / 1000
 
+    owner_name = "kuli gondrong"
+    owner_id = 843830036
+
     status_message = (
         f"🖥️ [SYSTEM UBOT]\n"
         f"PING: {ping} ms\n"
         f"UBOT: {user_count} user\n"
         f"UPTIME: {uptime}\n"
-        f"OWNER: None\n\n"
+        f"OWNER: [{owner_name}](tg://user?id={owner_id})\n\n"
         f"📊 [STATUS SERVER]\n"
         f"CPU: {cpu_percent}%\n"
         f"RAM: {ram_percent}%\n"
