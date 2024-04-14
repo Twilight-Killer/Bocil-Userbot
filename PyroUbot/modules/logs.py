@@ -22,32 +22,45 @@ __HELP__ = """
     & filters.incoming
     & ~filters.me
     & ~filters.bot
-    & ~filters.via_bot
     & ~filters.service, group=5
 )
-async def send_logs(client, message: Message):
+async def send_logs(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
     if logs and on_logs:
+        psn = f"{message.text}" 
         if message.chat.type == ChatType.PRIVATE:
             type = "ᴘʀɪᴠᴀᴛᴇ"
             from_user = message.chat
+            id_link = f"tg://openmessage?user_id={from_user.id}&message_id={message.id}"
         elif message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             type = "ɢʀᴏᴜᴘ"
             from_user = message.from_user
+            id_link = message.link
+            psn = f"{message.text}"
         rpk = f"[{from_user.first_name} {from_user.last_name or ''}](tg://user?id={from_user.id})"
-        link = f"[ᴋʟɪᴋ ᴅɪsɪɴɪ]({message.link})"
-        await client.send_message(
-            int(logs),
-            f"""
+        link = f"[ᴋʟɪɴᴋ ᴅɪsɪɴɪ]({id_link})"
+
+        if message.media:
+            if message.photo:
+                media_file_id = message.photo.file_id
+                await client.send_photo(int(logs), photo=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
+            elif message.video:
+                media_file_id = message.video.file_id()
+                await client.send_video(int(logs), video=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
+        else:
+            await client.send_message(
+                int(logs),
+                f"""
 <b>📩 ᴀᴅᴀ ᴘᴇsᴀɴ ᴍᴀsᴜᴋ</b>
     <b>•> ᴛɪᴘᴇ ᴘᴇsᴀɴ:</b> <code>{type}</code>
     <b>•> ʟɪɴᴋ ᴘᴇsᴀɴ:</b> {link}
+    <b>•> ᴘᴇsᴀɴ:</b> {psn}
     
 <b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
 """,
-        )
-
+              )
+          
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
     if len(message.command) < 2:
