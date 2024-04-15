@@ -265,26 +265,21 @@ async def cek_ubot(client, callback_query):
     )
 
 
-async def broadcast_bot(client, message: Message):
-    await message.delete()
-    kepo = message.from_user.id
-    if len(message.command) > 1:
-        text = " ".join(message.command[1:])
-    elif message.reply_to_message is not None:
-        text = message.reply_to_message.text
-    else:
-        return await message.reply(
-            "<code>Silakan sertakan pesan atau balas pesan yang ingin disiarkan.</code>"
-        )
-    psk = 0
+async def broadcast_bot(client, message):
+    msg = await message.reply("<b>sᴇᴅᴀɴɢ ᴅɪᴘʀᴏsᴇs ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ</b>", quote=True)
+    done = 0
+    if not message.reply_to_message:
+        return await msg.edit("<b>ᴍᴏʜᴏɴ ʙᴀʟᴀs ᴘᴇsᴀɴ</b>")
     for x in ubot._ubot:
-        user_id = x["user_id"]
-        try:
-            await bot.send_message(user_id, text)
-            psk += 1
-        except:
-            pass
-    return await message.reply(f"Berhasil mengirim pesan ke {psk} pengguna.")
+        if x.me.id != bot.me.id:  # Memastikan pengguna bukanlah bot itu sendiri
+            try:
+                await x.unblock_user(bot.me.username)
+                await message.reply_to_message.forward(x.me.id)
+                done += 1
+            except Exception:
+                pass
+    return await msg.edit(f"✅ ʙᴇʀʜᴀsɪʟ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ ᴋᴇ {done} ᴜʙᴏᴛ")
+
 
 async def next_prev_ubot(client, callback_query):
     query = callback_query.data.split()
