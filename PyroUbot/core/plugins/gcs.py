@@ -13,13 +13,15 @@ async def broadcast_group_cmd(client, message):
     success_emoji = "<emoji id=5021905410089550576>✅</emoji>"
     failure_emoji = "<emoji id=5019523782004441717>❌</emoji>"
     selesai_emoji = "<emoji id=5895735846698487922>🌐</emoji>"
+    reply_emoji = "<emoji id=6226230182806554486>🚫</emoji>"
 
     processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
     msg = await message.reply(processing_msg, quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit("Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
+        return await msg.edit(
+            f"<b>Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
