@@ -277,8 +277,7 @@ async def broadcast_bot(client, message: Message):
             "<code>Silakan sertakan pesan atau balas pesan yang ingin disiarkan.</code>"
         )
     psk = 0
-    hookk = await get_served_users()
-    for x in hookk:
+    for x in ubot._ubot:
         user_id = x["user_id"]
         try:
             await bot.send_message(user_id, text)
