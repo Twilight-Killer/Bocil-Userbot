@@ -27,46 +27,41 @@ invite_id = []
 
 
 async def inviteall_cmd(client, message):
-    Tm = await message.reply("<b>ᴘʀᴏᴄᴇssɪɴɢ . . .</b>")
     if len(message.command) < 3:
-        await message.delete()
-        return await Tm.delete()
-    try:
-        chat = await client.get_chat(message.command[1])
-    except Exception as error:
-        return await Tm.edit(error)
-    if message.chat.id in invite_id:
-        return await Tm.edit_text(
-            f"sᴇᴅᴀɴɢ ᴍᴇɴɢɪɴᴠɪᴛᴇ ᴍᴇᴍʙᴇʀ sɪʟᴀʜᴋᴀɴ ᴄᴏʙᴀ ʟᴀɢɪ ɴᴀɴᴛɪ ᴀᴛᴀᴜ ɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ: <code>{PREFIX[0]}cancel</code>"
-        )
-    else:
-        done = 0
-        failed = 0
-        invite_id.append(message.chat.id)
-        await Tm.edit_text(f"ᴍᴇɴɢᴜɴᴅᴀɴɢ ᴀɴɢɢᴏᴛᴀ ᴅᴀʀɪ {chat.title}")
-        async for member in client.get_chat_members(chat.id):
-            stats = [
-                UserStatus.ONLINE,
-                UserStatus.OFFLINE,
-                UserStatus.RECENTLY,
-                UserStatus.LAST_WEEK,
-            ]
-            if member.user.status in stats:
-                try:
-                    await client.add_chat_members(message.chat.id, member.user.id)
-                    done += 1
-                except Exception as e:
-                    failed += 1
-                await asyncio.sleep(int(message.command[2]))
-        invite_id.remove(message.chat.id)
-        await Tm.delete()
-        return await message.reply(
-            f"""
-<b>✅ <code>{done}</code> ᴀɴɢɢᴏᴛᴀ ʏᴀɴɢ ʙᴇʀʜᴀsɪʟ ᴅɪᴜɴᴅᴀɴɢ</b>
-<b>❌ <code>{failed}</code> ᴀɴɢɢᴏᴛᴀ ʏᴀɴɢ ɢᴀɢᴀʟ ᴅɪᴜɴᴅᴀɴɢ</b>
-"""
-        )
+        return await message.reply("<b>Usage:</b> <code>/inviteall {chat_id} {delay}</code>")
 
+    chat_id = message.command[1]
+    delay = int(message.command[2])
+
+    try:
+        chat = await client.get_chat(chat_id)
+    except Exception as e:
+        return await message.reply(f"Error: {e}")
+
+    if message.chat.id in invite_id:
+        return await message.reply("Invitation process is already running, please try again later or use /cancel")
+
+    invite_id.append(message.chat.id)
+    tm = await message.reply(f"Inviting members from {chat.title}...")
+
+    done = 0
+    failed = 0
+    async for member in client.iter_chat_members(chat.id):
+        if member.user.status in [
+            UserStatus.ONLINE,
+            UserStatus.OFFLINE,
+            UserStatus.RECENTLY,
+            UserStatus.LAST_WEEK,
+        ]:
+            try:
+                await client.add_chat_members(message.chat.id, member.user.id)
+                done += 1
+            except Exception as e:
+                failed += 1
+            await asyncio.sleep(delay)
+
+    invite_id.remove(message.chat.id)
+    await tm.edit(f"Invitation completed.\n\nSuccessfully invited: {done} members\nFailed to invite: {failed} members")
 
 async def cancel_cmd(client, message):
     if message.chat.id not in invite_id:
