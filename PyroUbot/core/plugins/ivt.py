@@ -1,18 +1,17 @@
 import asyncio
-
 from pyrogram.enums import UserStatus
 
 from PyroUbot import *
 
 
 async def invite_cmd(client, message):
-    mg = await message.reply("<b>ᴍᴇɴᴀᴍʙᴀʜᴋᴀɴ ᴘᴇɴɢɢᴜɴᴀ!</b>")
+    mg = await message.reply("<b>Menambahkan pengguna!</b>")
     if len(message.command) < 2:
         return await mg.delete()
     user_s_to_add = message.text.split(" ", 1)[1]
     if not user_s_to_add:
         await mg.edit(
-            "<b>ʙᴇʀɪ sᴀʏᴀ ᴘᴇɴɢɢᴜɴᴀ ᴜɴᴛᴜᴋ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ! ᴘᴇʀɪᴋsᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ɪɴꜰᴏ ʟᴇʙɪʜ ʟᴀɴᴊᴜᴛ!</b>"
+            "<b>Beri saya pengguna untuk ditambahkan! Periksa menu bantuan untuk info lebih lanjut!</b>"
         )
         return
     user_list = user_s_to_add.split(" ")
@@ -20,11 +19,9 @@ async def invite_cmd(client, message):
         await client.add_chat_members(message.chat.id, user_list, forward_limit=100)
     except Exception as e:
         return await mg.edit(f"{e}")
-    await mg.edit(f"<b>ʙᴇʀʜᴀsɪʟ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ {len(user_list)} ᴋᴇ ɢʀᴜᴘ ɪɴɪ</b>")
-
+    await mg.edit(f"<b>Berhasil ditambahkan {len(user_list)} ke grup ini</b>")
 
 invite_id = []
-
 
 async def inviteall_cmd(client, message):
     if len(message.command) < 3:
@@ -46,7 +43,7 @@ async def inviteall_cmd(client, message):
 
     done = 0
     failed = 0
-    async for member in client.iter_chat_members(chat.id):
+    async for member in await client.get_chat_members(chat.id):
         if member.user.status in [
             UserStatus.ONLINE,
             UserStatus.OFFLINE,
@@ -66,10 +63,10 @@ async def inviteall_cmd(client, message):
 async def cancel_cmd(client, message):
     if message.chat.id not in invite_id:
         return await message.reply_text(
-            f"sᴇᴅᴀɴɢ ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴘᴇʀɪɴᴛᴀʜ: <code>{PREFIX[0]}inviteall</code> ʏᴀɴɢ ᴅɪɢᴜɴᴀᴋᴀɴ"
+            f"sedang tidak ada perintah: <code>{PREFIX[0]}inviteall</code> yang digunakan"
         )
     try:
         invite_id.remove(message.chat.id)
-        await message.reply_text("ᴏᴋ ɪɴᴠɪᴛᴇᴀʟʟ ʙᴇʀʜᴀsɪʟ ᴅɪʙᴀᴛᴀʟᴋᴀɴ")
+        await message.reply_text("OK inviteall berhasil dibatalkan")
     except Exception as e:
         await message.reply_text(e)
