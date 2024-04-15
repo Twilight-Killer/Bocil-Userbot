@@ -1,17 +1,25 @@
 import asyncio
+
 from gc import get_objects
-
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import FloodWait
+from PyroUbot import bot, get_global_id, get_message, get_chat
 
-from PyroUbot import *
+from PyroUbot import*
 
 
 async def broadcast_group_cmd(client, message):
-    msg = await message.reply("<emoji id=5971865795582495562>🔺</emoji> sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ..." if client.me.is_premium else "sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ...", quote=True)
+    proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
+    success_emoji = "<emoji id=5021905410089550576>✅</emoji>"
+    failure_emoji = "<emoji id=5019523782004441717>❌</emoji>"
+    selesai_emoji = "<emoji id=5895735846698487922>🌐</emoji>"
+
+    processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
+    msg = await message.reply(processing_msg, quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit("<emoji id=6226399941388928924>👓</emoji> ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ" if client.me.is_premium else "ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ")
+        return await msg.edit("Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
@@ -30,7 +38,7 @@ async def broadcast_group_cmd(client, message):
                 await client.send_message(chat_id, send)
             done += 1
         except FloodWait as e:
-            await asyncio.sleep(e.value)
+            await asyncio.sleep(e.seconds)
             if message.reply_to_message:
                 await send.copy(chat_id)
             else:
@@ -41,17 +49,16 @@ async def broadcast_group_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b><emoji id=5895735846698487922>🌐</emoji> ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> <emoji id=5021905410089550576>✅</emoji> ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ɢʀᴏᴜᴘ</b>\n<b> <emoji id=5019523782004441717>❌</emoji> ɢᴀɢᴀʟ ᴋᴇ: {failed} ɢʀᴏᴜᴘ</b>" if client.me.is_premium else f"<b>❏ ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> ├ ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ɢʀᴏᴜᴘ</b>\n<b> ╰ ɢᴀɢᴀʟ ᴋᴇ: {failed} ɢʀᴏᴜᴘ</b>",
+        f"<b>{selesai_emoji} Pesan broadcast selesai</b>\n<b>{success_emoji} Berhasil ke: {done} grup</b>\n<b>{failure_emoji} Gagal ke: {failed} grup</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} grup</b>\n<b>╰ Gagal ke: {failed} grup</b>",
         quote=True,
     )
 
-
 async def broadcast_users_cmd(client, message):
-    msg = await message.reply("<emoji id=5971865795582495562>🔺</emoji> sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ..." if client.me.is_premium else "sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ...", quote=True)
+    msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit("<emoji id=6226399941388928924>👓</emoji> ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ" if client.me.is_premium else "ᴍᴏʜᴏɴ ʙᴀʟᴀs sᴇsᴜᴀᴛᴜ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ sᴇsᴜᴀᴛᴜ")
+        return await msg.edit("Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
 
     chats = await get_global_id(client, "users")
 
@@ -69,7 +76,7 @@ async def broadcast_users_cmd(client, message):
                 await client.send_message(chat_id, send)
             done += 1
         except FloodWait as e:
-            await asyncio.sleep(e.value)
+            await asyncio.sleep(e.seconds)
             if message.reply_to_message:
                 await send.copy(chat_id)
             else:
@@ -80,11 +87,9 @@ async def broadcast_users_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b><emoji id=5895735846698487922>🌐</emoji> ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> <emoji id=5021905410089550576>✅</emoji> ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ᴜsᴇʀs</b>\n<b> <emoji id=5019523782004441717>❌</emoji> ɢᴀɢᴀʟ ᴋᴇ: {failed} ᴜsᴇʀs</b>" if client.me.is_premium else f"<b>❏ ᴘᴇsᴀɴ ʙʀᴏᴀᴅᴄᴀsᴛ sᴇʟᴇsᴀɪ</b>\n<b> ├ ʙᴇʀʜᴀsɪʟ ᴋᴇ; {done} ᴜsᴇʀs</b>\n<b> ╰ ɢᴀɢᴀʟ ᴋᴇ: {failed} ᴜsᴇʀs</b>",
+        f"<b>Pesan broadcast selesai</b>\n<b>✅ Berhasil ke: {done} users</b>\n<b>❌ Gagal ke: {failed} users</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} users</b>\n<b>╰ Gagal ke: {failed} users</b>",
         quote=True,
     )
-
-
 
 async def send_msg_cmd(client, message):
     if message.reply_to_message:
@@ -92,7 +97,8 @@ async def send_msg_cmd(client, message):
             message.chat.id if len(message.command) < 2 else message.text.split()[1]
         )
         try:
-            if client.me.id != bot.me.id:
+            me = await client.get_me()
+            if me.id != bot.me.id:
                 if message.reply_to_message.reply_markup:
                     x = await client.get_inline_bot_results(
                         bot.me.username, f"get_send {id(message)}"
@@ -101,21 +107,20 @@ async def send_msg_cmd(client, message):
                         chat_id, x.query_id, x.results[0].id
                     )
         except Exception as error:
-            return await message.reply(error)
+            return await message.reply(str(error))
         else:
             try:
                 return await message.reply_to_message.copy(chat_id)
             except Exception as t:
-                return await message.reply(f"{t}")
+                return await message.reply(str(t))
     else:
         if len(message.command) < 3:
-            return await message.reply("ᴋᴇᴛɪᴋ ʏᴀɴɢ ʙᴇɴᴇʀ")
+            return await message.reply("Ketik yang benar")
         chat_id, chat_text = message.text.split(None, 2)[1:]
         try:
             return await client.send_message(chat_id, chat_text)
         except Exception as t:
-            return await message.reply(f"{t}")
-
+            return await message.reply(str(t))
 
 async def send_inline(client, inline_query):
     _id = int(inline_query.query.split()[1])
@@ -133,5 +138,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-        )
-
+    )
