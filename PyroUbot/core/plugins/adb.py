@@ -277,21 +277,15 @@ async def broadcast_bot(client, message: Message):
             "<code>Silakan sertakan pesan atau balas pesan yang ingin disiarkan.</code>"
         )
     psk = 0
-    atm = []
-    hoo = len(await get_served_users())
     hookk = await get_served_users()
     for x in hookk:
-            atm.append(int(x["user_id"]))
-    if OWNER_ID in atm:
-            atm.remove(OWNER_ID)
-    for i in atm:
+        user_id = x["user_id"]
         try:
-            await bot.send_message(i, text)
+            await bot.send_message(user_id, text)
             psk += 1
         except:
             pass
-    return await message.reply(f"Berhasil mengirim pesan ke {psk} pengguna, dari {hoo} pengguna.")
-
+    return await message.reply(f"Berhasil mengirim pesan ke {psk} pengguna.")
 
 async def next_prev_ubot(client, callback_query):
     query = callback_query.data.split()
