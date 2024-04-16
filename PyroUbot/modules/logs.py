@@ -16,7 +16,7 @@ __HELP__ = """
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴄʜᴀɴɴᴇʟ ʟᴏɢs
 """
 
-@ubo@ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
+@ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
 @ubot.on_message(
     filters.private
     & filters.incoming
