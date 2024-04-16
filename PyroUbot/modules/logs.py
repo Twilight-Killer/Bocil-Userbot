@@ -1,8 +1,20 @@
 from pyrogram import filters
+from pyrogram.types import Message
 from pyrogram.enums import ChatType
 from PyroUbot import PY, ubot, get_vars, set_vars
 
-from PyroUbot import*
+from PyroUbot import *
+
+__MODULE__ = "logs"
+__HELP__ = """
+<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴋᴀɴɢ 』</b>
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}logs</code> (on)
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴋᴛɪғᴋᴀɴ ᴀᴛᴀᴜ ᴍᴇɴɴᴏɴᴀᴋᴛɪғᴋᴀɴ ᴄʜᴀɴɴᴇʟ ʟᴏɢs
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}del logs</code> 
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴄʜᴀɴɴᴇʟ ʟᴏɢs
+"""
 
 @ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
 @ubo@ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
