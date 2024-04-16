@@ -5,6 +5,7 @@ from PyroUbot import PY, ubot, get_vars, set_vars
 from PyroUbot import*
 
 @ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
+@ubo@ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
 @ubot.on_message(
     filters.private
     & filters.incoming
@@ -29,11 +30,11 @@ async def send_logs(client, message):
 
         if message.media:
             caption = f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}"
-            if message.photo:
-                media_file_id = message.photo.file_id
-            elif message.video:
-                media_file_id = message.video.file_id
+            media_file_id = message.media.file_id
             try:
+                # Mengambil kembali file ID media dari pesan aslinya
+                media = await client.get_media(media_file_id)
+                media_file_id = media.file_id
                 await client.send_photo(int(logs), media_file_id, caption=caption)
             except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
                 await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")
