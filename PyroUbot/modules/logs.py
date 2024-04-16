@@ -28,6 +28,7 @@ async def send_logs(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
     if logs and on_logs:
+        psn = f"{message.text}" 
         if message.chat.type == ChatType.PRIVATE:
             type = "ᴘʀɪᴠᴀᴛᴇ"
             from_user = message.chat
@@ -36,19 +37,17 @@ async def send_logs(client, message):
             type = "ɢʀᴏᴜᴘ"
             from_user = message.from_user
             id_link = message.link
+            psn = f"{message.text}"
         rpk = f"[{from_user.first_name} {from_user.last_name or ''}](tg://user?id={from_user.id})"
         link = f"[ᴋʟɪɴᴋ ᴅɪsɪɴɪ]({id_link})"
 
         if message.media:
-            caption = f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}"
             if message.photo:
                 media_file_id = message.photo.file_id
+                await client.send_photo(int(logs), photo=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
             elif message.video:
                 media_file_id = message.video.file_id
-            try:
-                await client.send_photo(int(logs), media_file_id, caption=caption)
-            except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
-                await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")
+                await client.send_video(int(logs), video=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
         else:
             await client.send_message(
                 int(logs),
@@ -56,11 +55,11 @@ async def send_logs(client, message):
 <b>📩 ᴀᴅᴀ ᴘᴇsᴀɴ ᴍᴀsᴜᴋ</b>
     <b>•> ᴛɪᴘᴇ ᴘᴇsᴀɴ:</b> <code>{type}</code>
     <b>•> ʟɪɴᴋ ᴘᴇsᴀɴ:</b> {link}
-    <b>•> ᴘᴇsᴀɴ:</b> {message.text}
+    <b>•> ᴘᴇsᴀɴ:</b> {psn}
     
-<b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
+<b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
 """,
-            )
+              )
           
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
