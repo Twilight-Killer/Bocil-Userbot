@@ -273,7 +273,7 @@ async def broadcast_bot(client, message):
     for x in ubot._ubot:
         try:
             await x.unblock_user(client.me.username)
-            await message.reply_to_message.forward(x.id)
+            await message.reply_to_message.forward(x)
             done += 1
         except pyrogram.errors.exceptions.UserIsBlocked:
             pass
