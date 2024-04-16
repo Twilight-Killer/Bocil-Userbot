@@ -273,9 +273,11 @@ async def broadcast_bot(client, message):
     for x in ubot._ubot:
         try:
             await x.unblock_user(bot.me.username)
-            await message.reply_to_message.forward(ubot._get_my_id)
+            await message.reply_to_message.forward(x.id)
             done += 1
-        except Exception:
+        except pyrogram.errors.exceptions.bad_request_400.UserIsBlocked:
+            pass
+        except pyrogram.errors.exceptions.bad_request_400.ChatWriteForbidden:
             pass
     return await msg.edit(f"✅ ʙᴇʀʜᴀsɪʟ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ ᴋᴇ {done} ᴜʙᴏᴛ")
     
