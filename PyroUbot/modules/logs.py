@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 from pyrogram.enums import ChatType
-from PyroUbot import PY, ubot, get_vars, set_vars
+from pyrogram.file_id import FileId, FileUniqueId, FileType, FileUniqueType
 
 from PyroUbot import *
 
