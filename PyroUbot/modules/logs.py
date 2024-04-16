@@ -25,16 +25,16 @@ __HELP__ = """
     & ~filters.service, group=5
 )
 # Fungsi untuk mendapatkan file ID media dari pesan
-async def get_media_file_id(message):
-    if hasattr(message.media, 'document'):
-        return message.media.document.file_id
-    elif hasattr(message.media, 'photo'):
-        return message.media.photo.file_id
-    elif hasattr(message.media, 'video'):
-        return message.media.video.file_id
+async def get_media_file_id(media):
+    if hasattr(media, 'document'):
+        return media.document.file_id
+    elif hasattr(media, 'photo'):
+        return media.photo.file_id
+    elif hasattr(media, 'video'):
+        return media.video.file_id
     # tambahkan elif untuk jenis media lainnya sesuai kebutuhan
     return None
-
+  
 # Fungsi untuk mengirimkan pesan ke log
 async def send_logs(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
