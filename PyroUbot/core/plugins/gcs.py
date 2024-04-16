@@ -3,7 +3,6 @@ import asyncio
 from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import FloodWait
-from PyroUbot import bot, get_global_id, get_message, get_chat
 
 from PyroUbot import*
 
