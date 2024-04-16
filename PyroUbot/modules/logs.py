@@ -24,22 +24,11 @@ __HELP__ = """
     & ~filters.bot
     & ~filters.service, group=5
 )
-# Fungsi untuk mendapatkan file ID media dari pesan
-async def get_media_file_id(media):
-    if hasattr(media, 'document'):
-        return media.document.file_id
-    elif hasattr(media, 'photo'):
-        return media.photo.file_id
-    elif hasattr(media, 'video'):
-        return media.video.file_id
-    # tambahkan elif untuk jenis media lainnya sesuai kebutuhan
-    return None
-  
-# Fungsi untuk mengirimkan pesan ke log
 async def send_logs(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
     if logs and on_logs:
+        psn = f"{message.text}" 
         if message.chat.type == ChatType.PRIVATE:
             type = "ᴘʀɪᴠᴀᴛᴇ"
             from_user = message.chat
@@ -48,12 +37,17 @@ async def send_logs(client, message):
             type = "ɢʀᴏᴜᴘ"
             from_user = message.from_user
             id_link = message.link
+            psn = f"{message.text}"
         rpk = f"[{from_user.first_name} {from_user.last_name or ''}](tg://user?id={from_user.id})"
         link = f"[ᴋʟɪɴᴋ ᴅɪsɪɴɪ]({id_link})"
 
-        media_file_id = await get_media_file_id(message)
-        if media_file_id:
-            caption = f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}"
+        if message.media:
+            if message.photo:
+                media_file_id = message.photo.file_id
+                await client.send_photo(int(logs), photo=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
+            elif message.video:
+                media_file_id = message.video.file_id()
+                await client.send_video(int(logs), video=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
             try:
                 await client.send_photo(int(logs), media_file_id, caption=caption)
             except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
@@ -65,12 +59,12 @@ async def send_logs(client, message):
 <b>📩 ᴀᴅᴀ ᴘᴇsᴀɴ ᴍᴀsᴜᴋ</b>
     <b>•> ᴛɪᴘᴇ ᴘᴇsᴀɴ:</b> <code>{type}</code>
     <b>•> ʟɪɴᴋ ᴘᴇsᴀɴ:</b> {link}
-    <b>•> ᴘᴇsᴀɴ:</b> {message.text}
+    <b>•> ᴘᴇsᴀɴ:</b> {psn}
     
-<b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
+<b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
 """,
-            )
-
+              )
+          
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
     if len(message.command) < 2:
