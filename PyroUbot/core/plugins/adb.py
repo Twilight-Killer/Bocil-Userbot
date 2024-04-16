@@ -272,15 +272,14 @@ async def broadcast_bot(client, message):
         return await msg.edit("<b>ᴍᴏʜᴏɴ ʙᴀʟᴀs ᴘᴇsᴀɴ</b>")
     for x in ubot._ubot:
         try:
-            await x.unblock_user(bot.me.username)
+            await x.unblock_user(client.me.username)
             await message.reply_to_message.forward(x.id)
             done += 1
-        except pyrogram.errors.exceptions.bad_request_400.UserIsBlocked:
+        except pyrogram.errors.exceptions.UserIsBlocked:
             pass
-        except pyrogram.errors.exceptions.bad_request_400.ChatWriteForbidden:
+        except pyrogram.errors.exceptions.ChatWriteForbidden:
             pass
     return await msg.edit(f"✅ ʙᴇʀʜᴀsɪʟ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ ᴋᴇ {done} ᴜʙᴏᴛ")
-    
 
 async def next_prev_ubot(client, callback_query):
     query = callback_query.data.split()
