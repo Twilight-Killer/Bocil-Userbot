@@ -43,7 +43,7 @@ async def inviteall_cmd(client, message):
 
     done = 0
     failed = 0
-    async for member in await client.get_chat_members(chat.id):
+    async for member in client.get_chat_members(chat.id):
         if member.user.status in [
             UserStatus.ONLINE,
             UserStatus.OFFLINE,
