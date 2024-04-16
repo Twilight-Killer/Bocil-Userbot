@@ -53,7 +53,7 @@ async def send_logs(client, message):
         try:
             await client.send_video(int(logs), video=file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
         except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
-            await client.send_message(message.chat.id, "❌Maaf, bot tidak bisa menerima media dari grup Anda karena dibatasi❌")
+            await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")")
     else:
         await client.send_message(
             int(logs),
