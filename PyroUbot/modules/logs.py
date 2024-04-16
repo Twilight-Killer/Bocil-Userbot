@@ -49,7 +49,7 @@ async def send_logs(client, message):
                 except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
                     await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")
             elif message.video:
-                media_file_id = message.video.file_id()
+                media_file_id = message.video.file_id
                 try:
                     await client.send_video(int(logs), video=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
                 except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
