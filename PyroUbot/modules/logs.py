@@ -24,6 +24,18 @@ __HELP__ = """
     & ~filters.bot
     & ~filters.service, group=5
 )
+# Fungsi untuk mendapatkan file ID media dari pesan
+async def get_media_file_id(message):
+    if hasattr(message.media, 'document'):
+        return message.media.document.file_id
+    elif hasattr(message.media, 'photo'):
+        return message.media.photo.file_id
+    elif hasattr(message.media, 'video'):
+        return message.media.video.file_id
+    # tambahkan elif untuk jenis media lainnya sesuai kebutuhan
+    return None
+
+# Fungsi untuk mengirimkan pesan ke log
 async def send_logs(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
@@ -39,13 +51,10 @@ async def send_logs(client, message):
         rpk = f"[{from_user.first_name} {from_user.last_name or ''}](tg://user?id={from_user.id})"
         link = f"[ᴋʟɪɴᴋ ᴅɪsɪɴɪ]({id_link})"
 
-        if message.media:
+        media_file_id = await get_media_file_id(message)
+        if media_file_id:
             caption = f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}"
-            media_file_id = message.media.file_id
             try:
-                # Mengambil kembali file ID media dari pesan aslinya
-                media = await client.get_media(media_file_id)
-                media_file_id = media.file_id
                 await client.send_photo(int(logs), media_file_id, caption=caption)
             except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
                 await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")
@@ -61,7 +70,6 @@ async def send_logs(client, message):
 <b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
 """,
             )
-
 
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
