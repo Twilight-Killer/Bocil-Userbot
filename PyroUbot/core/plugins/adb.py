@@ -273,13 +273,15 @@ async def broadcast_bot(client, message):
     for x in ubot._ubot:
         try:
             await x.unblock_user(client.me.username)
-            await message.reply_to_message.forward(x)
+            chat = x.chat  # Mendapatkan objek chat yang valid
+            await message.reply_to_message.forward(chat)
             done += 1
         except pyrogram.errors.exceptions.UserIsBlocked:
             pass
         except pyrogram.errors.exceptions.ChatWriteForbidden:
             pass
     return await msg.edit(f"✅ ʙᴇʀʜᴀsɪʟ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ ᴋᴇ {done} ᴜʙᴏᴛ")
+    
 
 async def next_prev_ubot(client, callback_query):
     query = callback_query.data.split()
