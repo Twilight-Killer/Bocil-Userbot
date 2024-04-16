@@ -1,20 +1,8 @@
 from pyrogram import filters
-from pyrogram.types import Message
-from pyrogram.enums import ChatType
+from pyrogram.types import ChatType
 from PyroUbot import PY, ubot, get_vars, set_vars
 
-from PyroUbot import *
-
-__MODULE__ = "logs"
-__HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴋᴀɴɢ 』</b>
-
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}logs</code> (on)
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴋᴛɪғᴋᴀɴ ᴀᴛᴀᴜ ᴍᴇɴɴᴏɴᴀᴋᴛɪғᴋᴀɴ ᴄʜᴀɴɴᴇʟ ʟᴏɢs
-
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}del logs</code> 
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴄʜᴀɴɴᴇʟ ʟᴏɢs
-"""
+from PyroUbot import*
 
 @ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
 @ubot.on_message(
@@ -28,7 +16,6 @@ async def send_logs(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
     if logs and on_logs:
-        psn = f"{message.text}" 
         if message.chat.type == ChatType.PRIVATE:
             type = "ᴘʀɪᴠᴀᴛᴇ"
             from_user = message.chat
@@ -37,17 +24,19 @@ async def send_logs(client, message):
             type = "ɢʀᴏᴜᴘ"
             from_user = message.from_user
             id_link = message.link
-            psn = f"{message.text}"
         rpk = f"[{from_user.first_name} {from_user.last_name or ''}](tg://user?id={from_user.id})"
         link = f"[ᴋʟɪɴᴋ ᴅɪsɪɴɪ]({id_link})"
 
         if message.media:
+            caption = f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}"
             if message.photo:
                 media_file_id = message.photo.file_id
-                await client.send_photo(int(logs), photo=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
             elif message.video:
                 media_file_id = message.video.file_id
-                await client.send_video(int(logs), video=media_file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
+            try:
+                await client.send_photo(int(logs), media_file_id, caption=caption)
+            except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
+                await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")
         else:
             await client.send_message(
                 int(logs),
@@ -55,12 +44,13 @@ async def send_logs(client, message):
 <b>📩 ᴀᴅᴀ ᴘᴇsᴀɴ ᴍᴀsᴜᴋ</b>
     <b>•> ᴛɪᴘᴇ ᴘᴇsᴀɴ:</b> <code>{type}</code>
     <b>•> ʟɪɴᴋ ᴘᴇsᴀɴ:</b> {link}
-    <b>•> ᴘᴇsᴀɴ:</b> {psn}
+    <b>•> ᴘᴇsᴀɴ:</b> {message.text}
     
-<b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
+<b>⤵️ ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}</b>
 """,
-              )
-          
+            )
+
+
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
     if len(message.command) < 2:
