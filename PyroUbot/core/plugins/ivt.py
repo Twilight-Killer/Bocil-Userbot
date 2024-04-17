@@ -6,9 +6,10 @@ from PyroUbot import *
 
 async def invite_cmd(client, message):
     mg = await message.reply("<b>Menambahkan pengguna!</b>")
-    if len(message.command) < 2:
+    user_s_to_add = message.text.split(" ", 1)
+    if len(user_s_to_add) < 2:
         return await mg.delete()
-    user_s_to_add = message.text.split(" ", 1)[1]
+    user_s_to_add = user_s_to_add[1]
     if not user_s_to_add:
         await mg.edit(
             "<b>Beri saya pengguna untuk ditambahkan! Periksa menu bantuan untuk info lebih lanjut!</b>"
@@ -28,7 +29,10 @@ async def inviteall_cmd(client, message):
         return await message.reply("<b>Usage:</b> <code>/inviteall {chat_id} {delay}</code>")
 
     chat_id = message.command[1]
-    delay = int(message.command[2])
+    try:
+        delay = int(message.command[2])
+    except ValueError:
+        return await message.reply("Delay harus berupa bilangan bulat.")
 
     try:
         chat = await client.get_chat(chat_id)
@@ -43,7 +47,7 @@ async def inviteall_cmd(client, message):
 
     done = 0
     failed = 0
-    async for member in client.get_chat_members(chat.id):
+    async for member in client.iter_chat_members(chat.id):
         if member.user.status in [
             UserStatus.ONLINE,
             UserStatus.OFFLINE,
@@ -63,10 +67,10 @@ async def inviteall_cmd(client, message):
 async def cancel_cmd(client, message):
     if message.chat.id not in invite_id:
         return await message.reply_text(
-            f"sedang tidak ada perintah: <code>{PREFIX[0]}inviteall</code> yang digunakan"
+            "Tidak ada perintah inviteall yang sedang berjalan di grup ini."
         )
     try:
         invite_id.remove(message.chat.id)
-        await message.reply_text("OK inviteall berhasil dibatalkan")
+        await message.reply_text("Proses inviteall berhasil dibatalkan.")
     except Exception as e:
         await message.reply_text(e)
