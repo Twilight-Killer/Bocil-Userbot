@@ -83,7 +83,7 @@ class Button:
                 [InlineKeyboardButton("🔥 ʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ 🔥", callback_data="bahan")],
                 [
                     InlineKeyboardButton("🛠️ ɢɪᴛᴘᴜʟʟ", callback_data="gitpull"),
-                    InlineKeyboardButton("ʀᴇsᴛᴀʀᴛ 🔁", callback_data="restart$"),
+                    InlineKeyboardButton("ʀᴇsᴛᴀʀᴛ 🔁", callback_data="restart"),
                 ],
                 [
                     InlineKeyboardButton("🤖 ʟɪsᴛ ᴜsᴇʀʙᴏᴛ 🤖", callback_data="cek_ubot"),
