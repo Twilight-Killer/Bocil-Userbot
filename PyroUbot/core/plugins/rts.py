@@ -59,7 +59,7 @@ async def login_cmd(client, message):
         return await info.edit(f"<code>{error}</code>")
 
 
-@PY.CALLBACK("restart")
+@PY.CALLBACK("control")
 @INLINE.DATA
 async def restart_confirm_callback(client, callback_query):
     user_id = callback_query.from_user.id
@@ -79,7 +79,7 @@ async def restart_confirm_callback(client, callback_query):
                             )
                         # Tambahkan tombol "Kembali"
                         back_button = InlineKeyboardButton("Kembali", callback_data="menu")
-                        restart_button = InlineKeyboardButton("Restart", callback_data="restart")
+                        restart_button = InlineKeyboardButton("Restart", callback_data="control")
                         keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
                         await callback_query.edit_message_text(
                             f"<b>🇲🇨 ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b>",
