@@ -2,7 +2,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import *
 
-@PY.BOT("control")
+@PY.BOT("menu")
 async def start_command(client, message):
     start_message = "𝐬𝐢𝐥𝐚𝐤𝐚𝐧 𝐩𝐢𝐥𝐢𝐡 𝐩𝐞𝐫𝐢𝐧𝐭𝐚𝐡 𝐲𝐚𝐧𝐠 𝐢𝐧𝐠𝐢𝐧 𝐚𝐧𝐝𝐚 𝐠𝐮𝐧𝐚𝐤𝐚𝐧 ⏬"
     menu_button = InlineKeyboardButton("𝐦𝐞𝐧𝐮", callback_data="menu")
@@ -43,7 +43,7 @@ async def menu_callback(client, callback_query):
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("sᴛᴀᴛs 🇲🇨", callback_data="stats")],
         [InlineKeyboardButton("ᴅᴀɴᴀ 💳", callback_data="command1"),
-         InlineKeyboardButton("ʀᴇsᴛᴀʀᴛ ✅", callback_data="restart")],
+         InlineKeyboardButton("ʀᴇsᴛᴀʀᴛ ✅", callback_data="control")],
         [InlineKeyboardButton("ʙᴇʟɪ ʙᴏᴛ 📩", callback_data="command3"),
          InlineKeyboardButton("ᴍᴇᴍᴇᴋ", callback_data="command4")],
         [InlineKeyboardButton("🔁", callback_data="back")]
