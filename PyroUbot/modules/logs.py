@@ -71,26 +71,31 @@ async def send_logs(client, message):
 async def set_logs(client, message: Message):
     if len(message.command) < 2:
         return await message.reply(
-            "Harap baca menu bantuan untuk mengetahui cara penggunaan"
+            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢụ"
         )
 
+    query = {"on": True}
     command = message.command[1].lower()
 
-    if command != "on":
-        return await message.reply("Opsi tidak valid. Harap gunakan 'on'.")
+    if command not in query:
+        return await message.reply("ᴏᴘsɪ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ. ʜᴀʀᴀᴘ ɢᴜɴᴀᴋᴀɴ 'on'.")
 
-    logs = await create_logs(client)
-    await set_vars(client.me.id, "ID_LOGS", logs.id)
-    await set_vars(client.me.id, "ON_LOGS", True)
-    
+    value = query[command]
+
+    vars = await get_vars(client.me.id, "ID_LOGS")
+
+    if not vars:
+        logs = await create_logs(client)
+        await set_vars(client.me.id, "ID_LOGS", logs)
+
+    await set_vars(client.me.id, "ON_LOGS", value)
     return await message.reply(
-        f"<b>✅ <code>LOGS</code> berhasil diaktifkan</b>"
+        f"<b>✅ <code>LOGS</code> ʙᴇʀʜᴀsɪʟ ᴅɪsᴇᴛᴛɪɴɢ ᴋᴇ:</b> <code>{value}</code>"
     )
 
 @PY.UBOT("del logs")
 async def del_logs(client, message: Message):
     logs = await get_vars(client.me.id, "ID_LOGS")
-    
     if not logs:
         return await message.reply("Logs belum diatur.")
 
@@ -98,18 +103,15 @@ async def del_logs(client, message: Message):
         await client.leave_chat(int(logs))
         await set_vars(client.me.id, "ID_LOGS", None)
         await set_vars(client.me.id, "ON_LOGS", False)
-        return await message.reply("Logs berhasil dihapus❌")
+        return await message.reply("ʟᴏɢs ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs❌")
     except Exception as e:
         return await message.reply(f"Gagal menghapus logs: {e}")
 
 async def create_logs(client):
-    photo_url = "https://graph.org/file/5b61f029143eadf42020e.jpg"  # URL foto profil saluran log
-    photo_path = await client.download_media(photo_url)
-    
+    url = wget.download("https://graph.org/file/5b61f029143eadf42020e.jpg")
     logs = await client.create_channel(f"logs: {client.me.username}")
     await client.set_chat_photo(
         logs.id,
-        photo=photo_path,
+        photo=url,
     )
-    
-    return logs
+    return logs.id
