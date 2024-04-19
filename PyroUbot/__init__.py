@@ -1,9 +1,7 @@
 import logging
 import os
 import re
-import asyncio
 import uvloop
-uvloop.install()
 
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
