@@ -12,8 +12,8 @@ from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
 
-
-logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
+# Konfigurasi logging
+logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 max_retries = 3
@@ -26,12 +26,12 @@ while retries < max_retries:
         logger.error(f"Terjadi kesalahan: {e}")
         retries += 1
         if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
+            logger.info(f"Mencoba kembali... (percobaan ke-{retries})")
         else:
-            print("Gagal setelah beberapa percobaan.")
+            logger.error("Gagal setelah beberapa percobaan.")
             break
 
-
+# Kelas Bot dengan logging
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs) 
@@ -52,7 +52,7 @@ class Bot(Client):
     async def start(self):
         await super().start()
 
-
+# Kelas Ubot dengan logging
 class Ubot(Client):
     _ubot = []
     _prefix = {}
@@ -131,12 +131,14 @@ class Ubot(Client):
         self._ubot.append(self)
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
-              f"Bot name: {self.me.first_name}\n"
-              f"Bot username: {self.me.username}\n"
-              f"prefix: {', '.join(self._prefix[self.me.id])}\n")
+        logger.info(
+            f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
+            f"Bot name: {self.me.first_name}\n"
+            f"Bot username: {self.me.username}\n"
+            f"prefix: {', '.join(self._prefix[self.me.id])}\n"
+        )
 
-
+# Inisialisasi bot dan ubot
 bot = Bot(
     name="bot",
     api_id=API_ID,
@@ -145,7 +147,7 @@ bot = Bot(
 )
 ubot = Ubot(name="ubot")
 
-
+# Import modul lainnya
 from PyroUbot.core.database import *
 from PyroUbot.core.function import *
 from PyroUbot.core.helpers import *
