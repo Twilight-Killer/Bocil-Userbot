@@ -13,7 +13,7 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
-logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 max_retries = 3
