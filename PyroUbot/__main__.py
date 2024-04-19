@@ -43,7 +43,6 @@ async def main():
         for _ubot in await get_userbots()
     ]
     await asyncio.gather(*tasks)
-    await bot.start()
     await asyncio.gather(loadPlugins(), installPeer(), expiredUserbots())
     await idle()
 
