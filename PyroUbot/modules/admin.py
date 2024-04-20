@@ -18,6 +18,9 @@ __HELP__ = """
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unban</code> [ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ/ʀᴇᴘʟʏ ᴜsᴇʀ]
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʟᴇᴘᴀs ᴘᴇᴍʙɪsᴜᴀɴ ᴀɴɢɢᴏᴛᴀ ᴅᴀʀɪ ɢʀᴜᴘ
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}staff</code>
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴅᴀꜰᴛᴀʀ sᴇᴍᴜᴀ ᴀᴅᴍɪɴ ᴅɪᴅᴀʟᴀᴍ ɢʀᴜᴘ
 """
 
 
@@ -44,3 +47,8 @@ async def _(client, message):
 @PY.UBOT("unban", FILTERS.ME_GROUP)
 async def _(client, message):
     await admin_unban(client, message)
+
+
+@PY.UBOT("staff")
+async def _(client, message):
+    await staff_cmd(client, message)
