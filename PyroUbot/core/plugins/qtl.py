@@ -28,20 +28,19 @@ async def quotly_cmd(client, message):
         try:
             for x in msg:
                 await x.forward("@QuotLyBot")
-        except Exception as error:
-            return await info.edit(str(error))
-
+        except Exception:
+            pass
         await asyncio.sleep(9)
         await info.delete()
-        async for quotly in client.iter_history("@QuotLyBot", limit=1):
+        async for quotly in client.get_chat_history("@QuotLyBot", limit=1):
             if not quotly.sticker:
-                return await message.reply(
-                    "❌ @QuotLyBot ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴍᴇʀᴇsᴘᴏɴ ᴘᴇʀᴍɪɴᴛᴀᴀɴ", quote=True
+                await message.reply(
+                    f"❌ @QuotLyBot ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴍᴇʀᴇsᴘᴏɴ ᴘᴇʀᴍɪɴᴛᴀᴀɴ", quote=True
                 )
-
-            sticker = await quotly.download()
-            await message.reply_sticker(sticker, quote=True)
-            os.remove(sticker)
+            else:
+                sticker = await client.download_media(quotly)
+                await message.reply_sticker(sticker, quote=True)
+                os.remove(sticker)
     else:
         if len(message.command) < 2:
             return await info.edit("<b>ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ/ᴍᴇᴅɪᴀ</b>")
@@ -50,13 +49,9 @@ async def quotly_cmd(client, message):
                 "@QuotLyBot", f"/qcolor {message.command[1]}"
             )
             await asyncio.sleep(1)
-            get = await msg.reply_to_message
+            get = await client.get_messages("@QuotLyBot", msg.id + 1)
             await info.edit(
                 f"<b>ᴡᴀʀɴᴀ ʟᴀᴛᴀʀ ʙᴇʟᴀᴋᴀɴɢ ᴋᴜᴛɪᴘᴀɴ ᴅɪsᴇᴛᴇʟ ᴋᴇ:</b> <code>{get.text.split(':')[1]}</code>"
             )
-
     user_info = await client.resolve_peer("@QuotLyBot")
-    return await client.send(DeleteHistory(peer=user_info, max_id=0, revoke=True))
-
-    # Balasan juga dikirim kembali ke grup atau pengguna yang memicu perintah
-    await message.reply("Pesannya telah diteruskan ke grup atau pengguna lain.")
+    return await client.invoke(DeleteHistory(peer=user_info, max_id=0, revoke=True))
