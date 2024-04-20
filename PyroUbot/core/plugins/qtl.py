@@ -57,3 +57,6 @@ async def quotly_cmd(client, message):
 
     user_info = await client.resolve_peer("@QuotLyBot")
     return await client.send(DeleteHistory(peer=user_info, max_id=0, revoke=True))
+
+    # Balasan juga dikirim kembali ke grup atau pengguna yang memicu perintah
+    await message.reply("Pesannya telah diteruskan ke grup atau pengguna lain.")
