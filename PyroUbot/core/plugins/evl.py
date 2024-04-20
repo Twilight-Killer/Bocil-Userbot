@@ -51,8 +51,14 @@ async def handle_restart(message):
 
 
 async def handle_update(message):
-    subprocess.Popen(["git", "pull"])
-    await message.reply("✅ Update sedang diproses", quote=True)
+    process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, error = process.communicate()
+    
+    if error:
+        await message.reply(f"❌ Terjadi kesalahan saat melakukan update:\n{error.decode()}", quote=True)
+    else:
+        update_info = output.decode()
+        await message.reply(f"✅ Update selesai. Perubahan yang di-update:\n{update_info}", quote=True)
 
 
 async def handle_clean(message):
