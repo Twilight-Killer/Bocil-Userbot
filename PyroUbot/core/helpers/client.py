@@ -1,5 +1,5 @@
 from pyrogram import filters
-from pyrogram.types import ChatType
+from pyrogram.enums import ChatType
 from PyroUbot import *
 
 
