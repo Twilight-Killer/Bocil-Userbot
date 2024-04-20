@@ -51,14 +51,14 @@ async def handle_restart(message):
 
 
 async def handle_update(message):
-    process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    output, error = process.communicate()
-    
-    if error:
-        await message.reply(f"❌ Terjadi kesalahan saat melakukan update:\n{error.decode()}", quote=True)
+    out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
+    if "Already up to date." in str(out):
+        return await message.reply(out, quote=True)
+    elif int(len(str(out))) > 4096:
+        await send_large_output(message, out)
     else:
-        update_info = output.decode()
-        await message.reply(f"✅ Update selesai. Perubahan yang di-update:\n{update_info}", quote=True)
+        await message.reply(f"```{out}```", quote=True)
+    os.execl(sys.executable, sys.executable, "-m", "PyroUbot")
 
 
 async def handle_clean(message):
