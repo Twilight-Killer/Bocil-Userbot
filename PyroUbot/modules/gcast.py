@@ -2,7 +2,7 @@ from PyroUbot import *
 
 __MODULE__ = "gcast"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ɢᴄᴀsᴛ 』</b>
+<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ɢᴄᴀsᴛ&&ɢʟᴏʙᴀʟ 』</b>
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ucast</code> [ᴛᴇxᴛ/ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ/ᴍᴇᴅɪᴀ]
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ ᴋᴇ sᴇᴍᴜᴀ ᴜsᴇʀ
@@ -20,6 +20,12 @@ __HELP__ = """
         <b>DELAY - ᴀɴɢᴋᴀ:</b> ᴜɴᴛᴜᴋ ᴍᴇʀᴜʙᴀʜ ᴅᴜʀᴀsɪ ᴅᴇʟᴀʏ ᴘᴀᴅᴀ sᴇᴛɪᴀᴘ ᴘᴜᴛᴀʀᴀɴ ɢᴄᴀsᴛ ᴏᴛᴏᴍᴀᴛɪs
         <b>LIMIT - ON/OFF:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴋᴛɪғᴋᴀɴ ᴅᴀɴ ᴍᴇɴᴏɴᴀᴋᴛɪғᴋᴀɴ ғᴜɴɢsɪ ᴄsᴋ ʟɪᴍɪᴛ ᴏᴛᴏᴍᴀᴛɪs sᴇᴛɪᴀᴘ 𝟷𝟻 ᴍᴇɴɪᴛ
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢɪʀɪᴍᴋᴀɴ ᴘᴇsᴀɴ ɢᴄᴀsᴛ sᴇᴄᴀʀᴀ ᴏᴛᴏᴍᴀᴛɪs
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}gban</ᴄᴏᴅᴇ> [ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ/ʀᴇᴘʟʏ ᴛᴏ ᴜsᴇʀ]
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ʙᴀɴɴᴇᴅ ᴜsᴇʀ ᴅᴀʀɪ sᴇᴍᴜᴀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ 
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ungban</code> [ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ/ʀᴇᴘʟʏ ᴛᴏ ᴜsᴇʀ]
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴜɴʙᴀɴɴᴇᴅ ᴜsᴇʀ ᴅᴀʀɪ sᴇᴍᴜᴀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ
 """
 
 
@@ -43,6 +49,17 @@ async def _(client, message):
 @INLINE.QUERY
 async def _(client, inline_query):
     await send_inline(client, inline_query)
+
+
+@PY.UBOT("gban")
+async def _(client, message):
+    await global_banned(client, message)
+
+
+@PY.UBOT("ungban")
+async def _(client, message):
+    await global_unbanned(client, message)
+  
 
 AG = []
 LT = []
