@@ -8,7 +8,7 @@ class FILTERS:
     ME = filters.me
     GROUP = filters.group
     PRIVATE = filters.private
-    OWNER = filters.user([843830036, OWNER_ID])
+    OWNER = filters.user([OWNER_ID])
     ME_GROUP = filters.me & filters.group
     ME_OWNER = filters.me & filters.user(OWNER_ID)
 
@@ -45,12 +45,12 @@ class PY:
         return wrapper
 
     @staticmethod
-    def UBOT(command, filter=filters.group | filters.channel, SUDO=True):
+    def UBOT(command, filter=FILTERS.ME, SUDO=True):
         def decorator(func):
             @ubot.on_message(
                 ubot.cmd_prefix(command) & filter
                 if not SUDO
-                else ubot.cmd_prefix(command)
+                else ubot.cmd_prefix(command) & (filter | filters.channel)
             )
             async def wrapped_func(client, message):
                 user = message.from_user or message.sender_chat
@@ -96,7 +96,7 @@ class PY:
             rpk = f"<a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a>"
             if not message.chat.type == ChatType.PRIVATE:
                 return await message.reply(
-                    f"<b>❌ Maaf {rpk}, perintah ini hanya berfungsi di private.</b>",
+                    f"<b>❌ ᴍᴀᴀғ {rpk}, ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʜᴀɴʏᴀ ʙᴇʀғᴜɴɢsɪ ᴅɪ ᴘʀɪᴠᴀᴛᴇ.</b>",
                     quote=True,
                 )
             return await func(client, message)
