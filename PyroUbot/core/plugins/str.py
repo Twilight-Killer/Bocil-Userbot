@@ -113,6 +113,7 @@ async def start_cmd(client, message):
             except Exception as error:
                 await send.edit(error)
 
+
 async def get_system_status():
     cpu_percent = psutil.cpu_percent()
     ram_percent = psutil.virtual_memory().percent
@@ -139,10 +140,18 @@ async def get_system_status():
     f"RAM: {ram_percent}%\n"
     f"DISK: {disk_percent}%\n"
     f"MEMORY: {memory_usage:.2f} MB"
-)
+    )
 
-refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
-back_button = InlineKeyboardButton("ᴋᴇᴍʙᴀʟɪ", callback_data="menu")
-keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
+    refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
+    back_button = InlineKeyboardButton("ᴋᴇᴍʙᴀʟɪ", callback_data="menu")
+    keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
 
-return status_message, keyboard
+    return status_message, keyboard
+
+async def callback_query_refresh(client, callback_query):
+    status_message, keyboard = await get_system_status()
+    await callback_query.message.edit_text(status_message, reply_markup=keyboard)
+
+async def callback_query_halder(client, callback_query):
+    status_message, keyboard = await get_system_status()
+    await callback_query.edit_message_text(status_message, reply_markup=keyboard)
