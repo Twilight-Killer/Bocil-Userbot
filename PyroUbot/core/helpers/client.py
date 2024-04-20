@@ -1,6 +1,5 @@
 from pyrogram import filters
-from pyrogram.enums import ChatType
-
+from pyrogram.types import ChatType
 from PyroUbot import *
 
 
@@ -50,11 +49,11 @@ class PY:
             @ubot.on_message(
                 ubot.cmd_prefix(command) & filter
                 if not SUDO
-                else ubot.cmd_prefix(command) & (filter | filters.channel)
+                else ubot.cmd_prefix(command) & (filter | filters.chat)
             )
             async def wrapped_func(client, message):
                 user = message.from_user or message.sender_chat
-                is_self = user.is_self if message.from_user else False 
+                is_self = user.is_self if message.from_user else False
                 sudo_id = await get_list_from_vars(client.me.id, "SUDO_USERS")
 
                 if SUDO and is_self or user.id in sudo_id:
