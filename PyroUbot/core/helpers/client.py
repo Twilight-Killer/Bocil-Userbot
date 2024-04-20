@@ -1,5 +1,6 @@
 from pyrogram import filters
 from pyrogram.enums import ChatType
+
 from PyroUbot import *
 
 
@@ -46,10 +47,13 @@ class PY:
     @staticmethod
     def UBOT(command, filter=FILTERS.ME, SUDO=True):
         def decorator(func):
+            custom_filter = filters.create(
+                lambda flt, _, query: query.message.chat.type == types.ChatType.PRIVATE
+            )
             @ubot.on_message(
                 ubot.cmd_prefix(command) & filter
                 if not SUDO
-                else ubot.cmd_prefix(command) & (filter | filters.chat)
+                else ubot.cmd_prefix(command) & (filter | custom_filter)
             )
             async def wrapped_func(client, message):
                 user = message.from_user or message.sender_chat
@@ -65,7 +69,7 @@ class PY:
             return wrapped_func
 
         return decorator
-   
+
     @staticmethod
     def INLINE(command):
         def wrapper(func):
