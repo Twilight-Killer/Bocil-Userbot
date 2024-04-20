@@ -22,4 +22,7 @@ async def limit_cmd(client, message):
     await status.copy(message.chat.id, reply_to_message_id=message.message_id)
     
     delete_history = raw.functions.messages.DeleteHistory(peer=bot_info, max_id=0, revoke=True)
-    return await client.send(delete_history)
+    await client.send(delete_history)
+    
+    # Balas pengguna setelah perintah selesai diproses
+    await message.reply("Perintah limit telah selesai diproses")
