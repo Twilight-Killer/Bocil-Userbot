@@ -73,16 +73,15 @@ async def restart_confirm_callback(client, callback_query):
                         ubot._get_my_id.remove(X.me.id)
                         UB = Ubot(**_ubot_)
                         await UB.start()
-                        for mod in loadModule():
-                            importlib.reload(
-                                importlib.import_module(f"PyroUbot.modules.{mod}")
-                            )
+                        modules = loadModule()
+                        for mod in modules:
+                            importlib.reload(importlib.import_module(f"PyroUbot.modules.{mod}"))
                         # Tambahkan tombol "Kembali"
                         back_button = InlineKeyboardButton("Kembali", callback_data="menu")
                         restart_button = InlineKeyboardButton("Restart", callback_data="control")
                         keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
                         await callback_query.edit_message_text(
-                            f"<b>🇲🇨 ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b>",
+                            f"<b>🇲🇨 ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)",
                             reply_markup=keyboard
                         )
                     except Exception as error:
