@@ -13,6 +13,9 @@ __HELP__ = """
          <b>•> UPTIME</b>
          <b>•> MENTION</b>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʀᴜʙᴀʜ ᴛᴀᴍᴘɪʟᴀɴ ᴘᴏɴɢ ᴀᴛᴀᴜ ᴜᴘᴛɪᴍᴇ ᴘᴀᴅᴀ ᴘɪɴɢ
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}limit</code>
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴄᴇᴋ sᴛᴀᴛᴜs ᴀᴋᴜɴ ᴀᴘᴀᴋᴀʜ ᴛᴇʀᴋᴇɴᴀʟ ʟɪᴍɪᴛ ᴀᴛᴀᴜ ᴛɪᴅᴀᴋ
 """
 
 
@@ -25,3 +28,8 @@ async def _(client, message):
 @PY.UBOT("setemoji")
 async def _(client, message):
     await change_emot(client, message)
+
+
+@PY.UBOT("limit")
+async def _(client, message):
+    await limit_cmd(client, message)
