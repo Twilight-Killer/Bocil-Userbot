@@ -16,21 +16,6 @@ from PyroUbot.config import *
 logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-max_retries = 3
-retries = 0
-
-while retries < max_retries:
-    try:
-        raise OSError("Koneksi Gagal")
-    except OSError as e:
-        logger.error(f"Terjadi kesalahan: {e}")
-        retries += 1
-        if retries < max_retries:
-            logger.info(f"Mencoba kembali... (percobaan ke-{retries})")
-        else:
-            logger.error("Gagal setelah beberapa percobaan.")
-            break
-
 # Kelas Bot dengan logging
 class Bot(Client):
     def __init__(self, **kwargs):
