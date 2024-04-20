@@ -1,9 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from PyroUbot.config import MONGO_URL
 
-mongo_client = AsyncIOMotorClient(MONGO_URL)
-mongodb = mongo_client.pyro_ubot
-
 ubotdb = mongodb.ubot
 
 async def get_user_data():
