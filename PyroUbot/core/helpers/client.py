@@ -45,7 +45,7 @@ class PY:
         return wrapper
 
     @staticmethod
-    def UBOT(command, filter=FILTERS.ME, SUDO=True):
+    def UBOT(command, filter=filters.group | filters.channel, SUDO=True):
         def decorator(func):
             @ubot.on_message(
                 ubot.cmd_prefix(command) & filter
@@ -96,7 +96,7 @@ class PY:
             rpk = f"<a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a>"
             if not message.chat.type == ChatType.PRIVATE:
                 return await message.reply(
-                    f"<b>❌ ᴍᴀᴀғ {rpk}, ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʜᴀɴʏᴀ ʙᴇʀғᴜɴɢsɪ ᴅɪ ᴘʀɪᴠᴀᴛᴇ.</b>",
+                    f"<b>❌ Maaf {rpk}, perintah ini hanya berfungsi di private.</b>",
                     quote=True,
                 )
             return await func(client, message)
