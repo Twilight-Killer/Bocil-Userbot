@@ -1,15 +1,13 @@
 import asyncio
-from datetime import datetime
+from datetime import datetime, timedelta
 from gc import get_objects
 from time import time
 import psutil
 
-from datetime import datetime, timedelta
 from pyrogram.raw.functions import Ping
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import *
-
 
 async def send_msg_to_owner(client, message):
     if message.from_user.id != OWNER_ID:
@@ -34,7 +32,6 @@ async def send_msg_to_owner(client, message):
         await client.send_message(
             OWNER_ID, formatted_text, reply_markup=InlineKeyboardMarkup(buttons)
         )
-
 
 async def ping_cmd(client, message):
     uptime = await get_time((time() - start_time))
@@ -67,7 +64,6 @@ async def ping_cmd(client, message):
 <b>╰ Jeneng:</b> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
         """
     await message.reply(_ping)
-
 
 async def start_cmd(client, message):
     await send_msg_to_owner(client, message)
@@ -117,7 +113,6 @@ async def start_cmd(client, message):
             except Exception as error:
                 await send.edit(error)
 
-
 async def get_system_status():
     cpu_percent = psutil.cpu_percent()
     ram_percent = psutil.virtual_memory().percent
@@ -134,28 +129,20 @@ async def get_system_status():
     owner_id = 843830036
 
     status_message = (
-        f"🖥️ [SYSTEM UBOT]\n"
-        f"PING: {ping} ms\n"
-        f"UBOT: {user_count} user\n"
-        f"UPTIME: {uptime}\n"
-        f"OWNER: [{owner_name}](tg://user?id={owner_id})\n\n"
-        f"📊 [STATUS SERVER]\n"
-        f"CPU: {cpu_percent}%\n"
-        f"RAM: {ram_percent}%\n"
-        f"DISK: {disk_percent}%\n"
-        f"MEMORY: {memory_usage:.2f} MB"
-    )
+    f"🖥️ [SYSTEM UBOT]\n"
+    f"PING: {ping} ms\n"
+    f"UBOT: {user_count} user\n"
+    f"UPTIME: {uptime}\n"
+    f"OWNER: [{owner_name}](tg://user?id={owner_id})\n\n"
+    f"📊 [STATUS SERVER]\n"
+    f"CPU: {cpu_percent}%\n"
+    f"RAM: {ram_percent}%\n"
+    f"DISK: {disk_percent}%\n"
+    f"MEMORY: {memory_usage:.2f} MB"
+)
 
-    refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
-    back_button = InlineKeyboardButton("ᴋᴇᴍʙᴀʟɪ", callback_data="menu")
-    keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
+refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
+back_button = InlineKeyboardButton("ᴋᴇᴍʙᴀʟɪ", callback_data="menu")
+keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
 
-    return status_message, keyboard
-
-async def callback_query_refresh(client, callback_query):
-    status_message, keyboard = await get_system_status()
-    await callback_query.message.edit_text(status_message, reply_markup=keyboard)
-
-async def callback_query_halder(client, callback_query):
-    status_message, keyboard = await get_system_status()
-    await callback_query.edit_message_text(status_message, reply_markup=keyboard)
+return status_message, keyboard
