@@ -1,3 +1,4 @@
+import asyncio
 import os
 import platform
 import subprocess
@@ -36,12 +37,12 @@ async def shell_cmd(client, message):
             await process_command(message, command)
             await msg.delete()
     except Exception as error:
-        await msg.edit(error)
+        await msg.edit(str(error))
 
 
 async def handle_shutdown(message):
     await message.reply("✅ System berhasil dimatikan", quote=True)
-    os.system(f"kill -9 {os.getpid()}")
+    os._exit(0)
 
 
 async def handle_restart(message):
@@ -50,14 +51,8 @@ async def handle_restart(message):
 
 
 async def handle_update(message):
-    out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
-    if "Already up to date." in str(out):
-        return await message.reply(out, quote=True)
-    elif int(len(str(out))) > 4096:
-        await send_large_output(message, out)
-    else:
-        await message.reply(f"```{out}```", quote=True)
-    os.execl(sys.executable, sys.executable, "-m", "PyroUbot")
+    subprocess.Popen(["git", "pull"])
+    await message.reply("✅ Update sedang diproses", quote=True)
 
 
 async def handle_clean(message):
@@ -156,7 +151,7 @@ def format_system_info(system_info):
     formatted_info += f"Available : {system_info['memory_available']}\n"
     formatted_info += f"Used      : {system_info['memory_used']}\n"
     formatted_info += f"Percentage: {system_info['memory_percentage']}%\n"
-    return f"<b>{Fonts.smallcap(formatted_info.lower())}</b>"
+    return f"<b>{formatted_info.lower()}</b>"
 
 
 async def evalator_cmd(client, message):
