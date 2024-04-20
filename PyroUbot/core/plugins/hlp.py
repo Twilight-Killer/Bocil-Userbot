@@ -1,4 +1,5 @@
 import re
+import asyncio
 
 from pyrogram.types import *
 
@@ -25,27 +26,8 @@ async def help_cmd(client, message):
             )
         else:
             await message.reply(
-                f"<b>❌ ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴅɪᴛᴇᴍᴜᴋᴀɴ ᴍᴏᴅᴜʟᴇ ᴅᴇɴɢᴀɴ ɴᴀᴍᴀ <code>{module}</code></b>"
+                f"<b>❌ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ ᴍᴏᴅᴜʟᴇ ᴅᴇɴɢᴀɴ ɴᴀᴍᴀ <code>{module}</code></b>"
             )
-
-
-async def menu_inline(client, inline_query):
-    msg = f"<b>✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={inline_query.from_user.id}>{inline_query.from_user.first_name} {inline_query.from_user.last_name or ''}</a>\n\n🔖 <b>ᴘʀᴇғɪx:</b> {', '.join(ubot._prefix.get(inline_query.from_user.id, ['.', ',', ':', ';', '!']))}</b>"
-    await client.answer_inline_query(
-        inline_query.id,
-        cache_time=60,
-        results=[
-            (
-                InlineQueryResultArticle(
-                    title="Help Menu!",
-                    reply_markup=InlineKeyboardMarkup(
-                        paginate_modules(0, HELP_COMMANDS, "help")
-                    ),
-                    input_message_content=InputTextMessageContent(msg),
-                )
-            )
-        ],
-    )
 
 
 async def menu_callback(client, callback_query):
@@ -53,7 +35,8 @@ async def menu_callback(client, callback_query):
     prev_match = re.match(r"help_prev\((.+?)\)", callback_query.data)
     next_match = re.match(r"help_next\((.+?)\)", callback_query.data)
     back_match = re.match(r"help_back", callback_query.data)
-    top_text = f"<b>✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={callback_query.from_user.id}>{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n\n🔖 <b>ᴘʀᴇғɪx:</b> {', '.join(ubot._prefix.get(callback_query.from_user.id, ['.', ',', ':', ';', '!']))}</b>"
+    top_text = f"<b>✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={callback_query.from_user.id}>{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n\n🔖 <b>ᴘʀᴇғɪx:</b> {', '.join(ubot._prefix.get(callback_query.from_user.id, ['.', ',', '!']))}</b>"
+    
     if mod_match:
         module = (mod_match.group(1)).replace(" ", "_")
         prefix = await ubot.get_prefix(callback_query.from_user.id)
@@ -88,3 +71,22 @@ async def menu_callback(client, callback_query):
             ),
             disable_web_page_preview=True,
         )
+
+
+async def menu_inline(client, inline_query):
+    msg = f"<b>✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={inline_query.from_user.id}>{inline_query.from_user.first_name} {inline_query.from_user.last_name or ''}</a>\n\n🔖 <b>ᴘʀᴇғɪx:</b> {', '.join(ubot._prefix.get(inline_query.from_user.id, ['.', ',', ':', ';', '!']))}</b>"
+    await client.answer_inline_query(
+        inline_query.id,
+        cache_time=60,
+        results=[
+            (
+                InlineQueryResultArticle(
+                    title="Help Menu!",
+                    reply_markup=InlineKeyboardMarkup(
+                        paginate_modules(0, HELP_COMMANDS, "help")
+                    ),
+                    input_message_content=InputTextMessageContent(msg),
+                )
+            )
+        ],
+            )
