@@ -14,8 +14,22 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 # Konfigurasi logging
-logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+import logging
+
+# Konfigurasi logging
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
+
+def divide_numbers(a, b):
+    try:
+        result = a / b
+        logging.debug(f"Hasil pembagian {a} / {b} adalah {result}")
+        return result
+    except ZeroDivisionError:
+        logging.error("Tidak bisa membagi dengan nol")
+
+# Panggil fungsi dan lakukan debugging
+divide_numbers(10, 2)
+divide_numbers(5, 0)
 
 # Kelas Bot dengan logging
 class Bot(Client):
