@@ -1,8 +1,6 @@
 import logging
 import os
 import re
-import uvloop
-uvloop.install()
 
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
@@ -14,10 +12,13 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 # Konfigurasi logging
-import logging
-
-# Konfigurasi logging
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
+
+# Pesan debug
+logging.debug("Debug message")
+
+# Tunggu 1 detik
+time.sleep(20)
 
 def divide_numbers(a, b):
     try:
