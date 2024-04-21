@@ -20,3 +20,28 @@ async def _(client, message):
 @PY.UBOT("batal")
 async def _(client, message):
     await batal_cmd(client, message)
+
+
+@PY.UBOT("spam")
+async def _(client, message):
+    await spam_cmd(client, message)
+
+
+@PY.UBOT("dspam")
+async def _(client, message):
+    await dspam_cmd(client, message)
+
+
+@PY.UBOT("spmlist")
+async def _(client, message):
+    await list_dspam(client, message)
+
+
+@PY.UBOT("henti")
+async def _(client, message):
+    await cancel_dspam(client, message)
+
+
+@PY.UBOT("ddtext")
+async def _(client, message):
+    await addtext_cmd (client, message)
