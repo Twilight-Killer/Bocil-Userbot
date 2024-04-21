@@ -23,7 +23,7 @@ async def admin_kick(client, message):
     try:
         if message.command[0] == "dkick":
             await message.reply_to_message.delete()
-        await message.chat.kick_member(user_id)
+        await message.chat.ban_member(user_id)
         await message.reply(msg)
         await asyncio.sleep(1)
         await message.chat.unban_member(user_id)
@@ -51,7 +51,7 @@ async def admin_ban(client, message):
     try:
         if message.command[0] == "dban":
             await message.reply_to_message.delete()
-        await message.chat.kick_member(user_id)
+        await message.chat.ban_member(user_id)
         await message.reply(msg)
     except Exception as error:
         await message.reply(error)
