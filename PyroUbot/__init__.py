@@ -53,20 +53,12 @@ while retries < max_retries:
         retries += 1
         if retries < max_retries:
             print(f"Mencoba kembali... (percobaan ke-{retries})")
-        else:
-            print("Gagal setelah beberapa percobaan.")
-            break
-    except ConnectionError as ce:
-        logger.error(f"Terjadi kesalahan koneksi: {ce}")
-        retries += 1
-        if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
+            continue  # Ganti break dengan continue
         else:
             print("Gagal setelah beberapa percobaan.")
             break
 
-# Fungsi untuk melakukan permintaan ke kanal
-async def get_channel_messages(channel):
+async def get_channel_messages(channel, bot):
     try:
         # Lakukan permintaan ke kanal
         messages = await bot.get_messages(channel)
@@ -75,7 +67,7 @@ async def get_channel_messages(channel):
         # Tangani kesalahan FloodWait dengan menunggu waktu yang diberikan oleh Telegram
         await asyncio.sleep(e.x)
         # Coba kembali permintaan setelah menunggu
-        messages = await get_channel_messages(channel)
+        messages = await get_channel_messages(channel, bot)
         return messages
 
 class Bot(Client):
