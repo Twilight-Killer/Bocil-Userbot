@@ -6,7 +6,7 @@ from PyroUbot import *
 
 __MODULE__ = "logs"
 __HELP__ = """
-<b>『 BANTUAN UNTUK KANG 』</b>
+<b>『 BANTUAN UNTUK LOGS 』</b>
 
   <b>• PERINTAH:</b> <code>{0}logs</code> (on)
   <b>• PENJELASAN:</b> untuk mengaktifkan atau menonaktifkan channel logs
@@ -35,6 +35,8 @@ async def send_logs(client, message):
         from_user = message.chat
         id_link = f"tg://openmessage?user_id={from_user.id}&message_id={message.id}"
     elif message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
+        if not message.from_user:
+            return
         type = "GRUP"
         from_user = message.from_user
         id_link = message.link
@@ -49,9 +51,9 @@ async def send_logs(client, message):
         except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
             await client.send_message(message.chat.id, "❌Maaf, bot tidak bisa menerima media dari grup Anda karena dibatasi❌")
     elif message.video:
-        file_id = message.video.file_id
+        video_path = await client.download_media(message.video.file_id
         try:
-            await client.send_video(int(logs), video=file_id, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
+            await client.send_video(int(logs), video=video_path, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
         except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
             await client.send_message(message.chat.id, "❌sᴏʀʀʏ ʙʀᴏ ʟᴏɢs ɢᴜᴀ ɢᴀᴋ ʙɪsᴀ ɴᴇʀɪᴍᴀ ᴍᴇᴅɪᴀ ᴅᴀʀɪ ʟᴜ ɢᴄ ɴʏᴀ ᴅɪ ʙᴀᴛᴀsɪ❌")
     else:
@@ -65,7 +67,7 @@ async def send_logs(client, message):
     
 <b>⤵️ Dibawah ini adalah pesan terusan dari: {rpk}</b>
 """,
-        )
+  )
       
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
