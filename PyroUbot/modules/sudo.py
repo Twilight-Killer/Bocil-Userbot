@@ -1,9 +1,3 @@
-"""
-yang hapus credits pantatnya bisulan
-create by: https://t.me/NorSodikin 
-"""
-
-
 from .. import *
 
 __MODULE__ = "sudo"
@@ -22,89 +16,89 @@ __HELP__ = """
 
 
 @PY.UBOT("addsudo")
-async def _(client, message):
-    msg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs...</b>")
+async def addsudo(client, message):
+    msg = await message.edit_text("<b>Sedang memproses...</b>")
     user_id = await extract_user(message)
     if not user_id:
-        return await msg.edit(
-            "<b>➡️ Hᴀʀᴀᴘ ʙᴀʟᴀs ᴋᴇ ᴜsᴇʀ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ ᴜsᴇʀ_ɪᴅ ʏᴀɴɢ ɪɴɢɪɴ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ ᴋᴇ ᴅᴀғᴛᴀʀ sᴜᴅᴏ</b>"
+        return await msg.edit_text(
+            "<b>Harap balas ke user atau ketik user_id yang ingin ditambahkan ke daftar sudo</b>"
         )
 
     try:
         user = await client.get_users(user_id)
     except Exception as error:
-        return await msg.edit(error)
+        return await msg.edit_text(str(error))
 
     sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
 
     if user.id in sudo_users:
-        return await msg.edit(
-            f"<b>✨ [{user.first_name} {user.last_name or ''}](tg://user?id={user.id}) sᴜᴅᴀʜ ʙᴇʀᴀᴅᴀ ᴅᴀʟᴀᴍ ᴅᴀғᴛᴀʀ sᴜᴅᴏ</b>"
+        return await msg.edit_text(
+            f"<b>✨ {user.first_name} {user.last_name or ''} sudah berada dalam daftar sudo</b>"
         )
 
     try:
         await add_to_vars(client.me.id, "SUDO_USERS", user.id)
-        return await msg.edit(
-            f"<b>✅ [{user.first_name} {user.last_name or ''}](tg://user?id={user.id}) ʙᴇʀʜᴀsɪʟ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ ᴋᴇ ᴅᴀғᴛᴀʀ sᴜᴅᴏ</b>"
+        return await msg.edit_text(
+            f"<b>✅ {user.first_name} {user.last_name or ''} berhasil ditambahkan ke daftar sudo</b>"
         )
     except Exception as error:
-        return await msg.edit(error)
+        return await msg.edit_text(str(error))
 
 
 @PY.UBOT("delsudo")
-async def _(client, message):
-    msg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs...</b>")
+async def delsudo(client, message):
+    msg = await message.edit_text("<b>Sedang memproses...</b>")
     user_id = await extract_user(message)
     if not user_id:
-        return await msg.edit(
-            "<b>➡️ ʜᴀʀᴀᴘ ʙᴀʟᴀs ᴋᴇ ᴜsᴇʀ ᴀᴛᴀᴜ ᴋᴇᴛɪᴋ ᴜsᴇʀ_ɪᴅ ʏᴀɴɢ ᴍᴀᴜ ᴅɪʜᴀᴘᴜs ᴅᴀʀɪ ᴅᴀғᴛᴀʀ sᴜᴅᴏ</b>"
+        return await msg.edit_text(
+            "<b>Harap balas ke user atau ketik user_id yang ingin dihapus dari daftar sudo</b>"
         )
 
     try:
         user = await client.get_users(user_id)
     except Exception as error:
-        return await msg.edit(error)
+        return await msg.edit_text(str(error))
 
     sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
 
     if user.id not in sudo_users:
         return await message.reply(
-            f"<b>✨ [{user.first_name} {user.last_name or ''}](tg://user?id={user.id}) ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴅᴀʟᴀᴍ ᴅᴀғᴛᴀʀ sᴜᴅᴏ</b>"
+            f"<b>✨ {user.first_name} {user.last_name or ''} tidak ada dalam daftar sudo</b>"
         )
 
     try:
         await remove_from_vars(client.me.id, "SUDO_USERS", user.id)
-        return await msg.edit(
-            f"<b>❌ [{user.first_name} {user.last_name or ''}](tg://user?id={user.id}) ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs ᴅᴀʀɪ ᴅᴀғᴛᴀʀ sᴜᴅᴏ</b>"
+        return await msg.edit_text(
+            f"<b>❌ {user.first_name} {user.last_name or ''} berhasil dihapus dari daftar sudo</b>"
         )
     except Exception as error:
-        return await msg.edit(error)
+        return await msg.edit_text(str(error))
 
 
 @PY.UBOT("getsudo")
-async def _(client, message):
-    msg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs...</b>")
+async def getsudo(client, message):
+    msg = await message.edit_text("<b>Sedang memproses...</b>")
     sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
 
     if not sudo_users:
-        return await msg.edit("<s>ᴅᴀғᴛᴀʀ sᴜᴅᴏ ᴋᴏsᴏɴɢ</s>")
+        return await msg.edit_text("<s>Daftar sudo kosong</s>")
 
     sudo_list = []
     for user_id in sudo_users:
         try:
             user = await client.get_users(int(user_id))
             sudo_list.append(
-                f" ├ [{user.first_name} {user.last_name or ''}](tg://user?id={user.id}) | <code>{user.id}</code>"
+                f" ├ {user.first_name} {user.last_name or ''} | <code>{user.id}</code>"
             )
         except:
             continue
 
     if sudo_list:
         response = (
-            "<b>❏ ᴅᴀғᴛᴀʀ sᴜᴅᴏ:</b>\n"
+            "<b>❏ Daftar sudo:</b>\n"
             + "\n".join(sudo_list)
-            + f"\n <b>╰ ᴛᴏᴛᴀʟ sᴜᴅᴏ_ᴜsᴇʀs:</b> <code>{len(sudo_list)}</code>"
+            + f"\n <b>╰ Total sudo_users:</b> <code>{len(sudo_list)}</code>"
         )
-        return await msg.edit(response)
+        return await msg.edit_text(response)
     else:
-        return await msg.edit("<b>ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴍᴇɴɢᴀᴍʙɪʟ ᴅᴀғᴛᴀʀ sᴜᴅᴏ sᴀᴀᴛ ɪɴɪ</b>")
+        return await msg.edit_text("<b>Tidak dapat mengambil daftar sudo saat ini</b>")
