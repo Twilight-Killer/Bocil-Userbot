@@ -1,8 +1,7 @@
 import logging
 import os
 import re
-import socket
-import time
+import uvloop
 
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
