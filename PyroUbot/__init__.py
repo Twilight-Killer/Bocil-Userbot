@@ -12,14 +12,15 @@ from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
 
-# Konfigurasi logging
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
+
+# Konfigurasi logging untuk menyimpan ke file
+logging.basicConfig(filename='debug.log', level=logging.DEBUG, format='%(levelname)s - %(message)s')
 
 # Pesan debug
 logging.debug("Debug message")
 
 # Tunggu 1 detik
-time.sleep(20)
+time.sleep(1)
 
 def divide_numbers(a, b):
     try:
