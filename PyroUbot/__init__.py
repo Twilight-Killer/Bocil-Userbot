@@ -34,7 +34,7 @@ class ConnectionHandler(logging.Handler):
             log_file.write(f"Error: {error_message}\n")
 
 # Konfigurasi logging
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=logging.WARNING, format='%(levelname)s - %(message)s')
 
 logger = logging.getLogger(__name__)
 handler = ConnectionHandler()
