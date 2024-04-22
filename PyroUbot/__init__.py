@@ -1,7 +1,11 @@
 import logging
 import os
 import re
+import asyncio
 import uvloop
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
 
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
@@ -13,9 +17,66 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
-logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+class ConnectionError(Exception):
+    pass
 
+class ConnectionHandler(logging.Handler):
+    def emit(self, record):
+        for error_type in ["OSErro", "TimeoutError"]:
+            if error_type in record.getMessage():
+                self.handle_error(record.getMessage())
+
+    def handle_error(self, error_message):
+        self.log_error(error_message)
+        raise ConnectionError(error_message)
+
+    def log_error(self, error_message):
+        with open("error_log.txt", "a") as log_file:
+            log_file.write(f"Error: {error_message}\n")
+
+# Konfigurasi logging
+logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
+
+logger = logging.getLogger(__name__)
+handler = ConnectionHandler()
+logger.addHandler(handler)
+
+max_retries = 3
+retries = 0
+
+while retries < max_retries:
+    try:
+        # Simulasi koneksi yang gagal (ganti dengan kode sesuai kebutuhan)
+        raise OSError("Koneksi Gagal")
+    except OSError as e:
+        logger.error(f"Terjadi kesalahan: {e}")
+        retries += 1
+        if retries < max_retries:
+            print(f"Mencoba kembali... (percobaan ke-{retries})")
+        else:
+            print("Gagal setelah beberapa percobaan.")
+            break
+    except ConnectionError as ce:
+        logger.error(f"Terjadi kesalahan koneksi: {ce}")
+        retries += 1
+        if retries < max_retries:
+            print(f"Mencoba kembali... (percobaan ke-{retries})")
+        else:
+            print("Gagal setelah beberapa percobaan.")
+            break
+
+# Fungsi untuk melakukan permintaan ke kanal
+async def get_channel_messages(channel):
+    try:
+        # Lakukan permintaan ke kanal
+        messages = await bot.get_messages(channel)
+        return messages
+    except FloodWait as e:
+        # Tangani kesalahan FloodWait dengan menunggu waktu yang diberikan oleh Telegram
+        await asyncio.sleep(e.x)
+        # Coba kembali permintaan setelah menunggu
+        messages = await get_channel_messages(channel)
+        return messages
 
 class Bot(Client):
     def __init__(self, **kwargs):
