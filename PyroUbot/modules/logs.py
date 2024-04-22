@@ -51,7 +51,7 @@ async def send_logs(client, message):
         except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
             await client.send_message(message.chat.id, "❌Maaf, bot tidak bisa menerima media dari grup Anda karena dibatasi❌")
     elif message.video:
-        video_path = await client.download_media(message.video.file_id
+        video_path = await client.download_media(message.video.file_id)
         try:
             await client.send_video(int(logs), video=video_path, caption=f"ℹ️ ʟɪɴᴋ ᴘᴇsᴀɴ: {link}\n\n📌 ᴅɪʙᴀᴡᴀʜ ɪɴɪ ᴀᴅᴀʟᴀʜ ᴘᴇsᴀɴ ᴛᴇʀᴜsᴀɴ ᴅᴀʀɪ: {rpk}")
         except pyrogram.errors.exceptions.bad_request_400.ChatForwardsRestricted:
@@ -67,7 +67,7 @@ async def send_logs(client, message):
     
 <b>⤵️ Dibawah ini adalah pesan terusan dari: {rpk}</b>
 """,
-  )
+        )
       
 @PY.UBOT("logs")
 async def set_logs(client, message: Message):
