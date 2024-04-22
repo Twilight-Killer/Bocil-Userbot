@@ -1,7 +1,6 @@
 import logging
 import os
 import re
-import socket
 
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
@@ -13,31 +12,25 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
-# Konfigurasi logging
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-try:
-    # Membuat socket
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+max_retries = 3
+retries = 0
 
-    # Melakukan koneksi ke server
-    s.connect(("alamat_server", port_server))
+while retries < max_retries:
+    try:
+        raise OSError("Koneksi Gagal")
+    except OSError as e:
+        logger.error(f"Terjadi kesalahan: {e}")
+        retries += 1
+        if retries < max_retries:
+            print(f"Mencoba kembali... (percobaan ke-{retries})")
+        else:
+            print("Gagal setelah beberapa percobaan.")
+            break
 
-    # Mengirim data
-    s.sendall(b"Data yang akan dikirim")
 
-    # Menutup koneksi
-    s.close()
-
-except socket.error as e:
-    logging.warning("socket.send() raised exception.")
-    logging.warning(f"Exception: {e}")
-
-except Exception as e:
-    logging.error("Terjadi kesalahan:")
-    logging.error(f"{e}")
-
-# Kelas Bot dengan logging
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs) 
@@ -58,7 +51,7 @@ class Bot(Client):
     async def start(self):
         await super().start()
 
-# Kelas Ubot dengan logging
+
 class Ubot(Client):
     _ubot = []
     _prefix = {}
