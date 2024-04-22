@@ -1,7 +1,7 @@
 import logging
 import os
 import re
-import time
+import socket
 
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
@@ -13,26 +13,29 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
-# Konfigurasi logging untuk menyimpan ke file
-logging.basicConfig(filename='debug.log', level=logging.DEBUG, format='%(levelname)s - %(message)s')
+# Konfigurasi logging
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
 
-# Pesan debug
-logging.debug("Debug message")
+try:
+    # Membuat socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Tunggu 1 detik
-time.sleep(1)
+    # Melakukan koneksi ke server
+    s.connect(("alamat_server", port_server))
 
-def divide_numbers(a, b):
-    try:
-        result = a / b
-        logging.debug(f"Hasil pembagian {a} / {b} adalah {result}")
-        return result
-    except ZeroDivisionError:
-        logging.error("Tidak bisa membagi dengan nol")
+    # Mengirim data
+    s.sendall(b"Data yang akan dikirim")
 
-# Panggil fungsi dan lakukan debugging
-divide_numbers(10, 2)
-divide_numbers(5, 0)
+    # Menutup koneksi
+    s.close()
+
+except socket.error as e:
+    logging.warning("socket.send() raised exception.")
+    logging.warning(f"Exception: {e}")
+
+except Exception as e:
+    logging.error("Terjadi kesalahan:")
+    logging.error(f"{e}")
 
 # Kelas Bot dengan logging
 class Bot(Client):
