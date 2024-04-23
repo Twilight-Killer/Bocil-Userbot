@@ -20,7 +20,7 @@ async def broadcast_group_cmd(client, message):
     send = get_message(message)
     if not send:
         return await msg.edit(
-            f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu<b>")
+            f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
