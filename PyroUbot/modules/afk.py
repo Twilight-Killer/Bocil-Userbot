@@ -1,7 +1,3 @@
-"create by: NorSodikin.t.me"
-"requests by: Bocil-Userbot"
-
-
 from time import time
 
 from PyroUbot import *
