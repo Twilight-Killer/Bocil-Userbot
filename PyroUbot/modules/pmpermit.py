@@ -27,20 +27,20 @@ __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴘᴍᴘᴇʀᴍɪᴛ 』</b>
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}pmpermit (on/off)</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴋᴛɪғᴋᴀɴ ᴅᴀɴ ᴍᴇɴᴏɴᴀᴋᴛɪғᴋᴀɴ ᴘᴍᴘᴇʀᴍɪᴛ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengaktifkan/non-aktifkan pmpermit
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ok or {0}setuju</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢɪᴊɪɴᴋᴀɴ sᴇsᴇᴏʀᴀɴɢ ᴜɴᴛᴜᴋ ᴘᴍ ᴀɴᴅᴀ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> setuju pm
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}no or {0}tolak</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴᴏʟᴀᴋ sᴇsᴇᴏʀᴀɴɢ ᴜɴᴛᴜᴋ ᴘᴍ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> nolak pm
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}setpm (ǫᴜᴇʀʏ) (ᴠᴀʟᴜᴇ)</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴛᴜʀ ᴠᴀʀɪᴀʙᴇʟ ᴛᴇxᴛ_ᴘᴍᴘᴇʀᴍɪᴛ ᴅᴀɴ ʟɪᴍɪᴛ_ᴘᴍ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ngatur variabel text & limit
 
    <b>•> ǫᴜᴇʀʏ:</b>
-       •> <code>TEXT</code>
-       •> <code>LIMIT</code>
+       •> <code>text</code>
+       •> <code>limit</code>
 """
 
 
