@@ -4,8 +4,8 @@ __MODULE__ = "button"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʙᴜᴛᴛᴏɴ 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}button</code> ᴛᴇxᴛ ~> ʙᴜᴛᴛᴏɴ_ᴛᴇxᴛ:ʙᴜᴛᴛᴏɴ_ʟɪɴᴋ
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴜᴀᴛ ᴛᴏᴍʙᴏʟ ɪɴʟɪɴᴇ - ᴍᴀxɪᴍᴀʟ 100 ʙᴜᴛᴛᴏɴ
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}button</code> text ~> button_text:button_link
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk membuat tombol inline
 """
 
 
