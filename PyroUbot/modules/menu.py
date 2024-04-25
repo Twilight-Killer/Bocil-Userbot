@@ -2,7 +2,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import *
 
-@PY.BOT("menu")
+@PY.BOT("control")
 async def start_command(client, message):
     start_message = "𝐬𝐢𝐥𝐚𝐤𝐚𝐧 𝐩𝐢𝐥𝐢𝐡 𝐩𝐞𝐫𝐢𝐧𝐭𝐚𝐡 𝐲𝐚𝐧𝐠 𝐢𝐧𝐠𝐢𝐧 𝐚𝐧𝐝𝐚 𝐠𝐮𝐧𝐚𝐤𝐚𝐧 ⏬"
     menu_button = InlineKeyboardButton("𝐦𝐞𝐧𝐮", callback_data="menu")
@@ -12,28 +12,24 @@ async def start_command(client, message):
 
 @PY.CALLBACK("command1")
 async def command1_callback(client, callback_query):
-    await callback_query.answer("Hontol.....")
     back_button = InlineKeyboardButton("Back", callback_data="menu")
     keyboard = InlineKeyboardMarkup([[back_button]])
     await callback_query.edit_message_text("HA•• MUH••• RI•••:085748237211", reply_markup=keyboard)
 
 @PY.CALLBACK("command2")
 async def command2_callback(client, callback_query):
-    await callback_query.answer("Hontol.....")
     back_button = InlineKeyboardButton("Back", callback_data="menu")
     keyboard = InlineKeyboardMarkup([[back_button]])
     await callback_query.edit_message_text("KONTOL BELUM ADA ", reply_markup=keyboard)
 
 @PY.CALLBACK("command3")
 async def command3_callback(client, callback_query):
-    await callback_query.answer("Hontol.....")
     back_button = InlineKeyboardButton("Back", callback_data="menu")
     keyboard = InlineKeyboardMarkup([[back_button]])
     await callback_query.edit_message_text("MEMEK BELUM ADA JUGA ", reply_markup=keyboard)
 
 @PY.CALLBACK("command4")
 async def command4_callback(client, callback_query):
-    await callback_query.answer("Hontol.....")
     back_button = InlineKeyboardButton("Back", callback_data="menu")
     keyboard = InlineKeyboardMarkup([[back_button]])
     await callback_query.edit_message_text("YAH KEPO YA", reply_markup=keyboard)
