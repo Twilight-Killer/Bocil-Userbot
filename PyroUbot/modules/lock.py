@@ -6,13 +6,13 @@ __HELP__ = f"""
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʟᴏᴄᴋꜱ 』</b>
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}lock</code> [ᴛʏᴘᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴜɴᴄɪ ɪᴢɪɴ ɢʀᴏᴜᴘ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengkunci izin group 
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unlock</code> [ᴛʏᴘᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴜᴋᴀ ɪᴢɪɴ ɢʀᴏᴜᴘ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> buka izin grouo
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}locks</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ ɪᴢɪɴ ꜱᴀᴀᴛ ɪɴɪ.
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> cek izin group
 
   <b>• ᴛʏᴘᴇ : `msg`|`media`|`stickers`|`polls`|`info`|`invite`|`webprev`|`pin`
 """
