@@ -5,16 +5,16 @@ __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʙʟᴀᴄᴋʟɪsᴛ 』</b>
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}addbll</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇᴍᴀsᴜᴋᴋᴀɴ ɢʀᴏᴜᴘ ᴋᴇ ᴅᴀꜰᴛᴀʀ ʜɪᴛᴀᴍ sᴜᴘᴀʏᴀ ɢᴄᴀsᴛ ᴋᴀʟɪᴀɴ ᴛɪᴅᴀᴋ ᴍᴀsᴜᴋ ᴋᴇ ɢʀᴏᴜᴘ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> memasukan group ke daftar hitam
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unbl</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ɢʀᴏᴜᴘ ᴅᴀʀɪ ᴅᴀꜰᴛᴀʀ ʜɪᴛᴀᴍ ᴀɢᴀʀ ɢᴄᴀsᴛ ʙɪsᴀ ᴍᴀsᴜᴋ ᴋᴇ ɢʀᴏᴜᴘ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menghapus grouo dari daftar hitam
   
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}rallbl</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs sᴇᴍᴜᴀ ʙʟᴀᴄᴋʟɪsᴛ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menghapus semua blacklist 
   
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}listbl</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇᴍᴇʀɪᴋsᴀ ᴅᴀꜰᴛᴀʀ ʙʟᴀᴄᴋʟɪsᴛ ɢʀᴏᴜᴘ
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> melihat semua daftar hitam
 """
 
 
