@@ -3,7 +3,8 @@ from .. import *
 
 @PY.UBOT("ping")
 async def _(client, message):
-    await ping_cmd(client, message)
+    ping_handler = PING(client, message)
+    await ping_handler.ping_cmd()
 
 
 @PY.BOT("start")
