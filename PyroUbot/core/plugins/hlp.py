@@ -33,7 +33,7 @@ async def menu_callback(client, callback_query):
     prev_match = re.match(r"help_prev\((.+?)\)", callback_query.data)
     next_match = re.match(r"help_next\((.+?)\)", callback_query.data)
     back_match = re.match(r"help_back", callback_query.data)
-    top_text = f"<b>❏ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={callback_query.from_user.id}>{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n├ ᴘʀᴇғɪx: {', '.join(ubot._prefix.get(callback_query.from_user.id, ['.', ',', ':', ';', '!']))}\n╰ ᴍᴏᴅᴜʟᴇs: {len(HELP_COMMANDS)}</b>"
+    top_text = f"<b>❏ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={callback_query.from_user.id}>{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n╰ ᴘʀᴇғɪx: {', '.join(ubot._prefix.get(callback_query.from_user.id, ['.', ',', ':', ';', '!']))}</b>"
     
     if mod_match:
         module = (mod_match.group(1)).replace(" ", "_")
@@ -75,8 +75,7 @@ async def menu_inline(client, inline_query):
     modules_count = len(HELP_COMMANDS)
     msg = (
         f"❏ ᴍᴇɴᴜ ɪɴʟɪɴᴇ {inline_query.from_user.first_name} {inline_query.from_user.last_name or ''}\n"
-        f"├ ᴘʀᴇғɪx: {', '.join(ubot._prefix.get(inline_query.from_user.id, ['.', ',', ':', ';', '!']))}\n"
-        f"╰ ᴍᴏᴅᴜʟᴇs: {modules_count}"
+        f"╰ ᴘʀᴇғɪx: {', '.join(ubot._prefix.get(inline_query.from_user.id, ['.', ',', ':', ';', '!']))}\n"
     )
     await client.answer_inline_query(
         inline_query.id,
