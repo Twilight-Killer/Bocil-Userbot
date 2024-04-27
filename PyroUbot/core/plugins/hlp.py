@@ -5,7 +5,6 @@ from pyrogram.types import *
 
 from PyroUbot import *
 
-
 async def help_cmd(client, message):
     if not get_arg(message):
         try:
@@ -29,13 +28,12 @@ async def help_cmd(client, message):
                 f"<b>❌ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ ᴍᴏᴅᴜʟᴇ ᴅᴇɴɢᴀɴ ɴᴀᴍᴀ <code>{module}</code></b>"
             )
 
-
 async def menu_callback(client, callback_query):
     mod_match = re.match(r"help_module\((.+?)\)", callback_query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", callback_query.data)
     next_match = re.match(r"help_next\((.+?)\)", callback_query.data)
     back_match = re.match(r"help_back", callback_query.data)
-    top_text = f"<b>✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={callback_query.from_user.id}>{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n\n🔖 <b>ᴘʀᴇғɪx:</b> {', '.join(ubot._prefix.get(callback_query.from_user.id, ['.', ',', '!']))}</b>"
+    top_text = f"<b>❏ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={callback_query.from_user.id}>{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n├ ᴘʀᴇғɪx: {', '.join(ubot._prefix.get(callback_query.from_user.id, ['.', ',', ':', ';', '!']))}\n╰ ᴍᴏᴅᴜʟᴇs: {len(HELP_COMMANDS)}</b>"
     
     if mod_match:
         module = (mod_match.group(1)).replace(" ", "_")
@@ -72,21 +70,24 @@ async def menu_callback(client, callback_query):
             disable_web_page_preview=True,
         )
 
-
 async def menu_inline(client, inline_query):
-    msg = f"<b>✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ <a href=tg://user?id={inline_query.from_user.id}>{inline_query.from_user.first_name} {inline_query.from_user.last_name or ''}</a>\n\n🔖 <b>ᴘʀᴇғɪx:</b> {', '.join(ubot._prefix.get(inline_query.from_user.id, ['.', ',', ':', ';', '!']))}</b>"
+    prefix = await ubot.get_prefix(inline_query.from_user.id)
+    modules_count = len(HELP_COMMANDS)
+    msg = (
+        f"❏ ᴍᴇɴᴜ ɪɴʟɪɴᴇ {inline_query.from_user.first_name} {inline_query.from_user.last_name or ''}\n"
+        f"├ ᴘʀᴇғɪx: {', '.join(ubot._prefix.get(inline_query.from_user.id, ['.', ',', ':', ';', '!']))}\n"
+        f"╰ ᴍᴏᴅᴜʟᴇs: {modules_count}"
+    )
     await client.answer_inline_query(
         inline_query.id,
         cache_time=60,
         results=[
-            (
-                InlineQueryResultArticle(
-                    title="Help Menu!",
-                    reply_markup=InlineKeyboardMarkup(
-                        paginate_modules(0, HELP_COMMANDS, "help")
-                    ),
-                    input_message_content=InputTextMessageContent(msg),
-                )
+            InlineQueryResultArticle(
+                title="Help Menu!",
+                input_message_content=InputTextMessageContent(msg),
+                reply_markup=InlineKeyboardMarkup(
+                    paginate_modules(0, HELP_COMMANDS, "help")
+                ),
             )
         ],
             )
