@@ -1,13 +1,15 @@
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime
 from gc import get_objects
 from time import time
 import psutil
 
+from datetime import datetime, timedelta
 from pyrogram.raw.functions import Ping
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from PyroUbot import *
+
 
 async def send_msg_to_owner(client, message):
     if message.from_user.id != OWNER_ID:
@@ -33,37 +35,52 @@ async def send_msg_to_owner(client, message):
             OWNER_ID, formatted_text, reply_markup=InlineKeyboardMarkup(buttons)
         )
 
-async def ping_cmd(client, message):
-    uptime = await get_time((time() - start_time))
-    start = datetime.now()
 
-    ping_task = client.send(Ping(ping_id=0))
-    emot_1_task = get_vars(client.me.id, "EMOJI_PING_PONG")
-    emot_2_task = get_vars(client.me.id, "EMOJI_UPTIME")
-    emot_3_task = get_vars(client.me.id, "EMOJI_MENTION")
 
-    ping_result, emot_1, emot_2, emot_3 = await asyncio.gather(ping_task, emot_1_task, emot_2_task, emot_3_task)
+class PING:
+    def __init__(self, client, message):
+        self.client = client
+        self.message = message
 
-    end = datetime.now()
-    delta_ping = (end - start).microseconds / 1000
+    async def get_time(self, time_diff):
+        return f"{time_diff:.2f} seconds"
 
-    emot_pong = emot_1 if emot_1 else "5269563867305879894"
-    emot_uptime = emot_2 if emot_2 else "5316615057939897832"
-    emot_mention = emot_3 if emot_3 else "6226371543065167427"
+    async def get_vars(self, client_id, var_name):
+        # Implementasi untuk mendapatkan variabel-variabel tertentu
+        # Berdasarkan client_id dan var_name
+        pass
 
-    if client.me.is_premium:
-        _ping = f"""
+    async def ping_cmd(self):
+        uptime = await self.get_time((time() - start_time))
+        start = datetime.now()
+        
+        ping_task = self.client.send(Ping(ping_id=0))
+        emot_1_task = self.get_vars(self.client.me.id, "EMOJI_PING_PONG")
+        emot_2_task = self.get_vars(self.client.me.id, "EMOJI_UPTIME")
+        emot_3_task = self.get_vars(self.client.me.id, "EMOJI_MENTION")
+
+        ping_result, emot_1, emot_2, emot_3 = await asyncio.gather(ping_task, emot_1_task, emot_2_task, emot_3_task)
+
+        end = datetime.now()
+        delta_ping = (end - start).microseconds / 1000
+
+        emot_pong = emot_1 if emot_1 else "5269563867305879894"
+        emot_uptime = emot_2 if emot_2 else "5316615057939897832"
+        emot_mention = emot_3 if emot_3 else "6226371543065167427"
+
+        if self.client.me.is_premium:
+            _ping = f"""
 <b><emoji id="{emot_pong}">🏓</emoji> Pong:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
 <b><emoji id="{emot_uptime}">⏰</emoji> Uptime:</b> <code>{uptime}</code>
-<b><emoji id="{emot_mention}">👑</emoji> Mention:</b> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
-        """
-    else:
-        _ping = f""" 
+<b><emoji id="{emot_mention}">👑</emoji> Mention:</b> <a href="tg://user?id={self.client.me.id}">{self.client.me.first_name} {self.client.me.last_name or ''}</a>
+            """
+        else:
+            _ping = f""" 
 <b>❏ 5+:</b> <code>{str(delta_ping).replace('.', ',')} ms</code>
 <b>├ Time:</b> <code>{uptime}</code>
-<b>╰ Jeneng:</b> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
-        """
-    await message.reply(_ping)
+<b>╰ Jeneng:</b> <a href="tg://user?id={self.client.me.id}">{self.client.me.first_name} {self.client.me.last_name or ''}</a>
+            """
+        await self.message.reply(_ping)
 
 async def start_cmd(client, message):
     await send_msg_to_owner(client, message)
@@ -130,16 +147,16 @@ async def get_system_status():
     owner_id = 843830036
 
     status_message = (
-    f"🖥️ [SYSTEM UBOT]\n"
-    f"PING: {ping} ms\n"
-    f"UBOT: {user_count} user\n"
-    f"UPTIME: {uptime}\n"
-    f"OWNER: [{owner_name}](tg://user?id={owner_id})\n\n"
-    f"📊 [STATUS SERVER]\n"
-    f"CPU: {cpu_percent}%\n"
-    f"RAM: {ram_percent}%\n"
-    f"DISK: {disk_percent}%\n"
-    f"MEMORY: {memory_usage:.2f} MB"
+        f"🖥️ [SYSTEM UBOT]\n"
+        f"PING: {ping} ms\n"
+        f"UBOT: {user_count} user\n"
+        f"UPTIME: {uptime}\n"
+        f"OWNER: [{owner_name}](tg://user?id={owner_id})\n\n"
+        f"📊 [STATUS SERVER]\n"
+        f"CPU: {cpu_percent}%\n"
+        f"RAM: {ram_percent}%\n"
+        f"DISK: {disk_percent}%\n"
+        f"MEMORY: {memory_usage:.2f} MB"
     )
 
     refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
