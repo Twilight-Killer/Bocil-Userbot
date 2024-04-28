@@ -1,6 +1,6 @@
 from PyroUbot import *
 
-__MODULE__ = "tagall"
+__MODULE__ = "all&$spam"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴛᴀɢᴀʟʟ 』</b>
 
@@ -9,6 +9,21 @@ __HELP__ = """
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}batal</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mematikan ngetag
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}spam</code> [ᴊᴜᴍʟᴀʜ_ᴘᴇsᴀɴ - ᴘᴇsᴀɴ_sᴘᴀᴍ]
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ sᴘᴀᴍ ᴘᴇsᴀɴ
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}dspam</code> [ᴊᴜᴍʟᴀʜ_ᴘᴇsᴀɴ - ᴊᴜᴍʟᴀʜ_ᴅᴇʟᴀʏ_ᴅᴇᴛɪᴋ - ᴘᴇsᴀɴ_sᴘᴀᴍ]
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk spam pesan delay
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}spmlist</code> 
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> melihat list dspam
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}henti</code>
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menghentikan dspam
+
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ddtext</code>
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menambahkan text dspam
 """
 
 
