@@ -135,7 +135,7 @@ async def _(client, message):
     remove_list(client.me.id)
     return await msg.edit(f"<b>ʙᴇʀʜᴀsɪʟ ᴛᴜʀᴜɴ ᴅᴀʀɪ ᴏʙʀᴏʟᴀɴ sᴜᴀʀᴀ</b>\n<b>ɢʀᴏᴜᴘ : </b><code>{chat_title}</code>")
 
-@PY.UBOT("listvc")
+@PY.UBOT("listvc", FILTERS.OWNER)
 async def _(client, message):
     chat_title = message.chat.title
     voice_chat_list = get_list()
