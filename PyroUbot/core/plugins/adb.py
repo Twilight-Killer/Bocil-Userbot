@@ -16,7 +16,7 @@ async def need_api(client, callback_query):
     if user_id in ubot._get_my_id:
         return await bot.send_message(
             user_id,
-            "<b>ᴀɴᴅᴀ sᴜᴅᴀʜ ᴍᴇᴍʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ\n\nJɪᴋᴀ ᴜsᴇʀʙᴏᴛ ᴀɴᴅᴀ ᴛɪᴅᴀᴋ ʙɪsᴀ ᴅɪɢᴜɴᴀᴋᴀɴ sɪʟᴀʜᴋᴀɴ ᴋʟɪᴋ: /control</b>",
+            "<b>anda suda membuat userbot\n\njika userbot anda tidak bisa di gunakan pencet: /control</b>",
         )
     elif len(ubot._ubot) + 1 > MAX_BOT:
         buttons = [
@@ -53,13 +53,13 @@ async def need_api(client, callback_query):
         return await bot.send_message(
             user_id,
             """
-<b>✅ ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ sɪᴀᴘᴋᴀɴ ʙᴀʜᴀɴ ʙᴇʀɪᴋᴜᴛ
+<b>✅ untuk membuat userbot siapkan bahan
 
-    • <code>ᴀᴘɪ_ɪᴅ</code>: ᴅᴀᴘᴀᴛᴋᴀɴ ᴅᴀʀɪ my.telegram.org
-    • <code>ᴀᴘɪ_ʜᴀsʜ</code>: ᴅᴀᴘᴀᴛᴋᴀɴ ᴅᴀʀɪ my.telegram.org
-    • <code>ᴘʜᴏɴᴇ_ɴᴜᴍʙᴇʀ</code>: ɴᴏᴍᴇʀ ʜᴘ ᴀᴋᴜɴ ᴛᴇʟᴇɢʀᴀᴍ
+    • <code>ᴀᴘɪ_ɪᴅ</code>: dapatkan dari  my.telegram.org
+    • <code>ᴀᴘɪ_ʜᴀsʜ</code>: dapatkan dari my.telegram.org
+    • <code>ᴘʜᴏɴᴇ_ɴᴜᴍʙᴇʀ</code>: nomer hp akun telegram 
 
-☑️ ᴊɪᴋᴀ sᴜᴅᴀʜ ᴛᴇʀsᴇᴅɪᴀ sɪʟᴀʜᴋᴀɴ ᴋʟɪᴋ ᴛᴏᴍʙᴏɪ ᴅɪʙᴀᴡᴀʜ</b>
+☑️ jika sudah tersedia klik tombol di bawa</b>
 """,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(buttons),
