@@ -16,6 +16,9 @@ __HELP__ = """
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ok or {0}setuju</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> setuju pm
 
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}setpmimage</code>
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk set gambang pmpermit
+
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}no or {0}tolak</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> nolak pm
 
