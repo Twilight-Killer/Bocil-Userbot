@@ -9,7 +9,6 @@ from PyroUbot import *  # Pastikan PY.UBOT diimpor dengan benar dari modul Anda
 # Asumsikan BLACKLIST_CHAT didefinisikan di suatu tempat dalam modul ubot Anda
 BLACKLIST_CHAT = []  # Ganti dengan ID chat yang sebenarnya
 
-
 __MODULE__ = "join"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴀғᴋ 』</b>
@@ -50,9 +49,9 @@ async def join(client, message: Message):
     yaa = await message.reply("Processing...")
     try:
         await client.join_chat(mam)
-        await xxnx.edit(f"Berhasil bergabung ke: `{mam}`")
+        await yaa.edit(f"Berhasil bergabung ke: `{mam}`")
     except Exception as ex:
-        await xxnx.edit(f"ERROR:\n\n{str(ex)}")
+        await yaa.edit(f"ERROR:\n\n{str(ex)}")
 
 
 @PY.UBOT("leave")
@@ -66,7 +65,7 @@ async def leave(client, message: Message):
         await client.leave_chat(mam)
         await yaa.edit_text(f"{user.first_name} Aku depresi.")
     except Exception as ex:
-        await xxnx.edit_text(f"ERROR:\n\n{str(ex)}")
+        await yaa.edit_text(f"ERROR:\n\n{str(ex)}")
 
 
 @PY.UBOT("leaveallgc")
@@ -75,13 +74,13 @@ async def leave_all_groups(client, message: Message):
     cil = 0
     mek = 0
     async for dialog in client.get_dialogs():
-        if dialog.chat.type in (enums.ChatType.GROUP, enums.ChatType.SUPERGROUP):
+        if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             chat = dialog.chat.id
             try:
-                done += 1
+                mek += 1
                 await client.leave_chat(chat)
             except Exception:
-                er += 1
+                cil += 1
     await mam.edit(f"Berhasil keluar dari {mek} grup, Gagal keluar dari {cil} grup.")
 
 
@@ -91,7 +90,7 @@ async def leave_all_channels(client, message: Message):
     cil = 0
     mek = 0
     async for dialog in client.get_dialogs():
-        if dialog.chat.type == enums.ChatType.CHANNEL:
+        if dialog.chat.type == ChatType.CHANNEL:
             chat = dialog.chat.id
             try:
                 mek += 1
@@ -99,6 +98,7 @@ async def leave_all_channels(client, message: Message):
             except Exception:
                 cil += 1
     await mam.edit(f"Berhasil keluar dari {mek} channel, Gagal keluar dari {cil} channel.")
+
 
 @PY.UBOT("leaveallmute")
 async def leave_all_muted_groups(client, message: Message):
@@ -110,7 +110,7 @@ async def leave_all_muted_groups(client, message: Message):
             chat = dialog.chat.id
             try:
                 member = await client.get_chat_member(chat, client.me.id)
-                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and member.permissions.can_send_messages is False:
+                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and not member.permissions.can_send_messages:
                     try:
                         mek += 1
                         await client.leave_chat(chat)
