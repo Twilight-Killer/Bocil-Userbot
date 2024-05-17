@@ -100,6 +100,16 @@ async def leave_all_channels(client, message: Message):
     await mam.edit(f"Berhasil keluar dari {mek} channel, Gagal keluar dari {cil} channel.")
     
 
+from pyrogram.enums import ChatType, ChatMemberStatus
+from pyrogram import Client, enums, filters
+from pyrogram.types import Message
+
+# Import bot anda dari modul yang sesuai
+from PyroUbot import *  # Pastikan PY.UBOT diimpor dengan benar dari modul Anda
+
+# Asumsikan BLACKLIST_CHAT didefinisikan di suatu tempat dalam modul ubot Anda
+BLACKLIST_CHAT = []  # Ganti dengan ID chat yang sebenarnya
+
 @PY.UBOT("leaveallmute")
 async def leave_all_muted_groups(client, message: Message):
     mam = await message.reply("Proses Pengeluaran Grup yang Dimute...")
@@ -108,11 +118,15 @@ async def leave_all_muted_groups(client, message: Message):
     async for dialog in client.get_dialogs():
         if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             chat = dialog.chat.id
-            member = await client.get_chat_member(chat, client.me.id)
-            if member.status == ChatMemberStatus.RESTRICTED and member.is_member and member.permissions.can_send_messages is False:
-                try:
-                    mek += 1
-                    await client.leave_chat(chat)
-                except Exception:
-                    cil += 1
+            try:
+                member = await client.get_chat_member(chat, client.me.id)
+                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and member.permissions.can_send_messages is False:
+                    try:
+                        mek += 1
+                        await client.leave_chat(chat)
+                    except Exception:
+                        cil += 1
+            except pyrogram.errors.exceptions.bad_request_400.UserNotParticipant:
+                # Lewati chat di mana bot bukan peserta
+                pass
     await mam.edit(f"Berhasil keluar dari {mek} grup yang dimute, Gagal keluar dari {cil} grup.")
