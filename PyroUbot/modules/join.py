@@ -110,26 +110,17 @@ async def leave_all_muted_groups(client, message: Message):
             chat = dialog.chat.id
             try:
                 member = await client.get_chat_member(chat, client.me.id)
-                # Debugging log
-                print(f"Checking chat {chat} - status: {member.status}, is_member: {member.is_member}, permissions: {member.permissions}")
-                
-                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and member.permissions and not member.permissions.can_send_messages:
+                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and not member.permissions.can_send_messages:
                     try:
                         mek += 1
                         await client.leave_chat(chat)
-                        print(f"Left muted group {chat}")
-                    except Exception as e:
+                    except Exception:
                         cil += 1
-                        print(f"Failed to leave muted group {chat}: {e}")
             except UserNotParticipant:
-                print(f"User not participant in chat {chat}, trying to leave.")
+                # Jika bot bukan peserta, tetap mencoba keluar dari grup
                 try:
                     mek += 1
                     await client.leave_chat(chat)
-                    print(f"Left group {chat} despite not being a participant")
-                except Exception as e:
+                except Exception:
                     cil += 1
-                    print(f"Failed to leave group {chat} despite not being a participant: {e}")
-            except Exception as e:
-                print(f"Failed to get chat member info for chat {chat}: {e}")
     await mam.edit(f"Berhasil keluar dari {mek} grup yang dimute, Gagal keluar dari {cil} grup.")
