@@ -111,9 +111,9 @@ async def leave_all_muted_groups(client, message: Message):
             try:
                 member = await client.get_chat_member(chat, client.me.id)
                 # Debugging log
-                print(f"Checking chat {chat} - status: {member.status}, is_member: {member.is_member}, can_send_messages: {member.permissions.can_send_messages}")
+                print(f"Checking chat {chat} - status: {member.status}, is_member: {member.is_member}, permissions: {member.permissions}")
                 
-                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and not member.permissions.can_send_messages:
+                if member.status == ChatMemberStatus.RESTRICTED and member.is_member and member.permissions and not member.permissions.can_send_messages:
                     try:
                         mek += 1
                         await client.leave_chat(chat)
