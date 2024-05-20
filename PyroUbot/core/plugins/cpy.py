@@ -12,11 +12,11 @@ from PyroUbot import *
 async def copy_bot_msg(client, message):
     if message.from_user.id not in ubot._get_my_id:
         return
-    Tm = await message.reply("ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ")
+    Tm = await message.reply("prosessssss......")
     link = get_arg(message)
     if not link:
         return await Tm.edit(
-            f"<b><code>{message.text}</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]</b>"
+            f"<b><code>{message.text}</code> [link_konten_telegram]</b>"
         )
     msg_id = int(link.split("/")[-1])
     chat = str(link.split("/")[-2])
@@ -160,11 +160,11 @@ async def download_media_copy(get, client, infomsg, message):
 
 async def copy_ubot_msg(client, message):
     msg = message.reply_to_message or message
-    infomsg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴄᴏᴘʏ ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ</b>")
+    infomsg = await message.reply("<b>sedang prosessss copy</b>")
     link = get_arg(message)
     if not link:
         return await Tm.edit(
-            f"<b><code>{message.text}</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]</b>"
+            f"<b><code>{message.text}</code> [link_konten_telegram]</b>"
         )
     if link.startswith(("https", "t.me")):
         msg_id = int(link.split("/")[-1])
@@ -200,7 +200,7 @@ async def copy_ubot_msg(client, message):
                 except Exception as error:
                     await infomsg.edit(f"{str(error)}")
     else:
-        await infomsg.edit("ᴍᴀsᴜᴋᴋɪɴ ʟɪɴᴋ ʏᴀɴɢ ᴠᴀʟɪᴅ")
+        await infomsg.edit("masukkin link yang valid")
 
 
 async def copy_inline_msg(client, inline_query):
@@ -222,7 +222,7 @@ async def copy_inline_msg(client, inline_query):
                         ]
                     ),
                     input_message_content=InputTextMessageContent(
-                        "<b>🔒 ᴋᴏɴᴛᴇɴ ʏᴀɴɢ ᴍᴀᴜ ᴅɪᴀᴍʙɪʟ ʙᴇʀsɪꜰᴀᴛ ʀᴇsᴛʀɪᴄᴛᴇᴅ\n\n✅ ᴋʟɪᴋ ᴛᴏᴍʙᴏʟ ᴅɪʙᴀᴡᴀʜ ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴜᴋᴀ ᴋᴏɴᴛᴇɴ ʀᴇsᴛʀɪᴄᴛᴇᴅ</b>"
+                        "<b>🔒 konten yang diambil bersifat restricted\n\n✅ klik tombol di bawah untuk membuka konten</b>"
                     ),
                 )
             )
@@ -235,7 +235,7 @@ async def copy_callback_msg(client, callback_query):
         q = int(callback_query.data.split("_", 1)[1])
         m = [obj for obj in get_objects() if id(obj) == q][0]
         await m._client.unblock_user(bot.me.username)
-        await callback_query.edit_message_text("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ</b>")
+        await callback_query.edit_message_text("<b>tunggu sebentar</b>")
         copy = await m._client.send_message(
             bot.me.username, f"/copy {m.text.split()[1]}"
         )
