@@ -8,9 +8,9 @@ from PyroUbot import extract_user
 
 async def sg_cmd(client, message):
     get_user = await extract_user(message)
-    lol = await message.reply("<b>ᴍᴇᴍᴘʀᴏsᴇs. . .</b>")
+    lol = await message.reply("<b>prosessss....</b>")
     if not get_user:
-        return await lol.edit("<b>ᴜsᴇʀ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ</b>")
+        return await lol.edit("<b>user tidak ditemukan</b>")
     try:
         get = await client.get_users(get_user)
         user_id = get.id
@@ -33,7 +33,7 @@ async def sg_cmd(client, message):
     for history in sg_name:
         if not history:
             await message.reply(
-                f"❌ {getbot} ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴍᴇʀᴇsᴘᴏɴ ᴘᴇʀᴍɪɴᴛᴀᴀɴ", quote=True
+                f"❌ {getbot} tidak dapat merespon permintaan anda", quote=True
             )
         else:
             await message.reply(history.replace(str(user_id), name), quote=True)
