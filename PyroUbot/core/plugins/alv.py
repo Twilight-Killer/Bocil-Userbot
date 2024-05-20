@@ -59,7 +59,7 @@ async def alive_query(client, inline_query):
         ping_dc: <code>{str(ping).replace('.', ',')} ᴍs</code>
         peer_users: <code>{users} ᴜsᴇʀs</code>
         peer_group: <code>{group} ɢʀᴏᴜᴘ</code>
-        start_uptimr: <code>{uptime}</code></b>
+        start_uptime: <code>{uptime}</code></b>
 """
             await client.answer_inline_query(
                 inline_query.id,
