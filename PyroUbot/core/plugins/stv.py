@@ -25,23 +25,23 @@ async def get_group_call(client: Client, message, err_msg=""):
         if full_chat is not None:
             return full_chat.call
 
-    await message.reply(f"ɴᴏ ɢʀᴏᴜᴘ ᴄᴀʟʟ ꜰᴏᴜɴᴅ {err_msg}")
+    await message.reply(f"no group call found {err_msg}")
     return False
 
 
 async def start_vctools(client, message):
     flags = " ".join(message.command[1:])
-    msg = await message.reply("<code>ᴍᴇᴍᴘʀᴏꜱᴇꜱ....</code>")
+    msg = await message.reply("<code>prosesss.....</code>")
     vctitle = get_arg(message)
     chat_id = message.chat.title if flags == enums.ChatType.CHANNEL else message.chat.id
 
     args = (
-        f"<b>ᴏʙʀᴏʟᴀɴ ꜱᴜᴀʀᴀ ᴀᴋᴛɪꜰ</b>\n<b>ᴄʜᴀᴛ : </b><code>{message.chat.title}</code>"
+        f"<b>obrolan suara aktif</b>\n<b>chat : </b><code>{message.chat.title}</code>"
     )
 
     try:
         if vctitle:
-            args += f"\n<b>ᴛɪᴛʟᴇ : </b> <code>{vctitle}</code>"
+            args += f"\n<b>title : </b> <code>{vctitle}</code>"
 
         await client.invoke(
             CreateGroupCall(
@@ -52,17 +52,17 @@ async def start_vctools(client, message):
         )
         await msg.edit(args)
     except Exception as e:
-        await msg.edit(f"<b>INFO:</b> `{e}`")
+        await msg.edit(f"<b>info:</b> `{e}`")
 
 
 async def stop_vctools(client, message):
-    msg = await message.reply("<code>ᴍᴇᴍᴘʀᴏꜱᴇꜱ....</code>")
-    group_call = await get_group_call(client, message, err_msg=", ᴋᴇꜱᴀʟᴀʰᴀɴ...")
+    msg = await message.reply("<code>prosesss.....</code>")
+    group_call = await get_group_call(client, message, err_msg=", kesalahan...")
 
     if not group_call:
         return
 
     await client.invoke(DiscardGroupCall(call=group_call))
     await msg.edit(
-        f"<b>ᴏʙʀᴏʟᴀɴ ꜱᴜᴀʀᴀ ᴅɪᴀᴋʜɪʀɪ</b>\n<b>ᴄʜᴀᴛ : </b><code>{message.chat.title}</code>"
+        f"<b>obrolan suara diakhiri</b>\n<b>chat : </b><code>{message.chat.title}</code>"
     )
