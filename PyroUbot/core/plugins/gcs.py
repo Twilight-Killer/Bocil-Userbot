@@ -1,7 +1,7 @@
 import asyncio
 from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
-from pyrogram.errors import FloodWait, PeerIdInvalid, ChatWriteForbidden, RPCError
+from pyrogram.errors import RPCError
 
 from PyroUbot import *
 
@@ -37,32 +37,27 @@ async def broadcast_group_cmd(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
-        except FloodWait as e:
-            await asyncio.sleep(e.value)
-            try:
-                if message.reply_to_message:
-                    await send.copy(chat_id)
-                else:
-                    await client.send_message(chat_id, send)
-                done += 1
-            except (ChatWriteForbidden, RPCError) as e:
-                if isinstance(e, RPCError) and e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
-                    failed += 1
-                else:
-                    failed += 1
-                print(f"Error during FloodWait retry: {e}")
-        except (ChatWriteForbidden, RPCError) as e:
-            if isinstance(e, RPCError) and e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
+        except RPCError as e:
+            if e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
+                failed += 1
+            elif e.CODE == 403 and "CHAT_WRITE_FORBIDDEN" in str(e):
+                failed += 1
+            elif e.CODE == 400 and "PEER_ID_INVALID" in str(e):
                 failed += 1
             else:
                 failed += 1
-            print(f"Error: {e}")
+                print(f"Error: {e}")
+        except Exception as ex:
+            failed += 1
+            print(f"Error: {ex}")
 
     await msg.delete()
     return await message.reply(
         f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
         quote=True,
     )
+
+# Fungsi lainnya tetap sama
 
 async def broadcast_users_cmd(client, message):
     msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
