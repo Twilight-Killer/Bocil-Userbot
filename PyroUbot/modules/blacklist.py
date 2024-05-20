@@ -2,19 +2,19 @@ from PyroUbot import *
 
 __MODULE__ = "blacklist"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʙʟᴀᴄᴋʟɪsᴛ 』</b>
+<b>『 ʙᴀɴᴛᴜᴀɴ blacklist 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}addbll</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> memasukan group ke daftar hitam
+  <b>• perinta:</b> <code>{0}addbll</code>
+  <b>• penjelasan:</b> memasukan group ke daftar hitam
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unbl</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menghapus grouo dari daftar hitam
+  <b>• perintah:</b> <code>{0}unbl</code>
+  <b>• penjelasan:</b> menghapus grouo dari daftar hitam
   
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}rallbl</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menghapus semua blacklist 
+  <b>• perintah:</b> <code>{0}rallbl</code>
+  <b>• penjelasan:</b> menghapus semua blacklist 
   
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}listbl</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> melihat semua daftar hitam
+  <b>• perintah:</b> <code>{0}listbl</code>
+  <b>• penjelasan:</b> melihat semua daftar hitam
 """
 
 
