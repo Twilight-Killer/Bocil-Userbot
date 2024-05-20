@@ -16,7 +16,7 @@ __HELP__ = """
     <b>• perintah:</b> auto_gcast (qury) - (value)
       <b>•> query & value:</b>
         <b>on/off:</b> untuk aktifkan dan nonaktifkan auto_gcast
-        <b>text - kata-kata/reply_text: menambahkan kata kata ke database
+        <b>text - kata-kata/reply_text:<b> menambahkan kata kata ke database
         <b>delay - angka:</b> merubah delay auto gcast
         <b>limit - on/off:</b> aktif/non-aktif untuk cek limit 15 menit sekali
   <b>• penjelasan:</b> mengerim pesan gcast otomatis 
