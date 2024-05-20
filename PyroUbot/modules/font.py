@@ -2,10 +2,10 @@ from PyroUbot import *
 
 __MODULE__ = "font"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ꜰᴏɴᴛ 』</b>
+<b>『 bantuan font 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}font</code> [ʀᴇᴘʟʏ/ᴛᴇxᴛ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah text 
+  <b>• perintah:</b> <code>{0}font</code>
+  <b>• penjelasan:</b> merubah text 
 """
 
 
