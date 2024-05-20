@@ -6,11 +6,11 @@ __MODULE__ = "afk"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴀғᴋ 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}afk</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengaktifkan afk
+  <b>• perinta:</b> <code>{0}afk</code></code>
+  <b>• penjelasan:</b> mengaktifkan afk
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unafk</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menonaktifkan afk
+  <b>• perintah:</b> <code>{0}unafk</code></code>
+  <b>• penjelasan:</b> menonaktifkan afk
 """
 
 
@@ -23,9 +23,9 @@ class AFK:
     async def set_afk(self):
         db_afk = {"time": time(), "reason": self.reason}
         msg_afk = (
-            f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {self.reason}</b>"
+            f"<b>❏ sedang afk\n ╰ alasan: {self.reason}</b>"
             if self.reason
-            else "<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ</b>"
+            else "<b>❏ sedang afk</b>"
         )
         await set_vars(self.client.me.id, "AFK", db_afk)
         await self.message.reply(msg_afk)
@@ -37,9 +37,9 @@ class AFK:
             afk_reason = vars.get("reason")
             afk_runtime = await get_time(time() - afk_time)
             afk_text = (
-                f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
+                f"<b>❏ sedang afk\n ├ waktu: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
                 if afk_reason
-                else f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</b>"
+                else f"<b>❏ sedang afk\n ╰ waktu: {afk_runtime}</b>"
             )
             return await self.message.reply(afk_text)
 
@@ -48,7 +48,7 @@ class AFK:
         if vars:
             afk_time = vars.get("time")
             afk_runtime = await get_time(time() - afk_time)
-            afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
+            afk_text = f"<b>❏ kembali online\n ╰ afk selama: {afk_runtime}"
             await self.message.reply(afk_text)
             return await remove_vars(self.client.me.id, "AFK")
 
