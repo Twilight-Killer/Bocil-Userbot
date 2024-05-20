@@ -2,14 +2,14 @@ from PyroUbot import *
 
 __MODULE__ = "copy"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴄᴏᴘʏ 』</b>
+<b>『 bantuan copy 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}copy</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> nyolong konten wik
+  <b>• perintah:</b> <code>{0}copy</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]
+  <b>• penjelasan:</b> nyolong konten wik
 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}wow</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇᴅɪᴀ ᴛɪᴍᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> nyolong pap
+  <b>• perintah:</b> <code>{0}wow</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇᴅɪᴀ ᴛɪᴍᴇʀ]
+  <b>• penjelasan:</b> nyolong pap
 """
 
 
