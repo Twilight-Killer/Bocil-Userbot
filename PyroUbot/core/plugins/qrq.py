@@ -17,7 +17,7 @@ async def qr_gen_cmd(client, message):
             if len(input_text) > 1000:
                 return await message.reply("Input terlalu panjang.")
             data = qr_gen(input_text)
-    Tm = await message.reply("sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ʙᴜᴀᴛ ǫʀᴄᴏᴅᴇ....")
+    Tm = await message.reply("sedang prosen qrcode....")
     try:
         QRcode = (
             requests.post(
@@ -36,13 +36,13 @@ async def qr_gen_cmd(client, message):
 async def qr_read_cmd(client, message):
     replied = message.reply_to_message
     if not (replied and replied.media and (replied.photo or replied.sticker)):
-        await message.reply("ʙᴀʟᴀs ᴋᴏᴅᴇ ǫʀ ᴜɴᴛᴜᴋ ᴍᴇɴᴅᴀᴘᴀᴛᴋᴀɴ ᴅᴀᴛᴀ...")
+        await message.reply("balas qr untuk mendapatkan data...")
         return
     if not os.path.isdir("premiumQR/"):
         os.makedirs("premiumQR/")
-    AM = await message.reply("ᴍᴇɴɢᴜɴᴅᴜʜ ᴍᴇᴅɪᴀ...")
+    AM = await message.reply("mengundu mediaa...")
     down_load = await client.download_media(message=replied, file_name="premiumQR/")
-    await AM.edit("ᴍᴇᴍᴘʀᴏsᴇs ᴋᴏᴅᴇ ǫʀ ᴀɴᴅᴀ...")
+    await AM.edit("proses kodr qr anda...")
     cmd = [
         "curl",
         "-X",
@@ -61,12 +61,12 @@ async def qr_read_cmd(client, message):
     err_response = stderr.decode().strip()
     os.remove(down_load)
     if not (out_response or err_response):
-        await AM.edit("ᴛɪᴅᴀᴋ ʙɪsᴀ ᴍᴇɴᴅᴀᴘᴀᴛᴋᴀɴ ᴅᴀᴛᴀ ᴋᴏᴅᴇ ǫʀ ɪɴɪ...")
+        await AM.edit("tida bisa mendapatkan data kode qr anda...")
         return
     try:
         soup = BeautifulSoup(out_response, "html.parser")
         qr_contents = soup.find_all("pre")[0].text
     except IndexError:
-        await AM.edit("ɪɴᴅᴇᴋs ᴅᴀꜰᴛᴀʀ ᴅɪ ʟᴜᴀʀ ᴊᴀɴɢᴋᴀᴜᴀɴ")
+        await AM.edit("indeks daftar diluar jangkauan")
         return
-    await AM.edit(f"<b>ᴅᴀᴛᴀ ǫʀᴄᴏᴅᴇ:</b>\n<code>{qr_contents}</code>")
+    await AM.edit(f"<b>data qrcode:</b>\n<code>{qr_contents}</code>")
