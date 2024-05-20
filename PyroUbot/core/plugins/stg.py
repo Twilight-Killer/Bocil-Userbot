@@ -2,9 +2,9 @@ from PyroUbot import *
 
 
 async def setprefix(client, message):
-    Tm = await message.reply("ᴍᴇᴍᴘʀᴏsᴇs...", quote=True)
+    Tm = await message.reply("prosesss.....", quote=True)
     if len(message.command) < 2:
-        return await Tm.edit(f"<code>{message.text}</code> sɪᴍʙᴏʟ ᴘʀᴇғɪx")
+        return await Tm.edit(f"<code>{message.text}</code> simbol prefix")
     else:
         ub_prefix = []
         for prefix in message.command[1:]:
@@ -16,22 +16,22 @@ async def setprefix(client, message):
             ubot.set_prefix(message.from_user.id, ub_prefix)
             await set_pref(message.from_user.id, ub_prefix)
             parsed_prefix = " ".join(f"<code>{prefix}</code>" for prefix in ub_prefix)
-            return await Tm.edit(f"<b>✅ ᴘʀᴇғɪx ᴛᴇʟᴀʜ ᴅɪᴜʙᴀʜ ᴋᴇ: {parsed_prefix}</b>")
+            return await Tm.edit(f"<b>✅ prefix diubah ke: {parsed_prefix}</b>")
         except Exception as error:
             return await Tm.edit(str(error))
 
 
 async def change_emot(client, message):
     try:
-        msg = await message.reply("ᴍᴇᴍᴘʀᴏsᴇs...", quote=True)
+        msg = await message.reply("prosesss.....", quote=True)
 
         if not client.me.is_premium:
             return await msg.edit(
-                "<b>ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ᴀᴋᴜɴ ᴀɴᴅᴀ ʜᴀʀᴜ ᴘʀᴇᴍɪᴜᴍ ᴛᴇʀʟᴇʙɪʜ</b>"
+                "<b>untuk menggunakan perintah ini anda harus premium terlebih dahulu</b>"
             )
 
         if len(message.command) < 3:
-            return await msg.edit("<b>ᴛᴏʟᴏɴɢ ᴍᴀsᴜᴋᴋᴀɴ ǫᴜᴇʀʏ ᴅᴀɴ ᴠᴀʟᴇᴜ ɴʏᴀ</b>")
+            return await msg.edit("<b>tolong masukan query dan value</b>")
 
         query_mapping = {
             "pong": "EMOJI_PING_PONG",
@@ -52,14 +52,14 @@ async def change_emot(client, message):
             if emoji_id:
                 await set_vars(client.me.id, query_var, emoji_id)
                 await msg.edit(
-                    f"<b>✅ <code>{query_var}</code> ʙᴇʀʜᴀsɪʟ ᴅɪ sᴇᴛᴛɪɴɢ ᴋᴇ:</b> <emoji id={emoji_id}>{value}</emoji>"
+                    f"<b>✅ <code>{query_var}</code> berhasil diseting ke:</b> <emoji id={emoji_id}>{value}</emoji>"
                 )
             else:
                 await msg.edit(
-                    "<b>ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ᴀᴋᴜɴ ᴀɴᴅᴀ ʜᴀʀᴜs ᴘʀᴇᴍɪᴜᴍ ᴛᴇʀʟᴇʙɪʜ</b>"
+                    "<b>untuk menggunakan perintah ini anda harus premium terlebih dahulu</b>"
                 )
         else:
-            await msg.edit("<b>ᴍᴀᴘᴘɪɴɢ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ</b>")
+            await msg.edit("<b>mapping tidak ditemukan</b>")
 
     except Exception as error:
         await msg.edit(str(error))
