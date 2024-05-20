@@ -20,16 +20,16 @@ async def support_callback(client, callback_query):
         ]
         pesan = await bot.ask(
             user_id,
-            f"<b>✍️ sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍ ᴘᴇʀᴛᴀɴʏᴀᴀɴ ᴀɴᴅᴀ: {full_name}</b>",
+            f"<b>✍️ silahkan kirim curhatan anda: {full_name}</b>",
             reply_markup=InlineKeyboardMarkup(button),
             timeout=90,
         )
     except asyncio.TimeoutError as out:
         if get.id in SUPPORT:
             SUPPORT.remove(get.id)
-            return await bot.send_message(get.id, "ᴘᴇᴍʙᴀᴛᴀʟᴀɴ ᴏᴛᴏᴍᴀᴛɪs")
+            return await bot.send_message(get.id, "permbatalan otomatis")
 
-    text = f"<b>💬 ᴘᴇʀᴛᴀɴʏᴀᴀɴ ᴀɴᴅᴀ sᴜᴅᴀʜ ᴛᴇʀᴋɪʀɪᴍ: {full_name}</b>"
+    text = f"<b>💬 curhat lu sudah dikirim: {full_name}</b>"
     buttons = [
         [
             InlineKeyboardButton("👤 ᴘʀᴏꜰɪʟ", callback_data=f"profil {user_id}"),
@@ -45,7 +45,7 @@ async def support_callback(client, callback_query):
             )
             SUPPORT.remove(get.id)
             await pesan.request.edit(
-                f"<b>✍️ sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍ ᴘᴇʀᴛᴀɴʏᴀᴀɴ ᴀɴᴅᴀ: {full_name}</b>"
+                f"<b>✍️ silahkan kirim curhatan anda: {full_name}</b>"
             )
             return await bot.send_message(user_id, text)
         except Exception as error:
@@ -65,16 +65,16 @@ async def jawab_pesan_callback(client, callback_query):
         ]
         pesan = await bot.ask(
             user_id,
-            f"<b>✉️ sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍ ʙᴀʟᴀsᴀɴ ᴀɴᴅᴀ: {full_name}</b>",
+            f"<b>✉️ silahkan kirim curhatan selanjutnya: {full_name}</b>",
             reply_markup=InlineKeyboardMarkup(button),
             timeout=300,
         )
     except asyncio.TimeoutError:
         if get.id in SUPPORT:
             SUPPORT.remove(get.id)
-            return await bot.send_message(get.id, "ᴘᴇᴍʙᴀᴛᴀʟᴀɴ ᴏᴛᴏᴍᴀᴛɪs")
+            return await bot.send_message(get.id, "pembatalan otomatis")
 
-    text = f"<b>✅ ᴘᴇsᴀɴ ʙᴀʟᴀsᴀɴ ᴀɴᴅᴀ ᴛᴇʟᴀʜ ᴛᴇʀᴋɪʀɪᴍ: {full_name}</b>"
+    text = f"<b>✅ curhat lu sudah dikirim: {full_name}</b>"
 
     if not user_ids == OWNER_ID:
         buttons = [[InlineKeyboardButton("💬 ᴊᴀᴡᴀʙ ᴘᴇsᴀɴ 💬", f"jawab_pesan {user_id}")]]
@@ -94,7 +94,7 @@ async def jawab_pesan_callback(client, callback_query):
             )
             SUPPORT.remove(get.id)
             await pesan.request.edit(
-                f"<b>✉️ sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍ ʙᴀʟᴀsᴀɴ ᴀɴᴅᴀ: {full_name}</b>",
+                f"<b>✉️ silahkan kirim curhatan selanjutnya: {full_name}</b>",
             )
             await bot.send_message(user_id, text)
         except Exception as error:
@@ -113,17 +113,17 @@ async def profil_callback(client, callback_query):
 
         msg = (
             f"<b>👤 <a href=tg://user?id={get.id}>{full_name}</a></b>\n"
-            f"<b> ┣ ɪᴅ ᴘᴇɴɢɢᴜɴᴀ:</b> <code>{get.id}</code>\n"
-            f"<b> ┣ ɴᴀᴍᴀ ᴅᴇᴘᴀɴ:</b> {first_name}\n"
+            f"<b> ┣ id pengguna:</b> <code>{get.id}</code>\n"
+            f"<b> ┣ nama depan:</b> {first_name}\n"
         )
 
         if last_name != "None":
-            msg += f"<b> ┣ ɴᴀᴍᴀ ʙᴇʟᴀᴋᴀɴɢɴʏᴀ:</b> {last_name}\n"
+            msg += f"<b> ┣ nama belakang:</b> {last_name}\n"
 
         if username != "None":
-            msg += f"<b> ┣ ᴜsᴇʀɴᴀᴍᴇ:</b> @{username}\n"
+            msg += f"<b> ┣ username:</b> @{username}\n"
 
-        msg += f"<b> ┗ ʙᴏᴛ: {bot.me.mention}\n"
+        msg += f"<b> ┗ bot: {bot.me.mention}\n"
         buttons = [
             [
                 InlineKeyboardButton(
@@ -155,4 +155,4 @@ async def batal_callback(client, callback_query):
             )
         except Exception as why:
             await callback_query.message.delete()
-            await bot.send_message(user_id, f"<b>❌ ɢᴀɢᴀʟ ᴅɪʙᴀᴛᴀʟᴋᴀɴ! {why}</b>")
+            await bot.send_message(user_id, f"<b>❌ gagal dibatalkan! {why}</b>")
