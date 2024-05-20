@@ -9,10 +9,10 @@ tagallgcid = {}
 async def tagall_cmd(client, message):
     if not message.text:
         return
-    msg = await message.reply("sɪʟᴀʜᴋᴀɴ ᴛᴜɴɢɢᴜ", quote=True)
+    msg = await message.reply("silahkan tunggu", quote=True)
     if client.me.id in tagallgcid and message.chat.id in tagallgcid[client.me.id]:
         return await msg.edit(
-            "sᴇᴅᴀɴɢ ᴍᴇɴᴊᴀʟᴀɴᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ sɪʟᴀʜᴋᴀɴ ᴄᴏʙᴀ ʟᴀɢɪ ɴᴀɴᴛɪ ᴀᴛᴀᴜ ɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ <code>ʙᴀᴛᴀʟ</code>"
+            "sedangkan menjalankan perintah coba nanti atau gunakan <code>batal</code>"
         )
     if client.me.id not in tagallgcid:
         tagallgcid[client.me.id] = set()
@@ -51,11 +51,11 @@ async def batal_cmd(client, message):
         or message.chat.id not in tagallgcid[client.me.id]
     ):
         return await message.reply(
-            "sᴇᴅᴀɴɢ ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴘᴇʀɪɴᴛᴀʜ: <code>tagall</code> ʏᴀɴɢ ᴅɪɢᴜɴᴀᴋᴀɴ"
+            "sedang tidak ada perintah : <code>tagall</code> yang digunakan"
         )
 
     tagallgcid[client.me.id].remove(message.chat.id)
     if not tagallgcid[client.me.id]:
         del tagallgcid[client.me.id]
 
-    await message.reply("ᴏᴋ, ᴘᴇʀɪɴᴛᴀʜ ᴛᴀɢᴀʟʟ ʙᴇʀʜᴀsɪʟ ᴅɪʙᴀᴛᴀʟᴋᴀɴ")
+    await message.reply("perintah tagg all berhasil dibatalkan")
