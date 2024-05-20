@@ -2,10 +2,10 @@ from PyroUbot import *
 
 __MODULE__ = "sangmata"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sᴀɴɢᴍᴀᴛᴀ 』</b>
+<b>『 bantuan sangmata 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}sg</code> [ᴜsᴇʀ_ɪᴅ/ʀᴇᴘʟʏ ᴜsᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> cek histori orang
+  <b>• perintah:</b> <code>{0}sg</code> [user_id/reply]
+  <b>• penjelasan:</b> cek histori orang
 """
 
 
