@@ -2,13 +2,13 @@ from PyroUbot import *
 
 __MODULE__ = "qrcode"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ǫʀᴄᴏᴅᴇ 』</b>
+<b>『 bantuan qrcode 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}qrGen</code> [ᴛᴇxᴛ ǫʀᴄᴏᴅᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> rubah qrcode text ke gambar 
+  <b>• perintah:</b> <code>{0}qrGen</code> [text qrcode]
+  <b>• penjelasan:</b> rubah qrcode text ke gambar 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}qrRead</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇᴅɪᴀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> rubah qrcode jadi text
+  <b>• perintah:</b> <code>{0}qrRead</code> [reply to media]
+  <b>• penjelasan:</b> rubah qrcode jadi text
 """
 
 
