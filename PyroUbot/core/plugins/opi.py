@@ -19,10 +19,10 @@ def get_text(message):
 
 
 async def ai_cmd(client, message):
-    Tm = await message.reply("<code>ᴍᴇᴍᴘʀᴏsᴇs...</code>")
+    Tm = await message.reply("<code>prosessss......</code>")
     args = get_text(message)
     if not args:
-        return await Tm.edit(f"<b><code>{message.text}</code> [ᴘᴇʀᴛᴀɴʏᴀᴀɴ]</b>")
+        return await Tm.edit(f"<b><code>{message.text}</code> [pertanyaan]</b>")
     try:
         response = OpenAi.ChatGPT(args)
         if int(len(str(response))) > 4096:
@@ -44,9 +44,9 @@ async def ai_cmd(client, message):
 
 
 async def dalle_cmd(client, message):
-    Tm = await message.reply("<code>ᴍᴇᴍᴘʀᴏsᴇs...</code>")
+    Tm = await message.reply("<code>prosesssss......</code>")
     if len(message.command) < 2:
-        return await Tm.edit(f"<b><code>{message.text}</code> [ǫᴜᴇʀʏ]</b>")
+        return await Tm.edit(f"<b><code>{message.text}</code> [query]</b>")
     try:
         response = OpenAi.ImageDalle(message.text.split(None, 1)[1])
         msg = message.reply_to_message or message
@@ -58,7 +58,7 @@ async def dalle_cmd(client, message):
 
 
 """async def stt_cmd(client, message):
-    Tm = await message.reply("ᴍᴇᴍᴘʀᴏsᴇs...", quote=True)
+    Tm = await message.reply("prosessss......", quote=True)
     reply = message.reply_to_message
     if reply:
         if reply.voice or reply.audio or reply.video:
@@ -79,10 +79,10 @@ async def dalle_cmd(client, message):
                 try:
                     text = recognizer.recognize_google(audio, language="id-ID")
                 except sr.UnknownValueError:
-                    text = "ᴍᴀᴀғ, ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴍᴇɴɢᴇɴᴀʟɪ sᴜᴀʀᴀ ʏᴀɴɢ ᴅɪᴜᴄᴀᴘᴋᴀɴ."
+                    text = "tidak dapat mengenali suara yang di ucapkan ."
                 except sr.RequestError:
                     text = (
-                        "ᴍᴀᴀғ, sɪsᴛᴇᴍ ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴍᴇɴɢᴀᴋsᴇs ʟᴀʏᴀɴᴀɴ ᴘᴇɴɢᴇɴᴀʟᴀɴ sᴜᴀʀᴀ."
+                        "sistem tidak dapat mengakses layanan pengenal suara."
                     )
                 if int(len(str(text))) > 4096:
                     with io.BytesIO(str.encode(str(text))) as out_file:
@@ -95,12 +95,12 @@ async def dalle_cmd(client, message):
                     await Tm.edit(text)
         else:
             return await Tm.edit(
-                f"<b><code>{message.text}</code> [ʀᴇᴘʟʏ ᴠᴏɪᴄᴇ_ᴄʜᴀᴛ/ᴀᴜᴅɪᴏ/ᴠɪᴅᴇᴏ]</b>"
+                f"<b><code>{message.text}</code> [reply voice_chat/audio/video]</b>"
             )"""
 
 
 async def stt_cmd(client, message):
-    Tm = await message.reply("<code>ᴍᴇᴍᴘʀᴏsᴇs...</code>")
+    Tm = await message.reply("<code>prosesssd.......</code>")
     reply = message.reply_to_message
     if reply:
         if reply.voice or reply.audio or reply.video:
@@ -132,5 +132,5 @@ async def stt_cmd(client, message):
                 return await Tm.delete()
         else:
             return await Tm.edit(
-                f"<b><code>{message.text}</code> [ʀᴇᴘʟʏ ᴠᴏɪᴄᴇ_ᴄʜᴀᴛ/ᴀᴜᴅɪᴏ/ᴠɪᴅᴇᴏ]</b>"
+                f"<b><code>{message.text}</code> [reply voice_chat/audio/video]</b>"
           )
