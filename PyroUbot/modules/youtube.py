@@ -2,13 +2,13 @@ from PyroUbot import *
 
 __MODULE__ = "youtube"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʏᴏᴜᴛᴜʙᴇ 』</b>
+<b>『 bantuan youtube 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}song</code> [sᴏɴɢ ᴛɪᴛʟᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> download music lu pengen 
+  <b>• perintah:</b> <code>{0}song</code> [song title]
+  <b>• penjelasan:</b> download music lu pengen 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}vsong</code> [sᴏɴɢ ᴛɪᴛʟᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> download video lu pengen 
+  <b>• perintah:</b> <code>{0}vsong</code> [song title]
+  <b>• penjelasan:</b> download video lu pengen 
 """
 
 
