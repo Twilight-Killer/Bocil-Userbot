@@ -10,18 +10,18 @@ from PyroUbot import *
 async def vsong_cmd(client, message):
     if len(message.command) < 2:
         return await message.reply_text(
-            "❌ <b>ᴠɪᴅᴇᴏ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ,</b>\nᴍᴏʜᴏɴ ᴍᴀsᴜᴋᴀɴ ᴊᴜᴅᴜʟ ᴠɪᴅᴇᴏ ᴅᴇɴɢᴀɴ ʙᴇɴᴀʀ.",
+            "❌ <b>video tidak ditemukan,</b>\nmohon masuk judul video dengan benar.",
         )
-    infomsg = await message.reply_text("<b>🔍 ᴘᴇɴᴄᴀʀɪᴀɴ...</b>", quote=False)
+    infomsg = await message.reply_text("<b>🔍 pencarian...</b>", quote=False)
     try:
         search = VideosSearch(message.text.split(None, 1)[1], limit=1).result()[
             "result"
         ][0]
         link = f"https://youtu.be/{search['id']}"
     except Exception as error:
-        return await infomsg.edit(f"<b>🔍 ᴘᴇɴᴄᴀʀɪᴀɴ...\n\n{error}</b>")
+        return await infomsg.edit(f"<b>🔍 pencarian...\n\n{error}</b>")
     try:
-        await infomsg.edit("<b>📥 ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ᴠɪᴅᴇᴏ</b>")
+        await infomsg.edit("<b>📥 downloader video</b>")
         (
             file_name,
             title,
@@ -33,7 +33,7 @@ async def vsong_cmd(client, message):
             data_ytp,
         ) = await YoutubeDownload(link, as_video=True)
     except Exception as error:
-        return await infomsg.edit(f"<b>📥 ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ᴠɪᴅᴇᴏ...\n\n{error}</b>")
+        return await infomsg.edit(f"<b>📥 downloader video...\n\n{error}</b>")
     thumbnail_path = None
     file_path = None
     try:
@@ -68,18 +68,18 @@ async def vsong_cmd(client, message):
 async def song_cmd(client, message):
     if len(message.command) < 2:
         return await message.reply_text(
-            "❌ <b>ᴀᴜᴅɪᴏ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ,</b>\nᴍᴏʜᴏɴ ᴍᴀsᴜᴋᴀɴ ᴊᴜᴅᴜʟ ᴠɪᴅᴇᴏ ᴅᴇɴɢᴀɴ ʙᴇɴᴀʀ.",
+            "❌ <b>audio tidak ditemukan,</b>\nmohon masuk judul audio dengan benar.",
         )
-    infomsg = await message.reply_text("<b>🔍 ᴘᴇɴᴄᴀʀɪᴀɴ...</b>", quote=False)
+    infomsg = await message.reply_text("<b>🔍 pencarian...</b>", quote=False)
     try:
         search = VideosSearch(message.text.split(None, 1)[1], limit=1).result()[
             "result"
         ][0]
         link = f"https://youtu.be/{search['id']}"
     except Exception as error:
-        return await infomsg.edit(f"<b>🔍 ᴘᴇɴᴄᴀʀɪᴀɴ...\n\n{error}</b>")
+        return await infomsg.edit(f"<b>🔍 pencarian...\n\n{error}</b>")
     try:
-        await infomsg.edit("<b>📥 ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ᴀᴜᴅɪᴏ</b>")
+        await infomsg.edit("<b>📥 downloader audio</b>")
         (
             file_name,
             title,
@@ -91,7 +91,7 @@ async def song_cmd(client, message):
             data_ytp,
         ) = await YoutubeDownload(link, as_video=False)
     except Exception as error:
-        return await infomsg.edit(f"<b>📥 ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ᴀᴜᴅɪᴏ...\n\n{error}</b>")
+        return await infomsg.edit(f"<b>📥 downloader audio...\n\n{error}</b>")
     thumbnail_path = None
     file_path = None
     try:
