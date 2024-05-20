@@ -8,24 +8,24 @@ from PyroUbot import *
 
 __MODULE__ = "pmpermit"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴘᴍᴘᴇʀᴍɪᴛ 』</b>
+<b>『 bantuan pmpermit  』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}pmpermit (on/off)</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengaktifkan/non-aktifkan pmpermit
+  <b>• perintah:</b> <code>{0}pmpermit (on/off)</code>
+  <b>• penjelasan:</b> mengaktifkan/non-aktifkan pmpermit
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ok or {0}setuju</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> setuju pm
+  <b>• perintah:</b> <code>{0}ok or {0}setuju</code>
+  <b>• penjelasan:</b> setuju pm
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}setpmimage</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk set gambang pmpermit
+  <b>• perintah:</b> <code>{0}setpmimage</code>
+  <b>• penjelasan:</b> untuk set gambang pmpermit
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}no or {0}tolak</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> nolak pm
+  <b>• perintah:</b> <code>{0}no or {0}tolak</code>
+  <b>• penjelasan:</b> nolak pm
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}setpm (ǫᴜᴇʀʏ) (ᴠᴀʟᴜᴇ)</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ngatur variabel text & limit
+  <b>• perintah:</b> <code>{0}setpm (query) (value)</code>
+  <b>• penjelasan:</b> ngatur variabel text & limit
 
-   <b>•> ǫᴜᴇʀʏ:</b>
+   <b>•> query:</b>
        •> <code>text</code>
        •> <code>limit</code>
 """
