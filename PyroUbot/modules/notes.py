@@ -9,7 +9,7 @@ __MODULE__ = "notes"
 __HELP__ = """
 <b>『 bantuan notes 』</b>
 
-  <b>• perintah:</b> <code>{0}save</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ - ʀᴇᴘʟʏ]
+  <b>• perintah:</b> <code>{0}save</code> [note_name - reply]
   <b>• penjelasan:</b> menyimpan catatan 
 
   <b>• perintah:</b> <code>{0}get</code> [note_name]
