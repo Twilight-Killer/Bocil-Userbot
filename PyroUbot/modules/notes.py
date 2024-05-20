@@ -10,16 +10,16 @@ __HELP__ = """
 <b>『 bantuan notes 』</b>
 
   <b>• perintah:</b> <code>{0}save</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ - ʀᴇᴘʟʏ]
-  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇɴʏɪᴍᴘᴀɴ sᴇʙᴜᴀʜ ᴄᴀᴛᴀᴛᴀɴ
+  <b>• penjelasan:</b> menyimpan catatan 
 
-  <b>• perintah:</b> <code>{0}get</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ]
-  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇɴᴅᴀᴘᴀᴛᴋᴀɴ ᴄᴀᴛᴀᴛᴀɴ ʏᴀɴɢ ᴅɪsɪᴍᴘᴀɴ
+  <b>• perintah:</b> <code>{0}get</code> [note_name]
+  <b>• penjelasan:</b> mengambil nama catatan 
  
-  <b>• perintah:</b> <code>{0} rmnote</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ]
-  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴄᴀᴛᴀᴛᴀɴ
+  <b>• perintah:</b> <code>{0} rmnote</code> [note_name]
+  <b>• penjelasan:</b> hapus catatan
  
   <b>• perintah:</b> <code>{0}notes</code>
-  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ ᴅᴀꜰᴛᴀʀ ᴄᴀᴛᴀᴛᴀɴ ʏᴀɴɢ ᴅɪsɪᴍᴘᴀɴ
+  <b>• penjelasan:</b> melihat daftar catatan
 
   note: untuk menggunakan button - gunakan fotmat:
   <code>text | nama tombol - url/callback |</code>
