@@ -131,20 +131,20 @@ async def get_system_status():
     owner_id = 843830036
 
     status_message = (
-    f"🖥️ [SYSTEM UBOT]\n"
-    f"PING: {ping} ms\n"
-    f"UBOT: {user_count} user\n"
-    f"UPTIME: {uptime}\n"
-    f"OWNER: [{owner_name}](tg://user?id={owner_id})\n\n"
+    f"🖥️ [system ubot]\n"
+    f"ping: {ping} ms\n"
+    f"ubot: {user_count} user\n"
+    f"uptime: {uptime}\n"
+    f"owner: [{owner_name}](tg://user?id={owner_id})\n\n"
     f"📊 [STATUS SERVER]\n"
-    f"CPU: {cpu_percent}%\n"
-    f"RAM: {ram_percent}%\n"
-    f"DISK: {disk_percent}%\n"
-    f"MEMORY: {memory_usage:.2f} MB"
+    f"cpu: {cpu_percent}%\n"
+    f"ram: {ram_percent}%\n"
+    f"disk: {disk_percent}%\n"
+    f"memory: {memory_usage:.2f} mb"
     )
 
-    refresh_button = InlineKeyboardButton("ʀᴇғʀᴇsʜ", callback_data="refresh")
-    back_button = InlineKeyboardButton("ᴋᴇᴍʙᴀʟɪ", callback_data="menu")
+    refresh_button = InlineKeyboardButton("refres", callback_data="refresh")
+    back_button = InlineKeyboardButton("kembali", callback_data="menu")
     keyboard = InlineKeyboardMarkup([[refresh_button, back_button]])
 
     return status_message, keyboard
