@@ -10,10 +10,10 @@ from PyroUbot import *
 
 
 async def login_cmd(client, message):
-    info = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ...</b>", quote=True)
+    info = await message.reply("<b>sabar duluuuuu......</b>", quote=True)
     if len(message.command) < 3:
         return await info.edit(
-            f"<code>{message.text}</code> <b>ʜᴀʀɪ - sᴛʀɪɴɢ ᴘʏʀᴏɢʀᴀᴍ</b>"
+            f"<code>{message.text}</code> <b>hari - string pyrogram</b>"
         )
     try:
         ub = Ubot(
@@ -53,7 +53,7 @@ async def login_cmd(client, message):
             disable_web_page_preview=True,
         )
         return await info.edit(
-            f"<b>✅ ʙᴇʀʜᴀsɪʟ ʟᴏɢɪɴ ᴅɪ ᴀᴋᴜɴ: <a href='tg://user?id={ub.me.id}'>{ub.me.first_name} {ub.me.last_name or ''}</a></b>"
+            f"<b>✅ berhasil login diakun: <a href='tg://user?id={ub.me.id}'>{ub.me.first_name} {ub.me.last_name or ''}</a></b>"
         )
     except Exception as error:
         return await info.edit(f"<code>{error}</code>")
@@ -81,7 +81,7 @@ async def restart_confirm_callback(client, callback_query):
                         restart_button = InlineKeyboardButton("Restart", callback_data="control")
                         keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
                         await callback_query.edit_message_text(
-                            f"<b>🇲🇨 ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)",
+                            f"<b>🇲🇨 restart berhasil dilakukan {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)",
                             reply_markup=keyboard
                         )
                     except Exception as error:
