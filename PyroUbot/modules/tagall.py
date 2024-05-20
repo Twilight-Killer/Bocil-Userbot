@@ -4,23 +4,23 @@ __MODULE__ = "all&$spam"
 __HELP__ = """
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴛᴀɢᴀʟʟ 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tagall</code> [ᴛʏᴘᴇ ᴍᴇssᴀɢᴇ/ʀᴇᴘʟʏ ᴍᴇssᴀɢᴇ] 
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ngetag semua anggota group
+  <b>• perintah:</b> <code>{0}tagall</code> [typemessage/reply message ] 
+  <b>• penjelasan:</b> ngetag semua anggota group
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}batal</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mematikan ngetag
+  <b>• perintah:</b> <code>{0}batal</code>
+  <b>• penjelasan:</b> mematikan ngetag
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}spam</code> [ᴊᴜᴍʟᴀʜ_ᴘᴇsᴀɴ - ᴘᴇsᴀɴ_sᴘᴀᴍ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ sᴘᴀᴍ ᴘᴇsᴀɴ
+  <b>• perintah:</b> <code>{0}spam</code> [jumlah_pesan - pesan_spam]
+  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ sᴘᴀᴍ ᴘᴇsᴀɴ
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}dspam</code> [ᴊᴜᴍʟᴀʜ_ᴘᴇsᴀɴ - ᴊᴜᴍʟᴀʜ_ᴅᴇʟᴀʏ_ᴅᴇᴛɪᴋ - ᴘᴇsᴀɴ_sᴘᴀᴍ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk spam pesan delay
+  <b>• perintah:</b> <code>{0}dspam</code> [jumlah_pesan - jumlah_delay_detik - pesan_spam]
+  <b>• penjelasan:</b> untuk spam pesan delay
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}spmlist</code> 
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> melihat list dspam
+  <b>• perintah:</b> <code>{0}spmlist</code> 
+  <b>• penjelasan:</b> melihat list dspam
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}henti</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menghentikan dspam
+  <b>• perintah:</b> <code>{0}henti</code>
+  <b>• penjelasan:</b> menghentikan dspam
 
   <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ddtext</code>
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menambahkan text dspam
