@@ -66,7 +66,7 @@ async def _(client, message):
                 if FLOOD[user.id] > int(pm_limit):
                     del FLOOD[user.id]
                     await message.reply(
-                        "sᴜᴅᴀʜ ᴅɪɪɴɢᴀᴛᴋᴀɴ ᴊᴀɴɢᴀɴ sᴘᴀᴍ, sᴇᴋᴀʀᴀɴɢ Aɴᴅᴀ ᴅɪʙʟᴏᴋɪʀ."
+                        "sudah diingatkan jangan spam, mampuskan ke blokir."
                     )
                     return await client.block_user(user.id)
                 pm_msg = await get_vars(client.me.id, "PM_TEXT") or PM_TEXT
@@ -94,11 +94,11 @@ async def _(client, message):
 async def _(client, message):
     if len(message.command) < 3:
         return await message.reply(
-            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢᴜɴᴀᴀɴɴʏᴀ."
+            "harap baca menu bantuan supaya paham."
         )
     query = {"limit": "PM_LIMIT", "text": "PM_TEXT"}
     if message.command[1].lower() not in query:
-        return await message.reply("<b>❌ ǫᴜᴇʀʏ ʏᴀɴɢ ᴅɪ ᴍᴀsᴜᴋᴋᴀɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ</b>")
+        return await message.reply("<b>❌ query yang lu masukan salah</b>")
     query_str, value_str = (
         message.text.split(None, 2)[1],
         message.text.split(None, 2)[2],
@@ -106,7 +106,7 @@ async def _(client, message):
     value = query[query_str]
     await set_vars(client.me.id, value, value_str)
     return await message.reply(
-        f"<b>✅ <code>{value}</code> ʙᴇʀʜᴀsɪʟ ᴅɪsᴇᴛᴛɪɴɢ ᴋᴇ: <code>{value_str}</code>"
+        f"<b>✅ <code>{value}</code> berhasil disetting ke: <code>{value_str}</code>"
     )
 
 
@@ -123,20 +123,20 @@ async def set_pm_image(client, message):
 async def _(client, message):
     if len(message.command) < 2:
         return await message.reply(
-            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢᴜɴᴀᴀɴɴʏᴀ."
+            "harap baca menu bantuan supaya paham."
         )
 
     toggle_options = {"off": False, "on": True}
     toggle_option = message.command[1].lower()
 
     if toggle_option not in toggle_options:
-        return await message.reply("ᴏᴘsɪ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ. Hᴀʀᴀᴘ ɢᴜɴᴀᴋᴀɴ 'on' ᴀᴛᴀᴜ 'off'.")
+        return await message.reply("opsi salah. gunakan 'on' atau 'off'.")
 
     value = toggle_options[toggle_option]
-    text = "ᴅɪᴀᴋᴛɪғᴋᴀɴ" if value else "ᴅɪɴᴏɴᴀᴋᴛɪғᴋᴀɴ"
+    text = "diaktifkan" if value else "dinonaktifkan"
 
     await set_vars(client.me.id, "PMPERMIT", value)
-    await message.reply(f"<b>✅ ᴘᴍᴘᴇʀᴍɪᴛ ʙᴇʀʜᴀsɪʟ {text}</b>")
+    await message.reply(f"<b>✅ pmpermit berhasil{text}</b>")
 
 
 @PY.INLINE("pm_pr")
@@ -173,9 +173,9 @@ async def _(client, message):
     vars = await get_pm_id(client.me.id)
     if user.id not in vars:
         await add_pm_id(client.me.id, user.id)
-        return await message.reply(f"<b>✅ ʙᴀɪᴋʟᴀʜ, {rpk} ᴛᴇʟᴀʜ ᴅɪᴛᴇʀɪᴍᴀ</b>")
+        return await message.reply(f"<b>✅ baikla, {rpk} telah diterima</b>")
     else:
-        return await message.reply(f"<b>{rpk} sᴜᴅᴀʜ ᴅɪᴛᴇʀɪᴍᴀ</b>")
+        return await message.reply(f"<b>{rpk} sudah diterima</b>")
 
 
 @PY.UBOT("no|tolak")
@@ -185,12 +185,12 @@ async def _(client, message):
     rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
     vars = await get_pm_id(client.me.id)
     if user.id not in vars:
-        await message.reply(f"<b>🙏🏻 ᴍᴀᴀғ ⁣{rpk} ᴀɴᴅᴀ ᴛᴇʟᴀʜ ᴅɪʙʟᴏᴋɪʀ</b>")
+        await message.reply(f"<b>🙏🏻 sory ⁣{rpk} anda diblokir kwkwkw</b>")
         return await client.block_user(user.id)
     else:
         await remove_pm_id(client.me.id, user.id)
         return await message.reply(
-            f"<b>🙏🏻 ᴍᴀᴀғ {rpk} ᴀɴᴅᴀ ᴛᴇʟᴀʜ ᴅɪᴛᴏʟᴀᴋ ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴜʙᴜɴɢɪ ᴀᴋᴜɴ ɪɴɪ ʟᴀɢɪ</b>"
+            f"<b>🙏🏻 maaf {rpk} anda telah ditolak </b>"
         )
 
 
