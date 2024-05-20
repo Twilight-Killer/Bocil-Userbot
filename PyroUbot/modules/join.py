@@ -99,11 +99,9 @@ async def leave_all_channels(client, message: Message):
                 cil += 1
     await mam.edit(f"Berhasil keluar dari {mek} channel, Gagal keluar dari {cil} channel.")
 
-
 @PY.UBOT("leaveallmute")
 async def leave_all_muted_groups(client, message: Message):
     mam = await message.reply("Proses Pengeluaran Grup yang Dimute...")
-    cil = 0
     mek = 0
     async for dialog in client.get_dialogs():
         if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
@@ -111,16 +109,8 @@ async def leave_all_muted_groups(client, message: Message):
             try:
                 member = await client.get_chat_member(chat, client.me.id)
                 if member.status == ChatMemberStatus.RESTRICTED and member.is_member and not member.permissions.can_send_messages:
-                    try:
-                        mek += 1
-                        await client.leave_chat(chat)
-                    except Exception:
-                        cil += 1
-            except UserNotParticipant:
-                # Jika bot bukan peserta, tetap mencoba keluar dari grup
-                try:
-                    mek += 1
                     await client.leave_chat(chat)
-                except Exception:
-                    cil += 1
-    await mam.edit(f"Berhasil keluar dari {mek} grup yang dimute, Gagal keluar dari {cil} grup.")
+                    mek += 1
+            except Exception:
+                pass
+    await mam.edit(f"Berhasil keluar dari {mek} grup yang dimute.")
