@@ -2,16 +2,16 @@ from .. import *
 
 __MODULE__ = "sudo"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sᴜᴅᴏ 』</b>
+<b>『 bantuan sudo』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}addsudo</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> tambah addsudo
+  <b>• perintah:</b> <code>{0}addsudo</code>
+  <b>• penjelasan:</b> tambah addsudo
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}delsudo</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus addsudo
+  <b>• perintah:</b> <code>{0}delsudo</code>
+  <b>• penjelasan:</b> hapus addsudo
   
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}getsudo</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> cek list sudo
+  <b>• perintah:</b> <code>{0}getsudo</code>
+  <b>• penjelasan:</b> cek list sudo
 """
 
 
