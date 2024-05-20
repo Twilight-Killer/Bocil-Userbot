@@ -10,19 +10,19 @@ from PyroUbot import *
 
 __MODULE__ = "vctools"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴠᴄᴛᴏᴏʟꜱ 』</b>
+<b>『 bantuan vctools 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}startvc</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mulai os gc
+  <b>• perintah:</b> <code>{0}startvc</code>
+  <b>• penjelasan:</b> mulai os gc
   
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}joinvc</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> join os gc
+  <b>• perintah:</b> <code>{0}joinvc</code>
+  <b>• penjelasan:</b> join os gc
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}stopvc</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> stop os gc
+  <b>• perintah:</b> <code>{0}stopvc</code>
+  <b>• penjelasan:</b> stop os gc
   
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}leavevc</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> turun os gc
+  <b>• perintah:</b> <code>{0}leavevc</code>
+  <b>• penjelasan:</b> turun os gc
   """
 
 
@@ -77,7 +77,7 @@ async def _(client, message):
     vctitle = get_arg(message)
     chat_id = message.chat.title if flags == ChatType.CHANNEL else message.chat.id
 
-    args = f"<b>ᴏʙʀᴏʟᴀɴ ꜱᴜᴀʀᴀ ᴀᴋᴛɪꜰ</b>\n<b>ᴄʜᴀᴛ : </b><code>{chat_id}</code>"
+    args = f"<b>obrolan suara aktif</b>\n<b>ᴄʜᴀᴛ : </b><code>{chat_id}</code>"
 
     try:
         if vctitle:
@@ -105,7 +105,7 @@ async def _(client, message):
 
     await client.invoke(DiscardGroupCall(call=group_call))
     await msg.edit(
-        f"<b>ᴏʙʀᴏʟᴀɴ ꜱᴜᴀʀᴀ ᴅɪᴀᴋʜɪʀɪ</b>\n<b>ᴄʜᴀᴛ : </b><code>{message.chat.title}</code>"
+        f"<b>obrolan suara diakhiri</b>\n<b>ᴄʜᴀᴛ : </b><code>{message.chat.title}</code>"
     )
 
 
@@ -118,7 +118,7 @@ async def _(client, message):
         await client.group_call.start(chat_id, join_as=client.me.id)
     except Exception as e:
         return await msg.edit(f"ERROR: {e}")
-    await msg.edit(f"<b>ʙᴇʀʜᴀsɪʟ ɴᴀɪᴋ ᴋᴇ ᴏʙʀᴏʟᴀɴ sᴜᴀʀᴀ</b>\n<b>ɢʀᴏᴜᴘ : </b><code>{chat_title}</code>")
+    await msg.edit(f"<b>berhasil naik keobrolan suara</b>\n<b>group : </b><code>{chat_title}</code>")
     await asyncio.sleep(5)
     await client.group_call.set_is_mute(True)
     add_list(client, chat_id)
@@ -133,7 +133,7 @@ async def _(client, message):
     except Exception as e:
         return await msg.edit(f"ERROR: {e}")
     remove_list(client.me.id)
-    return await msg.edit(f"<b>ʙᴇʀʜᴀsɪʟ ᴛᴜʀᴜɴ ᴅᴀʀɪ ᴏʙʀᴏʟᴀɴ sᴜᴀʀᴀ</b>\n<b>ɢʀᴏᴜᴘ : </b><code>{chat_title}</code>")
+    return await msg.edit(f"<b>berhasil turun dari obrolan suara</b>\n<b>group : </b><code>{chat_title}</code>")
 
 @PY.UBOT("listvc", FILTERS.OWNER)
 async def _(client, message):
