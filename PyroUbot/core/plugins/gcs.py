@@ -2,9 +2,10 @@ import asyncio
 
 from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, PeerIdInvalid, ChatWriteForbidden, ChatSendPlainForbidden
 
-from PyroUbot import*
+
+from PyroUbot import *
 
 async def broadcast_group_cmd(client, message):
     proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
@@ -46,9 +47,13 @@ async def broadcast_group_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
+            except (ChatWriteForbidden, ChatSendPlainForbidden):
+                failed += 1
             except Exception as ex:
                 failed += 1
                 print(f"Error during FloodWait retry: {ex}")
+        except (ChatWriteForbidden, ChatSendPlainForbidden):
+            failed += 1
         except Exception as ex:
             failed += 1
             print(f"Error: {ex}")
@@ -89,9 +94,13 @@ async def broadcast_users_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
+            except (ChatWriteForbidden, ChatSendPlainForbidden):
+                failed += 1
             except Exception as ex:
                 failed += 1
                 print(f"Error during FloodWait retry: {ex}")
+        except (ChatWriteForbidden, ChatSendPlainForbidden):
+            failed += 1
         except Exception as ex:
             failed += 1
             print(f"Error: {ex}")
