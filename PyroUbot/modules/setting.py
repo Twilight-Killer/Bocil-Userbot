@@ -2,20 +2,20 @@ from PyroUbot import *
 
 __MODULE__ = "setting"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sᴇᴛᴛɪɴɢ 』</b>
+<b>『 bantuan setting 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}prefix - sɪᴍʙᴏʟ/ᴇᴍᴏJɪ</code> 
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʀᴜʙᴀʜ ᴘʀᴇғɪx ᴜsᴇʀʙᴏᴛ ʏᴀɴɢ ᴅɪɢᴜɴᴀᴋᴀɴ
+  <b>• perintah:</b> <code>{0}prefix - sɪᴍʙᴏʟ/ᴇᴍᴏJɪ</code> 
+  <b>• penjelasan:</b> merubah prefix userbot kau 
   
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}setemoji - [ǫᴜᴇʀʏ] [ᴇᴍᴏᴊɪ_ᴘʀᴇᴍ]</code> 
-  <b>• ǫᴜᴇʀʏ:</b>
-         <b>•> PONG</b>
-         <b>•> UPTIME</b>
-         <b>•> MENTION</b>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʀᴜʙᴀʜ ᴛᴀᴍᴘɪʟᴀɴ ᴘᴏɴɢ ᴀᴛᴀᴜ ᴜᴘᴛɪᴍᴇ ᴘᴀᴅᴀ ᴘɪɴɢ
+  <b>• perinta:</b> <code>{0}setemoji - [query] [emoji_prem]</code> 
+  <b>• query:</b>
+         <b>•> pong</b>
+         <b>•> uptime</b>
+         <b>•> mention</b>
+  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah tampilan pong uptime dan mention
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}limit</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴄᴇᴋ sᴛᴀᴛᴜs ᴀᴋᴜɴ ᴀᴘᴀᴋᴀʜ ᴛᴇʀᴋᴇɴᴀʟ ʟɪᴍɪᴛ ᴀᴛᴀᴜ ᴛɪᴅᴀᴋ
+  <b>• perintah:</b> <code>{0}limit</code>
+  <b>• penjelasan:</b> cek status akun 
 """
 
 
