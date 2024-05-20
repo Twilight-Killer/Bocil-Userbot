@@ -7,10 +7,10 @@ class MSG:
     def DEAK(X):
         return (
             f"""
-<b>❏ ᴘᴇᴍʙᴇʀɪᴛᴀʜᴜᴀɴ</b>
-<b>├ ᴀᴋᴜɴ:</b> <a href=tg://user?id={X.me.id}>{X.me.first_name} {X.me.last_name or ''}</a>
-<b>├ ɪᴅ:</b> <code>{X.me.id}</code>
-<b>╰ ᴛᴇʟᴀʜ ʙᴇʀʜᴀsɪʟ ᴅɪ ʜᴀᴘᴜs ᴅᴀʀɪ ᴛᴇʟᴇɢʀᴀᴍ</b>
+<b>❏ pemberitahuan</b>
+<b>├ akun:</b> <a href=tg://user?id={X.me.id}>{X.me.first_name} {X.me.last_name or ''}</a>
+<b>├ id:</b> <code>{X.me.id}</code>
+<b>╰ telah berhasil dihapus dari telegram</b>
 """,
         )
 
