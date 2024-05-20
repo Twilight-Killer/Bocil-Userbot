@@ -272,13 +272,10 @@ async def broadcast_bot(client, message):
         return await msg.edit("<b>ᴍᴏʜᴏɴ ʙᴀʟᴀs ᴘᴇsᴀɴ</b>")
     for x in ubot._ubot:
         try:
-            await x.unblock_user(client.me.username)
-            chat = x.chat  # Mendapatkan objek chat yang valid
-            await message.reply_to_message.forward(chat)
+            await x.unblock_user(bot.me.username)
+            await message.reply_to_message.forward(x.me.id)
             done += 1
-        except pyrogram.errors.exceptions.UserIsBlocked:
-            pass
-        except pyrogram.errors.exceptions.ChatWriteForbidden:
+        except Exception:
             pass
     return await msg.edit(f"✅ ʙᴇʀʜᴀsɪʟ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ ᴋᴇ {done} ᴜʙᴏᴛ")
     
