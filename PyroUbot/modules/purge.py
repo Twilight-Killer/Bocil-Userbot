@@ -4,14 +4,14 @@ __MODULE__ = "purge"
 __HELP__ = """
 <b>『 bantuan purger 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}purge</code> [reply to message]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus sekua obrolan lu
+  <b>• perinta:</b> <code>{0}purge</code> [reply to message]
+  <b>• penjelasan:</b> hapus sekua obrolan lu
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}del</code> [reply to message]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus pesan lu bales
+  <b>• perintah:</b> <code>{0}del</code> [reply to message]
+  <b>• penjelasan:</b> hapus pesan lu bales
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}purgeme</code> [nomber to message]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus pesam lu dengan jumlah hapus
+  <b>• perintah:</b> <code>{0}purgeme</code> [nomber to message]
+  <b>• penjelasan:</b> hapus pesam lu dengan jumlah hapus
 """
 
 
