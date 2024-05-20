@@ -136,7 +136,7 @@ async def _(client, message):
     text = "diaktifkan" if value else "dinonaktifkan"
 
     await set_vars(client.me.id, "PMPERMIT", value)
-    await message.reply(f"<b>✅ pmpermit berhasil{text}</b>")
+    await message.reply(f"<b>✅ pmpermit berhasil {text}</b>")
 
 
 @PY.INLINE("pm_pr")
