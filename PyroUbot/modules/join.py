@@ -11,25 +11,25 @@ BLACKLIST_CHAT = []  # Ganti dengan ID chat yang sebenarnya
 
 __MODULE__ = "join"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴀғᴋ 』</b>
+<b>『 bantuan afk 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}kickme</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> keluar dari group
+  <b>• perintah:</b> <code>{0}kickme</code></code>
+  <b>• penjelasan:</b> keluar dari group
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}join</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> join group melalui username
+  <b>• perintah:</b> <code>{0}join</code></code>
+  <b>• penjelasan:</b> join group melalui username
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}leave</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> keluar dari group melalui username
+  <b>• perintah:</b> <code>{0}leave</code></code>
+  <b>• penjelasan:</b> keluar dari group melalui username
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}leaveallgc</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> keluar dari semua gc
+  <b>• perintah:</b> <code>{0}leaveallgc</code></code>
+  <b>• penjelasan:</b> keluar dari semua gc
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}leaveallch</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> keluar dari semua ch
+  <b>• perintah:</b> <code>{0}leaveallch</code></code>
+  <b>• penjelasan:</b> keluar dari semua ch
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}leaveallmute</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> keluar dari group yang akun lu di miut  
+  <b>• perintah:</b> <code>{0}leaveallmute</code></code>
+  <b>• penjelasan:</b> keluar dari group yang akun lu di miut  
 """
 
 
