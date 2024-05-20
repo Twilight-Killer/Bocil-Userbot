@@ -2,13 +2,13 @@ from PyroUbot import *
 
 __MODULE__ = "search"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sᴇᴀʀᴄʜ 』</b>
+<b>『 bantuan search 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}pic</code> [ǫᴜᴇʀʏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> cari foto random dari gogle
+  <b>• perintah:</b> <code>{0}pic</code> [query]
+  <b>• penjelasan:</b> cari foto random dari gogle
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}gif</code> [ǫᴜᴇʀʏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> cari gif
+  <b>• perintah:</b> <code>{0}gif</code> [query]
+  <b>• penjelasan:</b> cari gif
 """
 
 
