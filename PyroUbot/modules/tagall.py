@@ -2,7 +2,7 @@ from PyroUbot import *
 
 __MODULE__ = "all&$spam"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴛᴀɢᴀʟʟ 』</b>
+<b>『 bantuan tagall』</b>
 
   <b>• perintah:</b> <code>{0}tagall</code> [typemessage/reply message ] 
   <b>• penjelasan:</b> ngetag semua anggota group
