@@ -1,8 +1,7 @@
 import asyncio
-
 from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
-from pyrogram.errors import FloodWait, PeerIdInvalid, ChatWriteForbidden
+from pyrogram.errors import FloodWait, PeerIdInvalid, ChatWriteForbidden, RPCError
 
 from PyroUbot import *
 
@@ -46,16 +45,18 @@ async def broadcast_group_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
-            except ChatWriteForbidden:
+            except (ChatWriteForbidden, RPCError) as e:
+                if isinstance(e, RPCError) and e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
+                    failed += 1
+                else:
+                    failed += 1
+                print(f"Error during FloodWait retry: {e}")
+        except (ChatWriteForbidden, RPCError) as e:
+            if isinstance(e, RPCError) and e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
                 failed += 1
-            except Exception as ex:
+            else:
                 failed += 1
-                print(f"Error during FloodWait retry: {ex}")
-        except ChatWriteForbidden:
-            failed += 1
-        except Exception as ex:
-            failed += 1
-            print(f"Error: {ex}")
+            print(f"Error: {e}")
 
     await msg.delete()
     return await message.reply(
@@ -93,16 +94,18 @@ async def broadcast_users_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
-            except ChatWriteForbidden:
+            except (ChatWriteForbidden, RPCError) as e:
+                if isinstance(e, RPCError) and e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
+                    failed += 1
+                else:
+                    failed += 1
+                print(f"Error during FloodWait retry: {e}")
+        except (ChatWriteForbidden, RPCError) as e:
+            if isinstance(e, RPCError) and e.CODE == 403 and "CHAT_SEND_PLAIN_FORBIDDEN" in str(e):
                 failed += 1
-            except Exception as ex:
+            else:
                 failed += 1
-                print(f"Error during FloodWait retry: {ex}")
-        except ChatWriteForbidden:
-            failed += 1
-        except Exception as ex:
-            failed += 1
-            print(f"Error: {ex}")
+            print(f"Error: {e}")
 
     await msg.delete()
     return await message.reply(
@@ -157,4 +160,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-    )
+        )
