@@ -2,10 +2,10 @@ from PyroUbot import *
 
 __MODULE__ = "zombies"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴢᴏᴍʙɪᴇs 』</b>
+<b>『 bantuan zombies 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}zombies</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus pengguna yang deak di gc lu
+  <b>• perintah:</b> <code>{0}zombies</code>
+  <b>• penjelasan:</b> hapus pengguna yang deak di gc lu
 """
 
 
