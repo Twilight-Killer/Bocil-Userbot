@@ -2,16 +2,16 @@ from PyroUbot import *
 
 __MODULE__ = "invite"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ɪɴᴠɪᴛᴇ 』</b>
+<b>『 bantuan invit 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}invite</code> [ᴜsᴇʀɴᴀᴍᴇ] 
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴜɴᴅᴀɴɢ ᴀɴɢɢᴏᴛᴀ ᴋᴇ ɢʀᴜᴘ ᴀɴᴅᴀ
+  <b>• perintah:</b> <code>{0}invite</code> [ᴜsᴇʀɴᴀᴍᴇ] 
+  <b>• penjelasan:</b> mengundang anggota kegroup lu
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}inviteall</code> [ᴜsᴇʀɴᴀᴍᴇ_ɢʀᴏᴜᴘ - ᴄᴏʟʟᴅᴏᴡɴ=ᴅᴇᴛɪᴋ ᴘᴇʀ ɪɴᴠɪᴛᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴜɴᴅᴀɴɢ ᴀɴɢɢᴏᴛᴀ ᴅᴀʀɪ ᴏʙʀᴏʟᴀɴ ɢʀᴜᴘ ʟᴀɪɴ ᴋᴇ ᴏʙʀᴏʟᴀɴ ɢʀᴜᴘ ᴀɴᴅᴀ
+  <b>• perintah:</b> <code>{0}inviteall</code> [username_group- colldown=detik per invit]
+  <b>• penjelasan:</b> mengundang anggota
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}cancel</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴀᴛᴀʟᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴᴠɪᴛᴇᴀʟʟ
+  <b>• perintah:</b> <code>{0}cancel</code>
+  <b>• penjelasan:</b> membatalkan invitall
   """
 
 
