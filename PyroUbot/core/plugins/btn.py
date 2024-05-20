@@ -10,7 +10,7 @@ async def cmd_button(client, message):
         return await message.reply(f"{message.text} text ~> button_name:link_url")
     if "~>" not in message.text:
         return await message.reply(
-            "sɪʟᴀʜᴋᴀɴ ᴋᴇᴛɪᴋ <code>.help button</code> ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ ᴄᴀʀᴀ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ"
+            "silahkan ketik <code>.help button</code> untuk melihat cara menggunakan perintah ini"
         )
     await message.delete()
     try:
