@@ -10,8 +10,8 @@ from PyroUbot import *
 async def tiny_cmd(client, message):
     reply = message.reply_to_message
     if not (reply and reply.media):
-        return await message.reply("sɪʟᴀʜᴋᴀɴ ʙᴀʟᴀs ᴋᴇ ᴘᴇsᴀɴ sᴛɪᴄᴋᴇʀ!")
-    Tm = await message.reply("ᴘʀᴏᴄᴇssɪɴɢ...")
+        return await message.reply("balas pesan ke stiker!")
+    Tm = await message.reply("prosesss....")
     ik = await client.download_media(reply)
     im1 = Image.open("storage/TM_BLACK.png")
     if ik.endswith(".tgs"):
