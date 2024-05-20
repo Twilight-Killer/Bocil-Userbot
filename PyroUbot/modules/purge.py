@@ -2,15 +2,15 @@ from PyroUbot import *
 
 __MODULE__ = "purge"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴘᴜʀɢᴇ 』</b>
+<b>『 bantuan purger 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}purge</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇ]
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}purge</code> [reply to message]
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus sekua obrolan lu
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}del</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇ]
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}del</code> [reply to message]
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus pesan lu bales
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}purgeme</code> [ɴᴜᴍʙᴇʀ ᴏꜰ ᴍᴇssᴀɢᴇs]
+  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}purgeme</code> [nomber to message]
   <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> hapus pesam lu dengan jumlah hapus
 """
 
