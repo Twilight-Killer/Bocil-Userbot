@@ -2,10 +2,10 @@ from PyroUbot import *
 
 __MODULE__ = "telegraph"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴛᴇʟᴇɢʀᴀᴘʜ 』</b>
+<b>『 bantuan telegraph 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tg</code> [ʀᴇᴘʟʏ ᴍᴇᴅɪᴀ/ᴛᴇxᴛ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk meng-upload media/text ke telegraph
+  <b>• perintah:</b> <code>{0}tg</code> [reply/media text]
+  <b>• penjelasan:</b> untuk meng-upload media/text ke telegraph
 """
 
 
