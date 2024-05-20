@@ -2,9 +2,21 @@ from gc import get_objects
 
 from pykeyboard import InlineKeyboard
 from pyrogram.types import (InlineKeyboardButton, InlineQueryResultArticle,
-                            InputTextMessageContent, InputMediaPhoto)
+                            InputTextMessageContent)
 
 from PyroUbot import *
+
+FLOOD = {}
+MSG_ID = {}
+PM_TEXT = """
+<b>🙋🏻‍♂️ ʜᴀʟᴏ {mention} ᴀᴅᴀ ʏᴀɴɢ ʙɪsᴀ sᴀʏᴀ ʙᴀɴᴛᴜ?
+
+ᴘᴇʀᴋᴇɴᴀʟᴋᴀɴ sᴀʏᴀ ᴀᴅᴀʟᴀʜ ᴘᴍ-sᴇᴄᴜʀɪᴛʏ ᴅɪsɪɴɪ
+sɪʟᴀʜᴋᴀɴ ᴛᴜɴɢɢᴜ ᴍᴀᴊɪᴋᴀɴ sᴀʏᴀ ᴍᴇᴍʙᴀʟᴀs ᴘᴇsᴀɴ ᴍᴜ ɪɴɪ ʏᴀ
+ᴊᴀɴɢᴀɴ sᴘᴀᴍ ʏᴀ ᴀᴛᴀᴜ ᴀɴᴅᴀ ᴀᴋᴀɴ ᴅɪ ʙʟᴏᴋɪʀ sᴇᴄᴀʀᴀ ᴏᴛᴏᴍᴀᴛɪs
+
+⛔ ᴘᴇʀɪɴɢᴀᴛᴀɴ: {warn} ʜᴀᴛɪ-ʜᴀᴛɪ</b>
+"""
 
 __MODULE__ = "pmpermit"
 __HELP__ = """
@@ -30,20 +42,12 @@ __HELP__ = """
        •> <code>limit</code>
 """
 
-FLOOD = {}
-MSG_ID = {}
-PM_TEXT = """
-<b>🙋🏻‍♂️ Halo {mention}, ada yang bisa saya bantu?
 
-Perkenalkan saya adalah PM-Security disini.
-Silahkan tunggu majikan saya membalas pesanmu ya,
-jangan spam ya atau anda akan di blokir secara otomatis.
+@ubot.on_message(
+    filters.private & ~filters.bot & ~filters.service & filters.incoming, group=69
+)
 
-⛔ Peringatan: {warn} Hati-hati</b>
-"""
-
-@ubot.on_message(filters.private & ~filters.bot & ~filters.service & filters.incoming, group=69)
-async def pmpermit_handler(client, message):
+async def _(client, message):
     user = message.from_user
     pm_on = await get_vars(client.me.id, "PMPERMIT")
     if pm_on:
@@ -61,33 +65,50 @@ async def pmpermit_handler(client, message):
                 pm_limit = await get_vars(client.me.id, "PM_LIMIT") or "5"
                 if FLOOD[user.id] > int(pm_limit):
                     del FLOOD[user.id]
-                    await message.reply("Sudah diingatkan jangan spam, sekarang Anda diblokir.")
+                    await message.reply(
+                        "sᴜᴅᴀʜ ᴅɪɪɴɢᴀᴛᴋᴀɴ ᴊᴀɴɢᴀɴ sᴘᴀᴍ, sᴇᴋᴀʀᴀɴɢ Aɴᴅᴀ ᴅɪʙʟᴏᴋɪʀ."
+                    )
                     return await client.block_user(user.id)
                 pm_msg = await get_vars(client.me.id, "PM_TEXT") or PM_TEXT
-                pm_image = await get_vars(client.me.id, "PM_IMAGE")
-                rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
-                peringatan = f"{FLOOD[user.id]} / {pm_limit}"
-                if pm_image:
-                    msg = await client.send_photo(
-                        chat_id=message.chat.id,
-                        photo=pm_image,
-                        caption=pm_msg.format(mention=rpk, warn=peringatan)
+                if "~>" in pm_msg:
+                    x = await client.get_inline_bot_results(
+                        bot.me.username, f"pm_pr {id(message)} {FLOOD[user.id]}"
                     )
+                    msg = await client.send_inline_bot_result(
+                        message.chat.id,
+                        x.query_id,
+                        x.results[0].id,
+                        reply_to_message_id=message.id,
+                    )
+                    MSG_ID[user.id] = int(msg.updates[0].id)
                 else:
-                    msg = await message.reply(pm_msg.format(mention=rpk, warn=peringatan))
-                MSG_ID[user.id] = msg.id
+                    rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
+                    peringatan = f"{FLOOD[user.id]} / {pm_limit}"
+                    msg = await message.reply(
+                        pm_msg.format(mention=rpk, warn=peringatan)
+                    )
+                    MSG_ID[user.id] = msg.id
+
 
 @PY.UBOT("setpm")
-async def set_pm(client, message):
+async def _(client, message):
     if len(message.command) < 3:
-        return await message.reply("Harap baca menu bantuan untuk mengetahui cara penggunaannya.")
+        return await message.reply(
+            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢᴜɴᴀᴀɴɴʏᴀ."
+        )
     query = {"limit": "PM_LIMIT", "text": "PM_TEXT"}
     if message.command[1].lower() not in query:
-        return await message.reply("<b>❌ Query yang dimasukkan tidak valid</b>")
-    query_str, value_str = message.text.split(None, 2)[1], message.text.split(None, 2)[2]
+        return await message.reply("<b>❌ ǫᴜᴇʀʏ ʏᴀɴɢ ᴅɪ ᴍᴀsᴜᴋᴋᴀɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ</b>")
+    query_str, value_str = (
+        message.text.split(None, 2)[1],
+        message.text.split(None, 2)[2],
+    )
     value = query[query_str]
     await set_vars(client.me.id, value, value_str)
-    return await message.reply(f"<b>✅ {value} berhasil diset ke: {value_str}</b>")
+    return await message.reply(
+        f"<b>✅ <code>{value}</code> ʙᴇʀʜᴀsɪʟ ᴅɪsᴇᴛᴛɪɴɢ ᴋᴇ: <code>{value_str}</code>"
+    )
+
 
 @PY.UBOT("setpmimage")
 async def set_pm_image(client, message):
@@ -97,18 +118,25 @@ async def set_pm_image(client, message):
     await set_vars(client.me.id, "PM_IMAGE", image_url)
     return await message.reply(f"✅ Gambar PM berhasil disetting ke: {image_url}")
 
+
 @PY.UBOT("pmpermit")
-async def toggle_pm_permit(client, message):
+async def _(client, message):
     if len(message.command) < 2:
-        return await message.reply("Harap baca menu bantuan untuk mengetahui cara penggunaannya.")
+        return await message.reply(
+            "ʜᴀʀᴀᴘ ʙᴀᴄᴀ ᴍᴇɴᴜ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴛᴀʜᴜɪ ᴄᴀʀᴀ ᴘᴇɴɢɢᴜɴᴀᴀɴɴʏᴀ."
+        )
+
     toggle_options = {"off": False, "on": True}
     toggle_option = message.command[1].lower()
+
     if toggle_option not in toggle_options:
-        return await message.reply("Opsi tidak valid. Harap gunakan 'on' atau 'off'.")
+        return await message.reply("ᴏᴘsɪ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ. Hᴀʀᴀᴘ ɢᴜɴᴀᴋᴀɴ 'on' ᴀᴛᴀᴜ 'off'.")
+
     value = toggle_options[toggle_option]
-    text = "diaktifkan" if value else "dinonaktifkan"
+    text = "ᴅɪᴀᴋᴛɪғᴋᴀɴ" if value else "ᴅɪɴᴏɴᴀᴋᴛɪғᴋᴀɴ"
+
     await set_vars(client.me.id, "PMPERMIT", value)
-    return await message.reply(f"<b>✅ PMPermit berhasil {text}</b>")
+    await message.reply(f"<b>✅ ᴘᴍᴘᴇʀᴍɪᴛ ʙᴇʀʜᴀsɪʟ {text}</b>")
 
 
 @PY.INLINE("pm_pr")
@@ -145,9 +173,9 @@ async def _(client, message):
     vars = await get_pm_id(client.me.id)
     if user.id not in vars:
         await add_pm_id(client.me.id, user.id)
-        return await message.reply(f"<b>✅ baik, {rpk} telah diterima</b>")
+        return await message.reply(f"<b>✅ ʙᴀɪᴋʟᴀʜ, {rpk} ᴛᴇʟᴀʜ ᴅɪᴛᴇʀɪᴍᴀ</b>")
     else:
-        return await message.reply(f"<b>{rpk} sudah diterima</b>")
+        return await message.reply(f"<b>{rpk} sᴜᴅᴀʜ ᴅɪᴛᴇʀɪᴍᴀ</b>")
 
 
 @PY.UBOT("no|tolak")
@@ -157,12 +185,12 @@ async def _(client, message):
     rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
     vars = await get_pm_id(client.me.id)
     if user.id not in vars:
-        await message.reply(f"<b>🙏🏻 maaf ⁣{rpk} anda telah diblokir</b>")
+        await message.reply(f"<b>🙏🏻 ᴍᴀᴀғ ⁣{rpk} ᴀɴᴅᴀ ᴛᴇʟᴀʜ ᴅɪʙʟᴏᴋɪʀ</b>")
         return await client.block_user(user.id)
     else:
         await remove_pm_id(client.me.id, user.id)
         return await message.reply(
-            f"<b>🙏🏻 maaf {rpk} anda telah di tolak </b>"
+            f"<b>🙏🏻 ᴍᴀᴀғ {rpk} ᴀɴᴅᴀ ᴛᴇʟᴀʜ ᴅɪᴛᴏʟᴀᴋ ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴜʙᴜɴɢɪ ᴀᴋᴜɴ ɪɴɪ ʟᴀɢɪ</b>"
         )
 
 
