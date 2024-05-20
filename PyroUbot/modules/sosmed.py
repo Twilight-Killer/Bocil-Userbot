@@ -2,10 +2,10 @@ from PyroUbot import *
 
 __MODULE__ = "sosmed"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sᴏsᴍᴇᴅ 』</b>
+<b>『 bantuan sosmed 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}sosmed</code> [ʟɪɴᴋ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> download vidio /fb/ig/yt/all in
+  <b>• perintah:</b> <code>{0}sosmed</code> [link]
+  <b>• penjelasan:</b> download vidio /fb/ig/yt/all in
 """
 
 
