@@ -14,15 +14,15 @@ async def send_msg_to_owner(client, message):
         buttons = [
             [
                 InlineKeyboardButton(
-                    "👤 ᴘʀᴏꜰɪʟ", callback_data=f"profil {message.from_user.id}"
+                    "👤 profil", callback_data=f"profil {message.from_user.id}"
                 ),
                 InlineKeyboardButton(
-                    "ᴊᴀᴡᴀʙ 💬", callback_data=f"jawab_pesan {message.from_user.id}"
+                    "jawab 💬", callback_data=f"jawab_pesan {message.from_user.id}"
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    "sᴀᴛᴜ ʙᴜʟᴀɴ", callback_data=f"success {message.from_user.id} 1"
+                    "satu bulan", callback_data=f"success {message.from_user.id} 1"
                 )
             ],
         ]
