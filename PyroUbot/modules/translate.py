@@ -2,19 +2,19 @@ from PyroUbot import *
 
 __MODULE__ = "translate&tiny"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴛʀᴀɴsʟᴀᴛᴇ 』</b>
+<b>『 bantuan translate  』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tr</code> [ʀᴇᴘʟʏ/ᴛᴇxᴛ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> terjemahah bahasa
+  <b>• perintah:</b> <code>{0}tr</code> [ʀᴇᴘʟʏ/ᴛᴇxᴛ]
+  <b>• penjelasan:</b> terjemahah bahasa
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tts</code> [ʀᴇᴘʟʏ/ᴛᴇxᴛ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> rubah tect ke suara
+  <b>• perintah:</b> <code>{0}tts</code> [ʀᴇᴘʟʏ/ᴛᴇxᴛ]
+  <b>• penjelasan:</b> rubah tect ke suara
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}set_lang</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> rubah bahasa terjemahan 
+  <b>• perintah:</b> <code>{0}set_lang</code>
+  <b>• penjelasan:</b> rubah bahasa terjemahan 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tiny</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> rubah stiker jadi kecil
+  <b>• perintah:</b> <code>{0}tiny</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ]
+  <b>• penjelasan:</b> rubah stiker jadi kecil
 """
 
 
