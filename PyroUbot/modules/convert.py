@@ -2,28 +2,28 @@ from PyroUbot import *
 
 __MODULE__ = "convert"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴄᴏɴᴠᴇʀᴛ 』</b>
+<b>『 bantuan conver 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}toanime</code> [ʀᴇᴘʟʏ ᴛᴏ ᴘʜᴏᴛᴏ/sᴛɪᴄᴋᴇʀ/ɢɪꜰᴛ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah foto/gif/stiker ke anime
+  <b>• perinta:</b> <code>{0}toanime</code> [ʀᴇᴘʟʏ ᴛᴏ ᴘʜᴏᴛᴏ/sᴛɪᴄᴋᴇʀ/ɢɪꜰᴛ]
+  <b>• penjelasan:</b> merubah foto/gif/stiker ke anime
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}toimg</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ/ɢɪꜰᴛ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah stiker/gif ke foto
+  <b>• perintah:</b> <code>{0}toimg</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ/ɢɪꜰᴛ]
+  <b>• penjelasan:</b> merubah stiker/gif ke foto
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}tosticker</code> [ʀᴇᴘʟʏ ᴛᴏ ᴘʜᴏᴛᴏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah foto ke stiker
+  <b>• perintah:</b> <code>{0}tosticker</code> [ʀᴇᴘʟʏ ᴛᴏ ᴘʜᴏᴛᴏ]
+  <b>• penjelasan:</b> merubah foto ke stiker
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}togif</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b>  merubah stiker jadi gif
+  <b>• perintah:</b> <code>{0}togif</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ]
+  <b>• penjelasan:</b>  merubah stiker jadi gif
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}toaudio</code> [ʀᴇᴘʟʏ ᴛᴏ ᴠɪᴅᴇᴏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengubah video ke audio 
+  <b>• perintah:</b> <code>{0}toaudio</code> [ʀᴇᴘʟʏ ᴛᴏ ᴠɪᴅᴇᴏ]
+  <b>• penjelasan:</b> mengubah video ke audio 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}efek</code> [ᴇꜰᴇᴋ_ᴄᴏᴅᴇ - ʀᴇᴘʟʏ ᴛᴏ ᴠᴏɪᴄᴇ ɴᴏᴛᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> untuk mengubah voice note
+  <b>• perintah:</b> <code>{0}efek</code> [ᴇꜰᴇᴋ_ᴄᴏᴅᴇ - ʀᴇᴘʟʏ ᴛᴏ ᴠᴏɪᴄᴇ ɴᴏᴛᴇ]
+  <b>• penjelasan:</b> untuk mengubah voice note
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}list_efek</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> melihat daftar efek
+  <b>• perintah:</b> <code>{0}list_efek</code>
+  <b>• penjelasan:</b> melihat daftar efek
 """
 
 
