@@ -41,9 +41,30 @@ async def broadcast_group_cmd(client, message):
                 await client.send_message(chat_id, send)
             done += 1
             print(f"Message sent to {chat_id}")
+        except FloodWait as e:
+            print(f"FloodWait for {e.value} seconds while sending to {chat_id}")
+            await asyncio.sleep(e.value)
+            try:
+                if message.reply_to_message:
+                    await send.copy(chat_id)
+                else:
+                    await client.send_message(chat_id, send)
+                done += 1
+                print(f"Message sent to {chat_id} after FloodWait")
+            except (ChatWriteForbidden, RPCError) as e:
+                failed += 1
+                print(f"Error during FloodWait retry for {chat_id}: {e}")
+        except ChatWriteForbidden as e:
+            failed += 1
+            print(f"Error: No rights to send messages in chat {chat_id}")
         except RPCError as e:
             failed += 1
-            print(f"RPCError while sending to {chat_id}: {e}")
+            if e.MESSAGE == "USER_BANNED_IN_CHANNEL":
+                print(f"Error: You are banned from sending messages in chat {chat_id}")
+            elif e.MESSAGE == "SLOWMODE_WAIT_X":
+                print(f"Error: Slow mode wait required in chat {chat_id}")
+            else:
+                print(f"RPCError while sending to {chat_id}: {e}")
         except Exception as ex:
             failed += 1
             print(f"Exception while sending to {chat_id}: {ex}")
@@ -53,8 +74,6 @@ async def broadcast_group_cmd(client, message):
         f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
         quote=True,
     )
-
-# Fungsi lainnya tetap sama
 
 async def broadcast_users_cmd(client, message):
     msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
@@ -80,6 +99,7 @@ async def broadcast_users_cmd(client, message):
             done += 1
             print(f"Message sent to {chat_id}")
         except FloodWait as e:
+            print(f"FloodWait for {e.value} seconds while sending to {chat_id}")
             await asyncio.sleep(e.value)
             try:
                 if message.reply_to_message:
@@ -91,9 +111,20 @@ async def broadcast_users_cmd(client, message):
             except (ChatWriteForbidden, RPCError) as e:
                 failed += 1
                 print(f"Error during FloodWait retry for {chat_id}: {e}")
-        except (ChatWriteForbidden, RPCError) as e:
+        except ChatWriteForbidden as e:
             failed += 1
-            print(f"Error while sending to {chat_id}: {e}")
+            print(f"Error: No rights to send messages in chat {chat_id}")
+        except RPCError as e:
+            failed += 1
+            if e.MESSAGE == "USER_BANNED_IN_CHANNEL":
+                print(f"Error: You are banned from sending messages in chat {chat_id}")
+            elif e.MESSAGE == "SLOWMODE_WAIT_X":
+                print(f"Error: Slow mode wait required in chat {chat_id}")
+            else:
+                print(f"RPCError while sending to {chat_id}: {e}")
+        except Exception as ex:
+            failed += 1
+            print(f"Exception while sending to {chat_id}: {ex}")
 
     await msg.delete()
     return await message.reply(
@@ -148,4 +179,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-    )
+            )
