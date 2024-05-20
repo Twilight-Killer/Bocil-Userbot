@@ -16,9 +16,9 @@ __HELP__ = """
     <b>• perintah:</b> auto_gcast (qury) - (value)
       <b>•> query & value:</b>
         <b>on/off:</b> untuk aktifkan dan nonaktifkan auto_gcast
-        <b>text - ᴋᴀᴛᴀ-ᴋᴀᴛᴀ/ʀᴇᴘʟʏ_ᴛᴇxᴛ: menambahkan kata kata ke database
-        <b>delay - ᴀɴɢᴋᴀ:</b> merubah delay auto gcast
-        <b>limit - ON/OFF:</b> aktif/non-aktif untuk cek limit 15 menit sekali
+        <b>text - kata-kata/reply_text: menambahkan kata kata ke database
+        <b>delay - angka:</b> merubah delay auto gcast
+        <b>limit - on/off:</b> aktif/non-aktif untuk cek limit 15 menit sekali
   <b>• penjelasan:</b> mengerim pesan gcast otomatis 
 
   <b>• perintah:</b> <code>{0}gban</ᴄᴏᴅᴇ> [userid/username to reply/user]
@@ -67,18 +67,18 @@ LT = []
 
 @PY.UBOT("auto_gcast")
 async def _(client, message):
-    msg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs...</b>", quote=True)
+    msg = await message.reply("<b>prosesss....</b>", quote=True)
     type, value = extract_type_and_text(message)
     auto_text_vars = await get_vars(client.me.id, "AUTO_TEXT")
 
     if type == "on":
         if not auto_text_vars:
             return await msg.edit(
-                "<b>ʜᴀʀᴀᴘ sᴇᴛᴛɪɴɢ ᴛᴇxᴛ ɢᴄᴀsᴛ ᴀɴᴅᴀ ᴛᴇʀʟᴇʙɪʜ ᴅᴀʜᴜʟᴜ</b>"
+                "<b>harap setting text gcast anda dahulu </b>"
             )
 
         if client.me.id not in AG:
-            await msg.edit("<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴅɪᴀᴋᴛɪғᴋᴀɴ</b>")
+            await msg.edit("<b>auto gcast diaktifkan</b>")
 
             AG.append(client.me.id)
 
@@ -110,7 +110,7 @@ async def _(client, message):
 
                 done += 1
                 await msg.reply(
-                    f"<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴘᴜᴛᴀʀᴀɴ {done} ʙᴇʀʜᴀsɪʟ ᴅᴀɴ ᴛᴇʀᴋɪʀɪᴍ ᴋᴇ: {group} ɢʀᴏᴜᴘ\n\nᴍᴇɴᴜɴɢɢᴜ {delay} ᴍᴇɴɪᴛ ʟᴀɢɪ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴜʟᴀɴɢ ᴍᴇɴɢɪʀɪᴍ ᴘᴇsᴀɴ</b>",
+                    f"<b>auto gcast putaran {done} berhasil terkirim ke: {group} group\n\nmenunggu {delay} menit lagi untuk mengirim pesan selanjutnya</b>",
                     quote=True,
                 )
                 await asyncio.sleep(int(60 * int(delay)))
@@ -120,63 +120,63 @@ async def _(client, message):
     elif type == "off":
         if client.me.id in AG:
             AG.remove(client.me.id)
-            return await msg.edit("<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴛᴇʟᴀʜ ᴅɪɴᴏɴᴀᴋᴛɪғᴋᴀɴ</b>")
+            return await msg.edit("<b>auto gcast di non-aktifkan</b>")
         else:
             return await msg.delete()
 
     elif type == "text":
         if not value:
             return await msg.edit(
-                "<b>ʜᴀʀᴀᴘ ᴍᴀsᴜᴋᴋᴀɴ ᴛᴇxᴛ ᴜɴᴛᴜᴋ ᴅɪ sɪᴍᴘᴀɴ sᴇʙᴀɢᴀɪ ᴛᴇxᴛ ᴀᴜᴛᴏ ɢᴄᴀsᴛ</b>"
+                "<b>masukan text auto gcast untuk di gcast kan</b>"
             )
         await add_auto_text(client, value)
-        return await msg.edit("<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴛᴇxᴛ: ʙᴇʀʜᴀsɪʟ ᴅɪ sɪᴍᴘᴀɴ</b>")
+        return await msg.edit("<b>auto gcast text: berhasil disimpan</b>")
 
     elif type == "delay":
         await set_vars(client.me.id, "DELAY_GCAST", value)
         return await msg.edit(
-            f"<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴅᴇʟᴀʏ: ʙᴀʀʜᴀsɪʟ ᴋᴇ sᴇᴛᴛɪɴɢ {value} ᴍᴇɴɪᴛ</b>"
+            f"<b>auto gcast delay: berhasil setting ke {value} menit</b>"
         )
 
     elif type == "remove":
         if not value:
             return await msg.edit(
-                "<b>ʜᴀʀᴀᴘ ᴍᴀsᴜᴋᴋᴀɴ ᴀɴɢᴋᴀ ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ʟɪsᴛ ᴛᴇxᴛ</b>"
+                "<b>masukan angka untuk menghapus list text</b>"
             )
         if value == "all":
             await set_vars(client.me.id, "AUTO_TEXT", [])
-            return await msg.edit("<b>sᴇᴍᴜᴀ ᴛᴇxᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs</b>")
+            return await msg.edit("<b>semua text berhasil dihapus</b>")
         try:
             value = int(value) - 1
             auto_text_vars.pop(value)
             await set_vars(client.me.id, "AUTO_TEXT", auto_text_vars)
             return await msg.edit(
-                f"<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ʀᴇᴍᴏᴠᴇ: ᴛᴇxᴛ ᴋᴇ {value+1} ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs\n\nsɪʟᴀʜᴋᴀɴ ᴋᴇᴛɪᴋ: <code>{message.text.split()[0]} list</code>, ᴋᴇᴍʙᴀʟɪ ᴜɴᴛᴜᴋ ᴍᴇɴɢᴇᴄᴇᴋ ᴀᴘᴀᴋᴀʜ sᴜᴅᴀʜ ᴛᴇʀʜᴀᴘᴜs</b>"
+                f"<b>auto gcast remove: text ke {value+1} berhasil dihapus\n\nsilahkan ketik: <code>{message.text.split()[0]} list</code>, kembali untuk mengecek apa sudah terhapus</b>"
             )
         except Exception as error:
             return await msg.edit(str(error))
 
     elif type == "list":
         if not auto_text_vars:
-            return await msg.edit("<b>ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴛᴇxᴛ ᴋᴏsᴏɴɢ</b>")
+            return await msg.edit("<b>auto gcast text kosong</b>")
         txt = "<b>ᴅᴀғᴛᴀʀ ᴀᴜᴛᴏ ɢᴄᴀsᴛ ᴛᴇxᴛ</b>\n\n"
         for num, x in enumerate(auto_text_vars, 1):
             txt += f"{num}: {x}\n\n"
-        txt += f"<b>\nᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴛᴇxᴛ ᴋᴇᴛɪᴋ: <code>{message.text.split()[0]} remove ᴀɴɢᴋᴀ/ᴀʟʟ</code></b>"
+        txt += f"<b>\nuntuk menghapus text ketik: <code>{message.text.split()[0]} remove angka/all</code></b>"
         return await msg.edit(txt)
 
     elif type == "limit":
         if value == "off":
             if client.me.id in LT:
                 LT.remove(client.me.id)
-                return await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ ᴅɪɴᴏɴᴀᴋᴛɪғᴋᴀɴ</b>")
+                return await msg.edit("<b>auto cek limit dinonaktifkan</b>")
             else:
                 return await msg.delete()
 
         elif value == "on":
             if client.me.id not in LT:
                 LT.append(client.me.id)
-                await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ sᴛᴀʀᴛᴇᴅ</b>")
+                await msg.edit("<b>auto cek limit started</b>")
                 while client.me.id in LT:
                     for x in range(2):
                         await spam_bot(client, message)
@@ -185,9 +185,9 @@ async def _(client, message):
             else:
                 return await msg.delete()
         else:
-             return await msg.edit("<b>~ʜᴀʀᴀᴘ ᴍᴀsᴜᴋᴋᴀɴ ᴠᴀʟᴇᴜ ᴏɴ/ᴏғғ ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ</b>")
+             return await msg.edit("<b>~harap masukan value on/off untuk menggunakan perinta ini</b>")
     else:
-        return await msg.edit("<b>ǫᴜᴇʀʏ ʏᴀɴɢ ᴅɪᴍᴀsᴜᴋᴋᴀɴ sᴀʟᴀʜ</b>")
+        return await msg.edit("<b>query sayang dimasukan salah</b>")
 
 
 async def add_auto_text(client, text):
