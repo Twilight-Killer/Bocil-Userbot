@@ -37,7 +37,7 @@ class AFK:
             afk_reason = vars.get("reason")
             afk_runtime = await get_time(time() - afk_time)
             afk_text = (
-                f"<b>❏ sedang afk\n ├ waktu: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
+                f"<b>❏ sedang afk\n ├ waktu: {afk_runtime}\n ╰ alasan: {afk_reason}</b>"
                 if afk_reason
                 else f"<b>❏ sedang afk\n ╰ waktu: {afk_runtime}</b>"
             )
