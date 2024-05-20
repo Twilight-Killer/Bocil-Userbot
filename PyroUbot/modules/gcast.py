@@ -2,30 +2,30 @@ from PyroUbot import *
 
 __MODULE__ = "gcast"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ɢᴄᴀsᴛ&&ɢʟᴏʙᴀʟ 』</b>
+<b>『 bantuan gcast&gban 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ucast</code> [ᴛᴇxᴛ/ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ/ᴍᴇᴅɪᴀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengirim pesan ke chat 
+  <b>• perintah:</b> <code>{0}ucast</code> [text/reply to text/media]
+  <b>• penjelasan:</b> mengirim pesan ke chat 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}gcast</code> [ᴛᴇxᴛ/ʀᴇᴘʟʏ ᴛᴏ ᴛᴇxᴛ/ᴍᴇᴅɪᴀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengirim pesan ke group 
+  <b>• perintah:</b> <code>{0}gcast</code> [text/reply to text/media]
+  <b>• penjelasan:</b> mengirim pesan ke group 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}send</code> [ᴜsᴇʀɪᴅ/ᴜsᴇʀɴᴀᴍᴇ - ᴛᴇxᴛ/ʀᴇᴘʟʏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengirim pesan ke group channel chat
+  <b>• perintah:</b> <code>{0}send</code> [userid/username to reply/text]
+  <b>• penjelasan:</b> mengirim pesan ke group channel chat
 
-    <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> auto_gcast (ǫᴜᴇʀʏ) - (ᴠᴀʟᴜᴇ)
-      <b>•> ǫᴜᴇʀʏ & ᴠᴀʟᴜᴇ:</b>
-        <b>ON/OFF:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢᴀᴋᴛɪғᴋᴀɴ ᴅᴀɴ ᴍᴇɴᴏɴᴀᴋᴛɪғᴋᴀɴ ɢᴄᴀsᴛ ᴏᴛᴏᴍᴀᴛɪs
-        <b>TEXT - ᴋᴀᴛᴀ-ᴋᴀᴛᴀ/ʀᴇᴘʟʏ_ᴛᴇxᴛ: menambahkan kata kata ke database
-        <b>DELAY - ᴀɴɢᴋᴀ:</b> merubah delay auto gcast
-        <b>LIMIT - ON/OFF:</b> aktif/non-aktif untuk cek limit 15 menit sekali
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengerim pesan gcast otomatis 
+    <b>• perintah:</b> auto_gcast (qury) - (value)
+      <b>•> query & value:</b>
+        <b>on/off:</b> untuk aktifkan dan nonaktifkan auto_gcast
+        <b>text - ᴋᴀᴛᴀ-ᴋᴀᴛᴀ/ʀᴇᴘʟʏ_ᴛᴇxᴛ: menambahkan kata kata ke database
+        <b>delay - ᴀɴɢᴋᴀ:</b> merubah delay auto gcast
+        <b>limit - ON/OFF:</b> aktif/non-aktif untuk cek limit 15 menit sekali
+  <b>• penjelasan:</b> mengerim pesan gcast otomatis 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}gban</ᴄᴏᴅᴇ> [ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ/ʀᴇᴘʟʏ ᴛᴏ ᴜsᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> banned pengguna 
+  <b>• perintah:</b> <code>{0}gban</ᴄᴏᴅᴇ> [userid/username to reply/user]
+  <b>• penjelasan:</b> banned pengguna 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ungban</code> [ᴜsᴇʀ_ɪᴅ/ᴜsᴇʀɴᴀᴍᴇ/ʀᴇᴘʟʏ ᴛᴏ ᴜsᴇʀ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> unban pengguna 
+  <b>• perintah:</b> <code>{0}ungban</code> [user_id/username to reply/user]
+  <b>• penjelasan:</b> unban pengguna 
 """
 
 
