@@ -53,7 +53,7 @@ async def alive_query(client, inline_query):
             uptime = await get_time((time() - ub_time))
             msg = f"""
 <b><a href=tg://user?id={my.me.id}>{my.me.first_name} {my.me.last_name or ''}</a>
-    statud: {status} 
+    status: {status} 
         expired_on: <code>{exp}</code> 
         dc_id: <code>{my.me.dc_id}</code>
         ping_dc: <code>{str(ping).replace('.', ',')} ᴍs</code>
