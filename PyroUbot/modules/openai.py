@@ -2,16 +2,16 @@ from PyroUbot import *
 
 __MODULE__ = "openai"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴏᴘᴇɴᴀɪ 』</b>
+<b>『 bantuan ai 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ai</code></code>  [ǫᴜᴇʀʏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> pertanyaan ke chatgpt
+  <b>• perintah:</b> <code>{0}ai</code></code>  [query]
+  <b>• penjelasan:</b> pertanyaan ke chatgpt
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}dalle</code></code> [ǫᴜᴇʀʏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> buat foto
+  <b>• perintah:</b> <code>{0}dalle</code></code> [query]
+  <b>• penjelasan:</b> buat foto
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}stt</code> [ʀᴇᴘʟʏ ᴠᴏɪᴄᴇ ɴᴏᴛᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah pesan menjadi suara desah 
+  <b>• perintah:</b> <code>{0}stt</code> [reply voice note]
+  <b>• penjelasan:</b> merubah pesan menjadi suara desah 
 """
 
 
