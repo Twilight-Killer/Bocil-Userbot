@@ -20,29 +20,29 @@ async def confirm_callback(client, callback_query):
         await callback_query.message.delete()
         pesan = await bot.ask(
             user_id,
-            f"<b>💬 sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍᴋᴀɴ ʙᴜᴋᴛɪ sᴄʀᴇᴇɴsʜᴏᴛ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ: {full_name}</b>",
+            f"<b>💬 silahkan kirim bukti screenshot pembayaran anda: {full_name}</b>",
             reply_markup=InlineKeyboardMarkup(button),
             timeout=300,
         )
     except asyncio.TimeoutError as out:
         if get.id in CONFIRM_PAYMENT:
             CONFIRM_PAYMENT.remove(get.id)
-            return await bot.send_message(get.id, "ᴘᴇᴍʙᴀᴛᴀʟᴀɴ ᴏᴛᴏᴍᴀᴛɪs")
+            return await bot.send_message(get.id, "pembatalan otomatis")
     if get.id in CONFIRM_PAYMENT:
         if not pesan.photo:
             CONFIRM_PAYMENT.remove(get.id)
             await pesan.request.edit(
-                f"<b>💬 sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍᴋᴀɴ ʙᴜᴋᴛɪ sᴄʀᴇᴇɴsʜᴏᴛ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ: {full_name}</b>",
+                f"<b>💬 silah kirim bukti screenshot pembayaran anda: {full_name}</b>",
             )
             buttons = [[InlineKeyboardButton("✅ ᴋᴏɴꜰɪʀᴍᴀsɪ", callback_data="confirm")]]
             return await bot.send_message(
                 user_id,
                 """
-<b>❌ ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴅɪᴘʀᴏsᴇs</b>
+<b>❌ tidak dapat diproses</b>
 
-<b>💬 ʜᴀʀᴀᴘ ᴋɪʀɪᴍᴋᴀɴ sᴄʀᴇᴇɴsʜᴏᴛ ʙᴜᴋᴛɪ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ ʏᴀɴɢ ᴠᴀʟɪᴅ</b>
+<b>💬 harap kirimkan bukti screenshot pembayaran yang valid</b>
 
-<b>✅ sɪʟᴀʜᴋᴀɴ ᴋᴏɴꜰɪʀᴍᴀsɪ ᴜʟᴀɴɢ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ</b>
+<b>✅ silahkan konfirmasi ulang pembayaran anda</b>
 """,
                 reply_markup=InlineKeyboardMarkup(buttons),
             )
@@ -54,14 +54,14 @@ async def confirm_callback(client, callback_query):
             )
             CONFIRM_PAYMENT.remove(get.id)
             await pesan.request.edit(
-                f"<b>💬 sɪʟᴀʜᴋᴀɴ ᴋɪʀɪᴍᴋᴀɴ ʙᴜᴋᴛɪ sᴄʀᴇᴇɴsʜᴏᴛ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ: {full_name}</b>",
+                f"<b>💬 silahkan kirim bukti screenshot pembayaran anda: {full_name}</b>",
             )
             return await bot.send_message(
                 user_id,
                 f"""
-<b>💬 ʙᴀɪᴋ {full_name} sɪʟᴀʜᴋᴀɴ ᴅɪᴛᴜɴɢɢᴜ ᴅᴀɴ ᴊᴀɴɢᴀɴ sᴘᴀᴍ ʏᴀ</b>
+<b>💬 ʙᴀɪᴋ {full_name} silahkan tunggu </b>
 
-<b>🏦 ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ ᴀᴋᴀɴ ᴅɪᴋᴏɴꜰɪʀᴍᴀsɪ sᴇᴛᴇʟᴀʜ 1-12 ᴊᴀᴍ ᴋᴇʀᴊᴀ</b>
+<b>🏦 pembayaran anda akan di konfirmasi setelah 1-12 jam kerja</b>
 """,
             )
 
@@ -100,9 +100,9 @@ async def success_failed_home_callback(client, callback_query):
         await bot.send_message(
             get_user.id,
             """
-<b>✅ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ ʙᴇʀʜᴀsɪʟ ᴅɪᴋᴏɴꜰɪʀᴍᴀsɪ</b>
+<b>✅ pembayaran anda sukses horeeee</b>
 
-<b>💬 sᴇᴋᴀʀᴀɴɢ ᴀɴᴅᴀ ʙɪsᴀ ᴍᴇᴍʙᴜᴀᴛ ᴜsᴇʀʙᴏᴛ</b>
+<b>💬 anda sudah bisa membuat userbot</b>
 """,
             reply_markup=InlineKeyboardMarkup(buttons),
         )
@@ -135,9 +135,9 @@ async def success_failed_home_callback(client, callback_query):
         await bot.send_message(
             get_user.id,
             """
-<b>❌ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴀɴᴅᴀ ᴛɪᴅᴀᴋ ʙɪsᴀ ᴅɪᴋᴏɴꜰɪʀᴍᴀsɪ</b>
+<b>❌ pembayaran anda tidak ditolak </b>
 
-<b>💬 sɪʟᴀʜᴋᴀɴ ʟᴀᴋᴜᴋᴀɴ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴅᴇɴɢᴀɴ ʙᴇɴᴀʀ</b>
+<b>💬 lakukan pembayaran dengan benar</b>
 """,
             reply_markup=InlineKeyboardMarkup(buttons),
         )
@@ -151,7 +151,7 @@ async def success_failed_home_callback(client, callback_query):
         return await bot.send_message(
             OWNER_ID,
             f"""
-<b>❌ {get_user.first_name} {get_user.last_name or ''} ᴛɪᴅᴀᴋ ᴅɪᴛᴀᴍʙᴀʜᴋᴀɴ ᴋᴇ ᴀɴɢɢᴏᴛᴀ ᴘʀᴇᴍɪᴜᴍ</b>
+<b>❌ {get_user.first_name} {get_user.last_name or ''} tidak ditambahkan ke anggota premium</b>
 """,
             reply_markup=InlineKeyboardMarkup(buttons_failed),
         )
