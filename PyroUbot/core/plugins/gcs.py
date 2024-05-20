@@ -2,8 +2,7 @@ import asyncio
 
 from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
-from pyrogram.errors import FloodWait, PeerIdInvalid, ChatWriteForbidden, ChatSendPlainForbidden
-
+from pyrogram.errors import FloodWait, PeerIdInvalid, ChatWriteForbidden
 
 from PyroUbot import *
 
@@ -47,12 +46,12 @@ async def broadcast_group_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
-            except (ChatWriteForbidden, ChatSendPlainForbidden):
+            except ChatWriteForbidden:
                 failed += 1
             except Exception as ex:
                 failed += 1
                 print(f"Error during FloodWait retry: {ex}")
-        except (ChatWriteForbidden, ChatSendPlainForbidden):
+        except ChatWriteForbidden:
             failed += 1
         except Exception as ex:
             failed += 1
@@ -94,12 +93,12 @@ async def broadcast_users_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
-            except (ChatWriteForbidden, ChatSendPlainForbidden):
+            except ChatWriteForbidden:
                 failed += 1
             except Exception as ex:
                 failed += 1
                 print(f"Error during FloodWait retry: {ex}")
-        except (ChatWriteForbidden, ChatSendPlainForbidden):
+        except ChatWriteForbidden:
             failed += 1
         except Exception as ex:
             failed += 1
