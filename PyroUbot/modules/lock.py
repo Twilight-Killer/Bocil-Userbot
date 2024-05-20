@@ -5,16 +5,16 @@ __MODULE__ = "locks"
 __HELP__ = f"""
 <b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʟᴏᴄᴋꜱ 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}lock</code> [ᴛʏᴘᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> mengkunci izin group 
+  <b>• perintah:</b> <code>{0}lock</code> [type]
+  <b>• penjelasan:</b> mengkunci izin group 
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}unlock</code> [ᴛʏᴘᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> buka izin grouo
+  <b>• perintah:</b> <code>{0}unlock</code> [type]
+  <b>• penjelasan:</b> buka izin grouo
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}locks</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> cek izin group
+  <b>• perintah:</b> <code>{0}locks</code>
+  <b>• penjelasan:</b> cek izin group
 
-  <b>• ᴛʏᴘᴇ : `msg`|`media`|`stickers`|`polls`|`info`|`invite`|`webprev`|`pin`
+  <b>• type : `msg`|`media`|`stickers`|`polls`|`info`|`invite`|`webprev`|`pin`
 """
 
 
