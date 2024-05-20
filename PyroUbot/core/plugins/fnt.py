@@ -12,10 +12,10 @@ async def font_message(client, message):
         if message.reply_to_message.text:
             query = id(message)
         else:
-            return await message.reply("ʜᴀʀᴀᴘ ʀᴇᴘʟʏ ᴋᴇ ᴛᴇxᴛ")
+            return await message.reply("harap reply ke text")
     else:
         if len(message.command) < 2:
-            return await message.reply(f"{message.text} [ʀᴇᴘʟʏ/ᴛᴇxᴛ]")
+            return await message.reply(f"{message.text} [relpy/text]")
         else:
             query = id(message)
     try:
@@ -44,7 +44,7 @@ async def font_inline(client, inline_query):
                     title="get font!",
                     reply_markup=buttons,
                     input_message_content=InputTextMessageContent(
-                        "<b>👇 sɪʟᴀʜᴋᴀɴ ᴘɪʟɪʜ sᴀʟᴀʜ sᴀᴛᴜ ꜰᴏɴᴛ ᴅɪʙᴀᴡᴀʜ</b>"
+                        "<b>👇 silahkan pilihkan satu font di bawah ini</b>"
                     ),
                 )
             )
