@@ -10,7 +10,7 @@ from pyrogram.types import ChatPermissions, Message
 from PyroUbot import *
 
 
-incorrect_parameters = f"ᴘᴀʀᴀᴍᴇᴛᴇʀ ʏᴀɴɢ ᴀɴᴅᴀ ᴍᴀꜱᴜᴋᴀɴ ꜱᴀʟᴀʜ ꜱɪʟᴀᴋᴀɴ ᴋᴇᴛɪᴋ `.ʜᴇʟᴘ ʟᴏᴄᴋꜱ`"
+incorrect_parameters = f"parahmater yang anda masukan salah ketik `.help locks`"
 data = {
     "msg": "can_send_messages",
     "stickers": "can_send_other_messages",
@@ -58,11 +58,11 @@ async def tg_lock(
 ):
     if lock:
         if perm not in permissions:
-            return await message.reply(f"🔒 `{parameter}` ꜱᴜᴅᴀʜ ᴛᴇʀᴋᴜɴᴄɪ")
+            return await message.reply(f"🔒 `{parameter}` sudah terkunci")
         permissions.remove(perm)
     else:
         if perm in permissions:
-            return await message.reply(f"🔓 `{parameter}` ꜱᴜᴅᴀʜ ᴛᴇʀʙᴜᴋᴀ")
+            return await message.reply(f"🔓 `{parameter}` sudah terbuka")
         permissions.append(perm)
     permissions = {perm: True for perm in list(set(permissions))}
     try:
@@ -71,15 +71,15 @@ async def tg_lock(
         )
     except ChatNotModified:
         return await message.reply(
-            "ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴜᴋᴀ ɪɴɪ ᴀɴᴅᴀ ʜᴀʀᴜꜱ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ : `ᴜɴʟᴏᴄᴋ ᴍꜱɢ` ᴛᴇʀʟᴇʙɪʜ ᴅᴀʜᴜʟᴜ."
+            "untuk membuka ini anda harus menggunakan parameter  : `unlocks msg` terlebih dahulu."
         )
     except ChatAdminRequired:
-        return await message.reply("ꜱᴀʏᴀ ᴛɪᴅᴀᴋ ᴍᴇᴍᴘᴜɴʏᴀɪ ɪᴢɪɴ ᴀᴅᴍɪɴ ᴅɪꜱɪɴɪ.")
+        return await message.reply("saya tidak mempunyai izin admin disini.")
     await message.reply(
         (
-            f"🔒 ᴛᴇʀᴋᴜɴᴄɪ ᴜɴᴛᴜᴋ ɴᴏɴ-ᴀᴅᴍɪɴ!\nᴛɪᴘᴇ: `{parameter}`\nɢʀᴜᴘ: {message.chat.title}"
+            f"🔒 terkunci untuk non-admin!\ntipe: `{parameter}`\ngroup: {message.chat.title}"
             if lock
-            else f"🔒 ᴛᴇʀʙᴜᴋᴀ ᴜɴᴛᴜᴋ ɴᴏɴ-ᴀᴅᴍɪɴ!\nᴛɪᴘᴇ: `{parameter}`\nɢʀᴜᴘ: {message.chat.title}"
+            else f"🔒 terbuka untuk non-admin!\ntipr: `{parameter}`\ngroup: {message.chat.title}"
         )
     )
 
@@ -107,13 +107,13 @@ async def locks_func(client, message):
         try:
             await client.set_chat_permissions(chat_id, ChatPermissions())
             await message.reply(
-                f"🔒 ᴛᴇʀᴋᴜɴᴄɪ ᴜɴᴛᴜᴋ ɴᴏɴ-ᴀᴅᴍɪɴ!\nᴛɪᴘᴇ: `{parameter}`\nɢʀᴜᴘ: {message.chat.title}"
+                f"🔒 terkunci untuk non-admin!\ntipe: `{parameter}`\ngroup: {message.chat.title}"
             )
         except ChatAdminRequired:
-            return await message.reply("ꜱᴀʏᴀ ᴛɪᴅᴀᴋ ᴍᴇᴍᴘᴜɴʏᴀɪ ɪᴢɪɴ ᴀᴅᴍɪɴ ᴅɪꜱɪɴɪ.")
+            return await message.reply("saya tidak mempunyai izin admin disini.")
         except ChatNotModified:
             return await message.reply(
-                f"🔒 ᴛᴇʀᴋᴜɴᴄɪ ᴜɴᴛᴜᴋ ɴᴏɴ-ᴀᴅᴍɪɴ!\nᴛɪᴘᴇ: `{parameter}`\nɢʀᴜᴘ: {message.chat.title}"
+                f"🔒 terkunci untuk non-admin!\ntipe: `{parameter}`\ngroup: {message.chat.title}"
             )
     elif parameter == "all" and state == "unlock":
         try:
@@ -131,18 +131,18 @@ async def locks_func(client, message):
                 ),
             )
         except ChatAdminRequired:
-            return await message.reply("ꜱᴀʏᴀ ᴛɪᴅᴀᴋ ᴍᴇᴍᴘᴜɴʏᴀɪ ɪᴢɪɴ ᴀᴅᴍɪɴ ᴅɪꜱɪɴɪ.")
+            return await message.reply("saya tidak mempunyai izin admin disini .")
         await message.reply(
-            f"🔒 ᴛᴇʀʙᴜᴋᴀ ᴜɴᴛᴜᴋ ɴᴏɴ-ᴀᴅᴍɪɴ!\nᴛɪᴘᴇ: `{parameter}`\nɢʀᴜᴘ: {message.chat.title}"
+            f"🔒 terbuka untuk non-admin!\ntipe: `{parameter}`\ngroup: {message.chat.title}"
         )
 
 
 
 async def locktypes(client, message):
     permissions = await current_chat_permissions(client, message.chat.id)
-    Tm = await message.reply("</b>ᴘʀᴏᴄᴇssɪɴɢ . . .</b>")
+    Tm = await message.reply("</b>prosesssss.......</b>")
     if not permissions:
-        return await Tm.edit("🔒 ᴛᴇʀᴋᴜɴᴄɪ ᴜɴᴛᴜᴋ ꜱᴇᴍᴜᴀ")
+        return await Tm.edit("🔒 terkunci untuk semuanya ")
 
     perms = ""
     for i in permissions:
