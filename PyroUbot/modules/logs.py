@@ -6,13 +6,13 @@ from PyroUbot import *
 
 __MODULE__ = "logs"
 __HELP__ = """
-<b>『 BANTUAN UNTUK LOGS 』</b>
+<b>『 bantuan logs 』</b>
 
-  <b>• PERINTAH:</b> <code>{0}logs</code> (on)
-  <b>• PENJELASAN:</b> untuk mengaktifkan atau menonaktifkan channel logs
+  <b>• perintah:</b> <code>{0}logs</code> (on)
+  <b>• penjelasan:</b> untuk mengaktifkan atau menonaktifkan channel logs
 
-  <b>• PERINTAH:</b> <code>{0}del logs</code> 
-  <b>• PENJELASAN:</b> untuk menghapus channel logs
+  <b>• perintah:</b> <code>{0}del logs</code> 
+  <b>• penjelasan:</b> untuk menghapus channel logs
 """
 
 @ubot.on_message(filters.group & filters.mentioned & filters.incoming, group=4)
