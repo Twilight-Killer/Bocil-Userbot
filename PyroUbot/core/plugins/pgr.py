@@ -16,10 +16,10 @@ async def purgeme_cmd(client, message):
         else message.text.split(None, 1)[1].strip()
     )
     if not n.isnumeric():
-        return await message.reply("ᴀʀɢᴜᴍᴇɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ")
+        return await message.reply("argumen tidak valid")
     n = int(n)
     if n < 1:
-        return await message.reply("ʙᴜᴛᴜʜ ɴᴏᴍᴇʀ >=1-999")
+        return await message.reply("butuh nomer togel >=1-999")
     chat_id = message.chat.id
     message_ids = [
         m.id
@@ -30,7 +30,7 @@ async def purgeme_cmd(client, message):
         )
     ]
     if not message_ids:
-        return await message.reply_text("ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴘᴇsᴀɴ ʏᴀɴɢ ᴅɪᴛᴇᴍᴜᴋᴀɴ")
+        return await message.reply_text("tidak ada pesan yang ditemukan ")
     to_delete = [message_ids[i : i + 999] for i in range(0, len(message_ids), 999)]
     for hundred_messages_or_less in to_delete:
         await client.delete_messages(
@@ -38,7 +38,7 @@ async def purgeme_cmd(client, message):
             message_ids=hundred_messages_or_less,
             revoke=True,
         )
-        mmk = await message.reply(f"✅ {n} ᴘᴇsᴀɴ ᴛᴇʟᴀʜ ᴅɪ ʜᴀᴘᴜs")
+        mmk = await message.reply(f"✅ {n} pesan teleh berhasil dihapus")
         await asyncio.sleep(2)
         await mmk.delete()
 
@@ -46,7 +46,7 @@ async def purgeme_cmd(client, message):
 async def purge_cmd(client, message):
     await message.delete()
     if not message.reply_to_message:
-        return await message.reply_text("ᴍᴇᴍʙᴀʟᴀs ᴘᴇsᴀɴ ᴜɴᴛᴜᴋ ᴅɪʙᴇʀsɪʜᴋᴀɴ.")
+        return await message.reply_text("balas pesan untuk dibersihkan.")
     chat_id = message.chat.id
     message_ids = []
     for message_id in range(
