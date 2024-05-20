@@ -7,22 +7,22 @@ from PyroUbot import *
 
 __MODULE__ = "notes"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ɴᴏᴛᴇs 』</b>
+<b>『 bantuan notes 』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}save</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ - ʀᴇᴘʟʏ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴʏɪᴍᴘᴀɴ sᴇʙᴜᴀʜ ᴄᴀᴛᴀᴛᴀɴ
+  <b>• perintah:</b> <code>{0}save</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ - ʀᴇᴘʟʏ]
+  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇɴʏɪᴍᴘᴀɴ sᴇʙᴜᴀʜ ᴄᴀᴛᴀᴛᴀɴ
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}get</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴᴅᴀᴘᴀᴛᴋᴀɴ ᴄᴀᴛᴀᴛᴀɴ ʏᴀɴɢ ᴅɪsɪᴍᴘᴀɴ
+  <b>• perintah:</b> <code>{0}get</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ]
+  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇɴᴅᴀᴘᴀᴛᴋᴀɴ ᴄᴀᴛᴀᴛᴀɴ ʏᴀɴɢ ᴅɪsɪᴍᴘᴀɴ
  
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0} rmnote</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ]
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴄᴀᴛᴀᴛᴀɴ
+  <b>• perintah:</b> <code>{0} rmnote</code> [ɴᴏᴛᴇ_ɴᴀᴍᴇ]
+  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴀᴘᴜs ᴄᴀᴛᴀᴛᴀɴ
  
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}notes</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ ᴅᴀꜰᴛᴀʀ ᴄᴀᴛᴀᴛᴀɴ ʏᴀɴɢ ᴅɪsɪᴍᴘᴀɴ
+  <b>• perintah:</b> <code>{0}notes</code>
+  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ ᴅᴀꜰᴛᴀʀ ᴄᴀᴛᴀᴛᴀɴ ʏᴀɴɢ ᴅɪsɪᴍᴘᴀɴ
 
-  ɴᴏᴛᴇ: ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ʙᴜᴛᴛᴏɴ, ɢᴜɴᴀᴋᴀɴ ꜰᴏʀᴍᴀᴛ:
-  <code>ᴛᴇxᴛ | ɴᴀᴍᴀ ᴛᴏᴍʙᴏʟ - ᴜʀʟ/ᴄᴀʟʟʙᴀᴄᴋ |</code>
+  note: untuk menggunakan button - gunakan fotmat:
+  <code>text | nama tombol - url/callback |</code>
  """
 
 
@@ -82,7 +82,7 @@ def create_inline_keyboard(text, type=None, is_back=False):
         markup.inline_keyboard.append(
             [
                 InlineKeyboardButton(
-                    "ᴋᴇᴍʙᴀʟɪ",
+                    "kembali",
                     f"_gtnote {int(type.split('_')[0])}_{type.split('_')[1]}",
                 )
             ]
@@ -99,13 +99,13 @@ async def _(client, message):
 
     if not args or not reply:
         return await message.reply(
-            f"<code>{message.text.split()[0]}</code> <b>[ɴᴀᴍᴇ] [ᴛᴇxᴛ/ʀᴇᴘʟʏ]</b>"
+            f"<code>{message.text.split()[0]}</code> <b>[name] [text/reply]</b>"
         )
 
     vars = await get_vars(client.me.id, args, query)
 
     if vars:
-        return await message.reply(f"<b>ᴄᴀᴛᴀᴛᴀɴ {args} ꜱᴜᴅᴀʜ ᴀᴅᴀ</n>")
+        return await message.reply(f"<b>catatan {args} suda ada</n>")
 
     value = None
     type_mapping = {
@@ -130,11 +130,11 @@ async def _(client, message):
     if value:
         await set_vars(client.me.id, args, value, query)
         return await message.reply(
-            f"<b>ᴄᴀᴛᴀᴛᴀɴ <code>{args}</code> ʙᴇʀʜᴀsɪʟ ᴛᴇʀsɪᴍᴘᴀɴ ᴅɪ ᴅᴀᴛᴀʙᴀsᴇ</b>"
+            f"<b>ᴄᴀᴛᴀᴛᴀɴ <code>{args}</code> berhasil disimpan di database ✅</b>"
         )
     else:
         return await message.reply(
-            f"<code>{message.text.split()[0]}</code> <b>[ɴᴀᴍᴇ] [ᴛᴇxᴛ/ʀᴇᴘʟʏ]</b>"
+            f"<code>{message.text.split()[0]}</code> <b>[name] [text/reply]</b>"
         )
 
 
@@ -144,18 +144,18 @@ async def _(client, message):
 
     if not args:
         return await message.reply(
-            f"<code>{message.text.split()[0]}</code> <b>[ɴᴀᴍᴇ]</b>"
+            f"<code>{message.text.split()[0]}</code> <b>[name]</b>"
         )
 
     query = "notes_cb" if message.command[0] == "srmnote" else "notes"
     vars = await get_vars(client.me.id, args, query)
 
     if not vars:
-        return await message.reply(f"<b>ᴄᴀᴛᴀᴛᴀɴ {args} ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ</b>")
+        return await message.reply(f"<b>catatan {args} tidak ditemukan</b>")
 
     await remove_vars(client.me.id, args, query)
     await client.delete_messages(client.me.id, int(vars["message_id"]))
-    return await message.reply(f"<b>ᴄᴀᴛᴀɴ {args} ʙᴇʀʜᴀsɪʟ ᴅɪʜᴀᴘᴜs</b>")
+    return await message.reply(f"<b>catatan {args} berhasil dihapus❎</b>")
 
 
 @PY.UBOT("get")
@@ -165,14 +165,14 @@ async def _(client, message):
 
     if not args:
         return await message.reply(
-            f"<code>{message.text.split()[0]}</code> <b>[ɴᴀᴍᴇ]</b>"
+            f"<code>{message.text.split()[0]}</code> <b>[name]</b>"
         )
 
     data = await get_vars(client.me.id, args, "notes")
 
     if not data:
         return await message.reply(
-            f"<b>ᴄᴀᴛᴀᴛᴀɴ {args} ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ</b>"
+            f"<b>catatan {args} tidak di temukan</b>"
         )
 
     m = await client.get_messages(client.me.id, int(data["message_id"]))
@@ -205,9 +205,9 @@ async def _(client, message):
         msg = "<b>❏ ᴅᴀғᴛᴀʀ ᴄᴀᴛᴀᴛᴀɴ</b>\n\n"
         for x, data in vars.items():
             msg += f"<b> •> <code>{x}</code> | {data['type']}</b>\n"
-        msg += f"<b>\n❏ ᴛᴏᴛᴀʟ ᴄᴀᴛᴀᴛᴀɴ: {len(vars)}</b>"
+        msg += f"<b>\n❏ total catatan: {len(vars)}</b>"
     else:
-        msg = "<b>ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴄᴀᴛᴀᴛᴀɴ</b>"
+        msg = "<b>tidak ada catatan</b>"
 
     return await message.reply(msg, quote=True)
 
