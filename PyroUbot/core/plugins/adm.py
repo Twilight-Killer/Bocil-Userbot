@@ -124,7 +124,7 @@ async def global_banned(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    text = "<b>🚫 ɢʟᴏʙᴀʟ {}</b>\n\n<b>✅ Berhasil: {} ᴄʜᴀᴛ</b>\n<b>❌ Gagal: {} ᴄʜᴀᴛ</b>\n<b>👤 ᴜsᴇʀ: <a href='tg://user?id={}'>{} {}</a></b>"
+    text = "<b>🚫 ɢʟᴏʙᴀʟ {}</b>\n\n<b>✅ Berhasil: {} chat</b>\n<b>❌ gagal: {} chat</b>\n<b>👤 user: <a href='tg://user?id={}'>{} {}</a></b>"
     global_id = await get_global_id(client, "global")
     for dialog in global_id:
         if user.id == OWNER_ID:
@@ -155,7 +155,7 @@ async def global_unbanned(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    text = "<b>🚫 ɢʟᴏʙᴀʟ {}</b>\n\n<b>✅ Berhasil: {} ᴄʜᴀᴛ</b>\n<b>❌ Gagal: {} ᴄʜᴀᴛ</b>\n<b>👤 ᴜsᴇʀ: <a href='tg://user?id={}'>{} {}</a></b>"
+    text = "<b>🚫 ɢʟᴏʙᴀʟ {}</b>\n\n<b>✅ Berhasil: {} chat</b>\n<b>❌ gagal: {} chat</b>\n<b>👤 user: <a href='tg://user?id={}'>{} {}</a></b>"
     global_id = await get_global_id(client, "global")
     for dialog in global_id:
         try:
