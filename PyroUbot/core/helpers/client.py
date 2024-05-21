@@ -3,6 +3,12 @@ from pyrogram.enums import ChatType
 
 from PyroUbot import *
 
+async def if_sudo(_, client, message):
+    sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    is_user = message.from_user if message.from_user else message.sender_chat
+    is_self = bool(message.from_user and message.from_user.is_self or getattr(message, "outgoing", False))
+    return is_user.id in sudo_users or is_self
+
 
 class FILTERS:
     ME = filters.me
@@ -11,6 +17,7 @@ class FILTERS:
     OWNER = filters.user([OWNER_ID])
     ME_GROUP = filters.me & filters.group
     ME_OWNER = filters.me & filters.user(OWNER_ID)
+    SUDO = filters.create(if_sudo)
 
 
 class PY:
@@ -45,27 +52,16 @@ class PY:
         return wrapper
 
     @staticmethod
-    def UBOT(command, filter=FILTERS.ME, SUDO=True):
+    def UBOT(command, filter=FILTERS.SUDO):
         def decorator(func):
-            @ubot.on_message(
-                ubot.cmd_prefix(command) & filter
-                if not SUDO
-                else ubot.cmd_prefix(command)
-            )
+            @ubot.on_message(ubot.cmd_prefix(command) & filter)
             async def wrapped_func(client, message):
-                user = message.from_user or message.sender_chat
-                is_self = user.is_self if message.from_user else False 
-                sudo_id = await get_list_from_vars(client.me.id, "SUDO_USERS")
-
-                if SUDO and is_self or user.id in sudo_id:
-                    return await func(client, message)
-
-                elif not SUDO:
-                    return await func(client, message)
+                return await func(client, message)
 
             return wrapped_func
 
         return decorator
+
    
     @staticmethod
     def INLINE(command):
@@ -96,7 +92,7 @@ class PY:
             rpk = f"<a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a>"
             if not message.chat.type == ChatType.PRIVATE:
                 return await message.reply(
-                    f"<b>❌ maaf {rpk}, perintah ini hanya berfungsi diprivat .</b>",
+                    f"<b>❌ ᴍᴀᴀғ {rpk}, ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ ʜᴀɴʏᴀ ʙᴇʀғᴜɴɢsɪ ᴅɪ ᴘʀɪᴠᴀᴛᴇ.</b>",
                     quote=True,
                 )
             return await func(client, message)
