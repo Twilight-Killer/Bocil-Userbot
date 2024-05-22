@@ -1,4 +1,5 @@
 import logging
+import logging
 import os
 import re
 import asyncio
@@ -16,58 +17,23 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
-class ConnectionError(Exception):
-    pass
-
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for error_type in ["OSErro", "TimeoutError"]:
-            if error_type in record.getMessage():
-                self.handle_error(record.getMessage())
+        for X in ["OSError", "TimeoutError"]:
+            if X in record.getMessage():
+                os.kill(os.getpid(), 9)
 
-    def handle_error(self, error_message):
-        self.log_error(error_message)
-        raise ConnectionError(error_message)
 
-    def log_error(self, error_message):
-        with open("error_log.txt", "a") as log_file:
-            log_file.write(f"Error: {error_message}\n")
+logger = logging.getLogger()
+logger.setLevel(logging.ERROR)
 
-# Konfigurasi logging
-logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
+formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s", "%d-%b %H:%M")
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+connection_handler = ConnectionHandler()
+logger.addHandler(stream_handler)
+logger.addHandler(connection_handler)
 
-logger = logging.getLogger(__name__)
-handler = ConnectionHandler()
-logger.addHandler(handler)
-
-max_retries = 3
-retries = 0
-
-while retries < max_retries:
-    try:
-        # Simulasi koneksi yang gagal (ganti dengan kode sesuai kebutuhan)
-        raise OSError("Koneksi Gagal")
-    except OSError as e:
-        logger.error(f"Terjadi kesalahan: {e}")
-        retries += 1
-        if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
-            continue  # Ganti break dengan continue
-        else:
-            print("Gagal setelah beberapa percobaan.")
-            break
-
-async def get_channel_messages(channel, bot):
-    try:
-        # Lakukan permintaan ke kanal
-        messages = await bot.get_messages(channel)
-        return messages
-    except FloodWait as e:
-        # Tangani kesalahan FloodWait dengan menunggu waktu yang diberikan oleh Telegram
-        await asyncio.sleep(e.x)
-        # Coba kembali permintaan setelah menunggu
-        messages = await get_channel_messages(channel, bot)
-        return messages
 
 class Bot(Client):
     def __init__(self, **kwargs):
@@ -78,12 +44,14 @@ class Bot(Client):
         def decorator(func):
             self.add_handler(MessageHandler(func, filters), group)
             return func
+
         return decorator
 
     def on_callback_query(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(CallbackQueryHandler(func, filters), group)
             return func
+
         return decorator
 
     async def start(self):
@@ -95,6 +63,7 @@ class Ubot(Client):
     _prefix = {}
     _get_my_id = []
     _translate = {}
+    _get_my_peer = {}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs) 
@@ -106,6 +75,7 @@ class Ubot(Client):
             for ub in self._ubot:
                 ub.add_handler(MessageHandler(func, filters), group)
             return func
+
         return decorator
 
     def set_prefix(self, user_id, prefix):
@@ -130,7 +100,7 @@ class Ubot(Client):
                     if not text.startswith(prefix):
                         continue
 
-                    without_prefix = text[len(prefix) :]
+                    without_prefix = text[len(prefix):]
 
                     for command in cmd.split("|"):
                         if not re.match(
@@ -174,12 +144,14 @@ class Ubot(Client):
               f"prefix: {', '.join(self._prefix[self.me.id])}\n")
 
 
+
 bot = Bot(
     name="bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
 )
+
 ubot = Ubot(name="ubot")
 
 
