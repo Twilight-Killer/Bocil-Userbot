@@ -4,35 +4,32 @@ from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import RPCError, FloodWait, ChatWriteForbidden
 
-
-from PyroUbot import *
-
+# Anggaplah PyroUbot berisi utilitas yang diperlukan dan objek klien
+from PyroUbot import*
 
 async def broadcast_group_cmd(client, message):
-    proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
-    success_emoji = "<emoji id=5021905410089550576>✅</emoji>"
-    failure_emoji = "<emoji id=5019523782004441717>❌</emoji>"
-    selesai_emoji = "<emoji id=5895735846698487922>🌐</emoji>"
-    reply_emoji = "<emoji id=6226230182806554486>🚫</emoji>"
+    emojis = {
+        "processing": "<emoji id=5971865795582495562>🔺</emoji>",
+        "success": "<emoji id=5021905410089550576>✅</emoji>",
+        "failure": "<emoji id=5019523782004441717>❌</emoji>",
+        "done": "<emoji id=5895735846698487922>🌐</emoji>",
+        "reply": "<emoji id=6226230182806554486>🚫</emoji>"
+    }
 
-    processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
+    processing_msg = f"{emojis['processing']} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
     msg = await message.reply(processing_msg, quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit(
-            f"{reply_emoji} Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁 Mohon balas sesuatu atau ketik sesuatu"
-        )
+        return await msg.edit(f"{emojis['reply']} Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁 Mohon balas sesuatu atau ketik sesuatu")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
 
-    done = 0
-    failed = 0
+    done, failed = 0, 0
     for chat_id in chats:
         if chat_id in blacklist:
             continue
-
         try:
             await asyncio.sleep(1.5)
             if message.reply_to_message:
@@ -40,9 +37,7 @@ async def broadcast_group_cmd(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
-            print(f"Message sent to {chat_id}")
         except FloodWait as e:
-            print(f"FloodWait for {e.value} seconds while sending to {chat_id}")
             await asyncio.sleep(e.value)
             try:
                 if message.reply_to_message:
@@ -50,30 +45,29 @@ async def broadcast_group_cmd(client, message):
                 else:
                     await client.send_message(chat_id, send)
                 done += 1
-                print(f"Message sent to {chat_id} after FloodWait")
             except (ChatWriteForbidden, RPCError) as e:
                 failed += 1
-                print(f"Error during FloodWait retry for {chat_id}: {e}")
-        except ChatWriteForbidden as e:
+                print(f"Error sending to {chat_id}: {e}")
+        except ChatWriteForbidden:
             failed += 1
-            print(f"Error: No rights to send messages in chat {chat_id}")
+            print(f"Tidak memiliki hak untuk mengirim pesan di obrolan {chat_id}")
         except RPCError as e:
             failed += 1
             if e.MESSAGE == "USER_BANNED_IN_CHANNEL":
-                print(f"Error: You are banned from sending messages in chat {chat_id}")
+                print(f"Error: Anda dibatasi dari mengirim pesan di obrolan {chat_id}")
             elif e.MESSAGE == "SLOWMODE_WAIT_X":
-                print(f"Error: Slow mode wait required in chat {chat_id}")
+                print(f"Error: Waktu tunggu mode lambat diperlukan di obrolan {chat_id}")
             else:
-                print(f"RPCError while sending to {chat_id}: {e}")
+                print(f"RPCError saat mengirim ke {chat_id}: {e}")
         except Exception as ex:
             failed += 1
-            print(f"Exception while sending to {chat_id}: {ex}")
+            print(f"Exception saat mengirim ke {chat_id}: {ex}")
 
     await msg.delete()
     return await message.reply(
-        f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
-        quote=True,
-    )
+        f"{emojis['done']} Pesan broadcast selesai\n{emojis['success']} Berhasil ke: {done} grup\n{emojis['failure']} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
+        quote=True
+            )
 
 async def broadcast_users_cmd(client, message):
     msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
