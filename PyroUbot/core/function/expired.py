@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardMarkup
 from pytz import timezone
 
 from PyroUbot import bot, ubot
-from PyroUbot.config import LOGS_MAKER_UBOT
+from PyroUbot.config import LOGS_MAKER_UBOT, OWNER_ID
 from PyroUbot.core.database import *
 from PyroUbot.core.helpers import MSG, Button
 
@@ -13,9 +13,14 @@ from PyroUbot.core.helpers import MSG, Button
 async def handle_expired_userbot(X):
     try:
         vars = await get_vars(X.me.id, "EXPIRED_DATE")
-        time = datetime.now(timezone("Asia/Jakarta")).strftime("%d-%m-%Y")
-        exp = vars.strftime("%d-%m-%Y")
-        if time == exp:
+        
+        if vars is None:
+            raise ValueError("Expiration date not found for userbot")
+
+        current_time = datetime.now(timezone("Asia/Jakarta"))
+        exp = vars.astimezone(timezone("Asia/Jakarta"))
+        
+        if current_time.date() == exp.date():
             await X.unblock_user(bot.me.username)
             for chat in await get_chat(X.me.id):
                 await remove_chat(X.me.id, chat)
