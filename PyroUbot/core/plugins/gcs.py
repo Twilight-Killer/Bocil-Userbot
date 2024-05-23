@@ -8,21 +8,19 @@ from PyroUbot import*
 
 
 async def broadcast_group_cmd(client, message):
-    emojis = {
-        "processing": "<emoji id=5971865795582495562>🔺</emoji>",
-        "success": "<emoji id=5021905410089550576>✅</emoji>",
-        "failure": "<emoji id=5019523782004441717>❌</emoji>",
-        "done": "<emoji id=5895735846698487922>🌐</emoji>",
-        "reply": "<emoji id=6226230182806554486>🚫</emoji>"
-    }
-    
-    processing_msg = f"{processing} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
+    proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
+    success_emoji = "<emoji id=5021905410089550576>✅</emoji>"
+    failure_emoji = "<emoji id=5019523782004441717>❌</emoji>"
+    selesai_emoji = "<emoji id=5895735846698487922>🌐</emoji>"
+    reply_emoji = "<emoji id=6226230182806554486>🚫</emoji>"
+
+    processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
     msg = await message.reply(processing_msg, quote=True)
 
     send = get_message(message)
     if not send:
         return await msg.edit(
-            f"<b>{reply}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
+            f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
@@ -52,7 +50,7 @@ async def broadcast_group_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b>{selesai_emoji} Pesan broadcast selesai</b>\n<b>{success} Berhasil ke: {done} grup</b>\n<b>{failure} Gagal ke: {failed} grup</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} grup</b>\n<b>╰ Gagal ke: {failed} grup</b>",
+        f"<b>{selesai_emoji} Pesan broadcast selesai</b>\n<b>{success_emoji} Berhasil ke: {done} grup</b>\n<b>{failure_emoji} Gagal ke: {failed} grup</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} grup</b>\n<b>╰ Gagal ke: {failed} grup</b>",
         quote=True,
     )
 
@@ -141,4 +139,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-        )
+                )
