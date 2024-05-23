@@ -4,7 +4,7 @@ from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import RPCError, FloodWait, ChatWriteForbidden
 
-# Anggaplah PyroUbot berisi utilitas yang diperlukan dan objek klien
+
 from PyroUbot import*
 
 async def broadcast_group_cmd(client, message):
