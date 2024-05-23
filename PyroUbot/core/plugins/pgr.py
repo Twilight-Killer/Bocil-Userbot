@@ -3,8 +3,11 @@ import asyncio
 
 async def del_cmd(client, message):
     rep = message.reply_to_message
-    await message.delete()
-    await rep.delete()
+    if rep:
+        await message.delete()
+        await rep.delete()
+    else:
+        await message.reply("Balas pesan yang ingin dihapus.")
 
 
 async def purgeme_cmd(client, message):
@@ -16,10 +19,10 @@ async def purgeme_cmd(client, message):
         else message.text.split(None, 1)[1].strip()
     )
     if not n.isnumeric():
-        return await message.reply("argumen tidak valid")
+        return await message.reply("Argumen tidak valid.")
     n = int(n)
-    if n < 1:
-        return await message.reply("butuh nomer togel >=1-999")
+    if n < 1 or n > 999:
+        return await message.reply("Butuh nomor antara 1 dan 999.")
     chat_id = message.chat.id
     message_ids = [
         m.id
@@ -30,7 +33,7 @@ async def purgeme_cmd(client, message):
         )
     ]
     if not message_ids:
-        return await message.reply_text("tidak ada pesan yang ditemukan ")
+        return await message.reply_text("Tidak ada pesan yang ditemukan.")
     to_delete = [message_ids[i : i + 999] for i in range(0, len(message_ids), 999)]
     for hundred_messages_or_less in to_delete:
         await client.delete_messages(
@@ -38,15 +41,15 @@ async def purgeme_cmd(client, message):
             message_ids=hundred_messages_or_less,
             revoke=True,
         )
-        mmk = await message.reply(f"✅ {n} pesan teleh berhasil dihapus")
-        await asyncio.sleep(2)
-        await mmk.delete()
+    mmk = await message.reply(f"✅ {len(message_ids)} pesan telah berhasil dihapus.")
+    await asyncio.sleep(2)
+    await mmk.delete()
 
 
 async def purge_cmd(client, message):
     await message.delete()
     if not message.reply_to_message:
-        return await message.reply_text("balas pesan untuk dibersihkan.")
+        return await message.reply_text("Balas pesan untuk dibersihkan.")
     chat_id = message.chat.id
     message_ids = []
     for message_id in range(
