@@ -2,10 +2,10 @@ import asyncio
 
 from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
-from pyrogram.errors import RPCError, FloodWait, ChatWriteForbidden
-
+from pyrogram.errors import FloodWait
 
 from PyroUbot import*
+
 
 async def broadcast_group_cmd(client, message):
     emojis = {
@@ -15,21 +15,24 @@ async def broadcast_group_cmd(client, message):
         "done": "<emoji id=5895735846698487922>🌐</emoji>",
         "reply": "<emoji id=6226230182806554486>🚫</emoji>"
     }
-
-    processing_msg = f"{emojis['processing']} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
+    
+    processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
     msg = await message.reply(processing_msg, quote=True)
 
     send = get_message(message)
     if not send:
-        return await msg.edit(f"{emojis['reply']} Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁 Mohon balas sesuatu atau ketik sesuatu")
+        return await msg.edit(
+            f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
 
-    done, failed = 0, 0
+    done = 0
+    failed = 0
     for chat_id in chats:
         if chat_id in blacklist:
             continue
+
         try:
             await asyncio.sleep(1.5)
             if message.reply_to_message:
@@ -39,35 +42,19 @@ async def broadcast_group_cmd(client, message):
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            try:
-                if message.reply_to_message:
-                    await send.copy(chat_id)
-                else:
-                    await client.send_message(chat_id, send)
-                done += 1
-            except (ChatWriteForbidden, RPCError) as e:
-                failed += 1
-                print(f"Error sending to {chat_id}: {e}")
-        except ChatWriteForbidden:
-            failed += 1
-            print(f"Tidak memiliki hak untuk mengirim pesan di obrolan {chat_id}")
-        except RPCError as e:
-            failed += 1
-            if e.MESSAGE == "USER_BANNED_IN_CHANNEL":
-                print(f"Error: Anda dibatasi dari mengirim pesan di obrolan {chat_id}")
-            elif e.MESSAGE == "SLOWMODE_WAIT_X":
-                print(f"Error: Waktu tunggu mode lambat diperlukan di obrolan {chat_id}")
+            if message.reply_to_message:
+                await send.copy(chat_id)
             else:
-                print(f"RPCError saat mengirim ke {chat_id}: {e}")
-        except Exception as ex:
+                await client.send_message(chat_id, send)
+            done += 1
+        except Exception:
             failed += 1
-            print(f"Exception saat mengirim ke {chat_id}: {ex}")
 
     await msg.delete()
     return await message.reply(
-        f"{emojis['done']} Pesan broadcast selesai\n{emojis['success']} Berhasil ke: {done} grup\n{emojis['failure']} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
-        quote=True
-            )
+        f"<b>{selesai_emoji} Pesan broadcast selesai</b>\n<b>{success_emoji} Berhasil ke: {done} grup</b>\n<b>{failure_emoji} Gagal ke: {failed} grup</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} grup</b>\n<b>╰ Gagal ke: {failed} grup</b>",
+        quote=True,
+    )
 
 async def broadcast_users_cmd(client, message):
     msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
@@ -91,38 +78,19 @@ async def broadcast_users_cmd(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
-            print(f"Message sent to {chat_id}")
         except FloodWait as e:
-            print(f"FloodWait for {e.value} seconds while sending to {chat_id}")
             await asyncio.sleep(e.value)
-            try:
-                if message.reply_to_message:
-                    await send.copy(chat_id)
-                else:
-                    await client.send_message(chat_id, send)
-                done += 1
-                print(f"Message sent to {chat_id} after FloodWait")
-            except (ChatWriteForbidden, RPCError) as e:
-                failed += 1
-                print(f"Error during FloodWait retry for {chat_id}: {e}")
-        except ChatWriteForbidden as e:
-            failed += 1
-            print(f"Error: No rights to send messages in chat {chat_id}")
-        except RPCError as e:
-            failed += 1
-            if e.MESSAGE == "USER_BANNED_IN_CHANNEL":
-                print(f"Error: You are banned from sending messages in chat {chat_id}")
-            elif e.MESSAGE == "SLOWMODE_WAIT_X":
-                print(f"Error: Slow mode wait required in chat {chat_id}")
+            if message.reply_to_message:
+                await send.copy(chat_id)
             else:
-                print(f"RPCError while sending to {chat_id}: {e}")
-        except Exception as ex:
+                await client.send_message(chat_id, send)
+            done += 1
+        except Exception:
             failed += 1
-            print(f"Exception while sending to {chat_id}: {ex}")
 
     await msg.delete()
     return await message.reply(
-        f"Pesan broadcast selesai\n✅ Berhasil ke: {done} users\n❌ Gagal ke: {failed} users" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} users\n╰ Gagal ke: {failed} users",
+        f"<b>Pesan broadcast selesai</b>\n<b>✅ Berhasil ke: {done} users</b>\n<b>❌ Gagal ke: {failed} users</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} users</b>\n<b>╰ Gagal ke: {failed} users</b>",
         quote=True,
     )
 
@@ -173,4 +141,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-            )
+        )
