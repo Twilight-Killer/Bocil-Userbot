@@ -18,3 +18,24 @@ __HELP__ = """
 @PY.UBOT("id")
 async def _(client, message):
     await id_cmd(client, message)
+
+
+@PY.UBOT("block")
+async def _(client, message):
+    await block_user(client, message)
+
+
+@PY.UBOT("unblock")
+async def _(client, message):
+    await unblock_user(client, message)
+
+
+@PY.UBOT("info")
+async def _(client, message):
+    await info_cmd(client, message)
+
+
+@PY.UBOT("cinfo")
+async def _(client, message):
+    await cinfo_cmd(client, message)
+
