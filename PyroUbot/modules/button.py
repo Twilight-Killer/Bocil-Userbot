@@ -2,7 +2,7 @@ from PyroUbot import *
 
 __MODULE__ = "button"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʙᴜᴛᴛᴏɴ 』</b>
+<b>『 bantuan button 』</b>
 
   <b>• perinta:</b> <code>{0}button</code> text ~> button_text:button_link
   <b>• penjelasan:</b> untuk membuat tombol inline
