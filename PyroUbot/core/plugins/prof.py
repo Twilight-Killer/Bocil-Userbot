@@ -6,7 +6,7 @@ from os import remove
 from PyroUbot import *
 
 
-async def block_user(client: Client, message: Message):
+async def block_user(client, message):
     text = message.text.split()
     if len(text) == 2 and text[1].isdigit():
         user_id = int(text[1])
@@ -25,7 +25,7 @@ async def block_user(client: Client, message: Message):
         await message.reply_text("Mohon balas pesan pengguna yang ingin Anda blokir atau sertakan ID pengguna.")
 
 
-async def unblock_user(client: Client, message: Message):
+async def unblock_user(client, message):
     text = message.text.split()
     if len(text) == 2 and text[1].isdigit():
         user_id = int(text[1])
