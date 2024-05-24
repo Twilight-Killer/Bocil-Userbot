@@ -2,7 +2,7 @@ from PyroUbot import *
 
 __MODULE__ = "gcast"
 __HELP__ = """
-<b>『 bantuan gcast&gban 』</b>
+<b>『 bantuan gcast 』</b>
 
   <b>• perintah:</b> <code>{0}ucast</code> [text/reply to text/media]
   <b>• penjelasan:</b> mengirim pesan ke chat 
