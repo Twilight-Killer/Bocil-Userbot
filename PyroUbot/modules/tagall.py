@@ -1,6 +1,6 @@
 from PyroUbot import *
 
-__MODULE__ = "all&$spam"
+__MODULE__ = "spam"
 __HELP__ = """
 <b>『 bantuan tagall』</b>
 
@@ -11,7 +11,7 @@ __HELP__ = """
   <b>• penjelasan:</b> mematikan ngetag
 
   <b>• perintah:</b> <code>{0}spam</code> [jumlah_pesan - pesan_spam]
-  <b>• penjelasan:</b> ᴜɴᴛᴜᴋ sᴘᴀᴍ ᴘᴇsᴀɴ
+  <b>• penjelasan:</b> untuk spam
 
   <b>• perintah:</b> <code>{0}dspam</code> [jumlah_pesan - jumlah_delay_detik - pesan_spam]
   <b>• penjelasan:</b> untuk spam pesan delay
@@ -22,8 +22,8 @@ __HELP__ = """
   <b>• perintah:</b> <code>{0}henti</code>
   <b>• penjelasan:</b> menghentikan dspam
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}ddtext</code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> menambahkan text dspam
+  <b>• perinta:</b> <code>{0}ddtext</code>
+  <b>• penjelasan:</b> menambahkan text dspam
 """
 
 
