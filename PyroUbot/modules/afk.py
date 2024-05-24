@@ -4,7 +4,7 @@ from PyroUbot import *
 
 __MODULE__ = "afk"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ᴀғᴋ 』</b>
+<b>『 bantuan afk 』</b>
 
   <b>• perinta:</b> <code>{0}afk</code></code>
   <b>• penjelasan:</b> mengaktifkan afk
