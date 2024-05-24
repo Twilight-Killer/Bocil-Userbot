@@ -4,7 +4,7 @@ __MODULE__ = "setting"
 __HELP__ = """
 <b>『 bantuan setting 』</b>
 
-  <b>• perintah:</b> <code>{0}prefix - sɪᴍʙᴏʟ/ᴇᴍᴏJɪ</code> 
+  <b>• perintah:</b> <code>{0}prefix - simbol/emoji</code> 
   <b>• penjelasan:</b> merubah prefix userbot kau 
   
   <b>• perinta:</b> <code>{0}setemoji - [query] [emoji_prem]</code> 
@@ -12,7 +12,7 @@ __HELP__ = """
          <b>•> pong</b>
          <b>•> uptime</b>
          <b>•> mention</b>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> merubah tampilan pong uptime dan mention
+  <b>• penjelasan:</b> merubah tampilan pong uptime dan mention
 
   <b>• perintah:</b> <code>{0}limit</code>
   <b>• penjelasan:</b> cek status akun 
