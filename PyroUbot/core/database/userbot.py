@@ -1,3 +1,4 @@
+from PyroUbot.core.database import mongodb
 from motor.motor_asyncio import AsyncIOMotorClient
 from PyroUbot.config import MONGO_URL
 
