@@ -4,7 +4,7 @@ __MODULE__ = "invite"
 __HELP__ = """
 <b>『 bantuan invit 』</b>
 
-  <b>• perintah:</b> <code>{0}invite</code> [ᴜsᴇʀɴᴀᴍᴇ] 
+  <b>• perintah:</b> <code>{0}invite</code> [username] 
   <b>• penjelasan:</b> mengundang anggota kegroup lu
 
   <b>• perintah:</b> <code>{0}inviteall</code> [username_group- colldown=detik per invit]
