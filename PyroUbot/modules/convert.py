@@ -4,22 +4,22 @@ __MODULE__ = "convert"
 __HELP__ = """
 <b>『 bantuan conver 』</b>
 
-  <b>• perinta:</b> <code>{0}toanime</code> [ʀᴇᴘʟʏ ᴛᴏ ᴘʜᴏᴛᴏ/sᴛɪᴄᴋᴇʀ/ɢɪꜰᴛ]
+  <b>• perinta:</b> <code>{0}toanime</code> [reply to foto/stiker/text]
   <b>• penjelasan:</b> merubah foto/gif/stiker ke anime
 
-  <b>• perintah:</b> <code>{0}toimg</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ/ɢɪꜰᴛ]
+  <b>• perintah:</b> <code>{0}toimg</code> [reply to stiker/gif]
   <b>• penjelasan:</b> merubah stiker/gif ke foto
 
-  <b>• perintah:</b> <code>{0}tosticker</code> [ʀᴇᴘʟʏ ᴛᴏ ᴘʜᴏᴛᴏ]
+  <b>• perintah:</b> <code>{0}tosticker</code> [reply to foto]
   <b>• penjelasan:</b> merubah foto ke stiker
 
-  <b>• perintah:</b> <code>{0}togif</code> [ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ]
+  <b>• perintah:</b> <code>{0}togif</code> [reply to stiker]
   <b>• penjelasan:</b>  merubah stiker jadi gif
 
-  <b>• perintah:</b> <code>{0}toaudio</code> [ʀᴇᴘʟʏ ᴛᴏ ᴠɪᴅᴇᴏ]
+  <b>• perintah:</b> <code>{0}toaudio</code> [reply to video]
   <b>• penjelasan:</b> mengubah video ke audio 
 
-  <b>• perintah:</b> <code>{0}efek</code> [ᴇꜰᴇᴋ_ᴄᴏᴅᴇ - ʀᴇᴘʟʏ ᴛᴏ ᴠᴏɪᴄᴇ ɴᴏᴛᴇ]
+  <b>• perintah:</b> <code>{0}efek</code> [list efek suara]
   <b>• penjelasan:</b> untuk mengubah voice note
 
   <b>• perintah:</b> <code>{0}list_efek</code>
