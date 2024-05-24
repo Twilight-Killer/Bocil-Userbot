@@ -6,8 +6,8 @@ __MODULE__ = "adzan"
 __HELP__ = """
 <b>『 bantuan adzan』</b>
 
-  <b>• ᴘᴇʀɪɴᴛᴀʜ:</b> <code>{0}adzan</code></code>
-  <b>• ᴘᴇɴᴊᴇʟᴀsᴀɴ:</b> jadwal adzan sesuai kota
+  <b>• perintah:</b> <code>{0}adzan</code></code>
+  <b>• penjelasan:</b> jadwal adzan sesuai kota
 """
 
 @PY.UBOT("adzan")
