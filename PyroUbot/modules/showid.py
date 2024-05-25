@@ -1,17 +1,23 @@
 from PyroUbot import *
 
-__MODULE__ = "showid"
+__MODULE__ = "profile"
 __HELP__ = """
-<b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ sʜᴏᴡɪᴅ 』</b>
+<b>『 bantu profile』</b>
 
   <b>• perintah:</b> <code>{0}id</code>
   <b>• penjelasan:</b> cek id group/channel/user
 
-  <b>• penjelasan:</b> <code>{0}id</code> [reply user to media]
-  <b>• perintah:</b> cek id media/user
+  <b>• penjelasan:</b> <code>{0}block</code> [reply user to media]
+  <b>• perintah:</b> block chat pribadi
 
-  <b>• perintah:</b> <code>{0}id</code> [username/chanel/group]
-  <b>• penjelasan:</b> cek id 
+  <b>• perintah:</b> <code>{0}unblock</code> [username/chanel/group]
+  <b>• penjelasan:</b> lepas blockiran
+
+  <b>• penjelasan:</b> <code>{0}info</code> [reply user to media]
+  <b>• perintah:</b> untuk mendapatkan info pengguna telegram
+
+  <b>• perintah:</b> <code>{0}cinfo</code> [username/chanel/group]
+  <b>• penjelasan:</b> untuk mendapatkan info group/channel
 """
 
 
