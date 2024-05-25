@@ -4,11 +4,11 @@ __MODULE__ = "copy"
 __HELP__ = """
 <b>『 bantuan copy 』</b>
 
-  <b>• perintah:</b> <code>{0}copy</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]
+  <b>• perintah:</b> <code>{0}copy</code> [link konten telegram]
   <b>• penjelasan:</b> nyolong konten wik
 
 
-  <b>• perintah:</b> <code>{0}wow</code> [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇᴅɪᴀ ᴛɪᴍᴇʀ]
+  <b>• perintah:</b> <code>{0}wow</code> [reply to media timer]
   <b>• penjelasan:</b> nyolong pap
 """
 
