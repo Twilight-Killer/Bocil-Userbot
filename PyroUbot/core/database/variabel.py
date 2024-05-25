@@ -74,14 +74,3 @@ async def remove_pm_id(me_id, user_id):
     if pm_id:
         list_id = [int(x) for x in str(pm_id).split() if x != str(user_id)]
         await set_vars(me_id, "PM_PERMIT", " ".join(map(str, list_id)))
-
-async def add_to_blacklist(bot_id, user_id):
-    await add_to_vars(bot_id, "blacklisted_users", user_id)
-    
-
-async def remove_from_blacklist(bot_id, user_id):
-    await remove_from_vars(bot_id, "blacklisted_users", user_id)
-    
-
-async def get_blacklisted_users(bot_id):
-    return await get_list_from_vars(bot_id, "blacklisted_users")
