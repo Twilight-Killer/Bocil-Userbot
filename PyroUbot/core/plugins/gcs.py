@@ -4,7 +4,7 @@ from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import FloodWait
 
-from PyroUbot import*
+from PyroUbot import *
 
 
 async def broadcast_group_cmd(client, message):
@@ -99,7 +99,7 @@ async def send_msg_cmd(client, message):
         )
         try:
             me = await client.get_me()
-            if me.id != bot.me.id:
+            if me.id != bot.me.id and message.reply_to_message:
                 if message.reply_to_message.reply_markup:
                     x = await client.get_inline_bot_results(
                         bot.me.username, f"get_send {id(message)}"
@@ -139,4 +139,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-                )
+        )
