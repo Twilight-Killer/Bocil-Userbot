@@ -119,7 +119,7 @@ async def bikin_ubot(client, callback_query):
             timeout=300,
         )
     except asyncio.TimeoutError:
-        return await bot.send_message(user_id, "ᴘᴇᴍʙᴀᴛᴀʟᴀɴ ᴏᴛᴏᴍᴀᴛɪs")
+        return await bot.send_message(user_id, "pembatalan otomatis")
     if await is_cancel(callback_query, phone.text):
         return
     phone_number = phone.text
