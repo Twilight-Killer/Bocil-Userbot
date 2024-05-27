@@ -34,16 +34,16 @@ async def broadcast_group_cmd(client, message):
         try:
             await asyncio.sleep(1.5)
             if message.reply_to_message:
-                await send.copy(chat_id)
+                await send.copy(chat_id=chat_id)
             else:
-                await client.send_message(chat_id, send)
+                await client.send_message(chat_id=chat_id, text=send)
             done += 1
         except FloodWait as e:
-            await asyncio.sleep(e.value)
+            await asyncio.sleep(e.x)
             if message.reply_to_message:
-                await send.copy(chat_id)
+                await send.copy(chat_id=chat_id)
             else:
-                await client.send_message(chat_id, send)
+                await client.send_message(chat_id=chat_id, text=send)
             done += 1
         except Exception:
             failed += 1
@@ -72,16 +72,16 @@ async def broadcast_users_cmd(client, message):
         try:
             await asyncio.sleep(1.5)
             if message.reply_to_message:
-                await send.copy(chat_id)
+                await send.copy(chat_id=chat_id)
             else:
-                await client.send_message(chat_id, send)
+                await client.send_message(chat_id=chat_id, text=send)
             done += 1
         except FloodWait as e:
-            await asyncio.sleep(e.value)
+            await asyncio.sleep(e.x)
             if message.reply_to_message:
-                await send.copy(chat_id)
+                await send.copy(chat_id=chat_id)
             else:
-                await client.send_message(chat_id, send)
+                await client.send_message(chat_id=chat_id, text=send)
             done += 1
         except Exception:
             failed += 1
@@ -99,7 +99,7 @@ async def send_msg_cmd(client, message):
         )
         try:
             me = await client.get_me()
-            if me.id != bot.me.id and message.reply_to_message:
+            if me.id != bot.me.id:
                 if message.reply_to_message.reply_markup:
                     x = await client.get_inline_bot_results(
                         bot.me.username, f"get_send {id(message)}"
@@ -111,7 +111,7 @@ async def send_msg_cmd(client, message):
             return await message.reply(str(error))
         else:
             try:
-                return await message.reply_to_message.copy(chat_id)
+                return await message.reply_to_message.copy(chat_id=chat_id)
             except Exception as t:
                 return await message.reply(str(t))
     else:
@@ -119,7 +119,7 @@ async def send_msg_cmd(client, message):
             return await message.reply("Ketik yang benar")
         chat_id, chat_text = message.text.split(None, 2)[1:]
         try:
-            return await client.send_message(chat_id, chat_text)
+            return await client.send_message(chat_id=chat_id, text=chat_text)
         except Exception as t:
             return await message.reply(str(t))
 
@@ -139,4 +139,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-        )
+)
