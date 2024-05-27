@@ -43,3 +43,4 @@ async def expiredUserbots():
         get_ubot = [handle_expired_userbot(X) for X in ubot._ubot]
         await asyncio.gather(*get_ubot)
         await asyncio.sleep(10)
+        
