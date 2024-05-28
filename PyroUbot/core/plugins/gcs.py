@@ -4,8 +4,7 @@ from gc import get_objects
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 from pyrogram.errors import FloodWait
 
-from PyroUbot import*
-
+from PyroUbot import *
 
 async def broadcast_group_cmd(client, message):
     proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
@@ -20,7 +19,8 @@ async def broadcast_group_cmd(client, message):
     send = get_message(message)
     if not send:
         return await msg.edit(
-            f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
+            f"{reply_emoji} Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁 Mohon balas sesuatu atau ketik sesuatu"
+        )
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
@@ -50,7 +50,7 @@ async def broadcast_group_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b>{selesai_emoji} Pesan broadcast selesai</b>\n<b>{success_emoji} Berhasil ke: {done} grup</b>\n<b>{failure_emoji} Gagal ke: {failed} grup</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} grup</b>\n<b>╰ Gagal ke: {failed} grup</b>",
+        f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
         quote=True,
     )
 
@@ -88,7 +88,7 @@ async def broadcast_users_cmd(client, message):
 
     await msg.delete()
     return await message.reply(
-        f"<b>Pesan broadcast selesai</b>\n<b>✅ Berhasil ke: {done} users</b>\n<b>❌ Gagal ke: {failed} users</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} users</b>\n<b>╰ Gagal ke: {failed} users</b>",
+        f"Pesan broadcast selesai\n✅ Berhasil ke: {done} users\n❌ Gagal ke: {failed} users" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} users\n╰ Gagal ke: {failed} users",
         quote=True,
     )
 
