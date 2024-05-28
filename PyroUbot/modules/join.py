@@ -3,11 +3,10 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 
-# Import bot Anda dari modul yang sesuai
-from PyroUbot import *  # Pastikan PY.UBOT diimpor dengan benar dari modul Anda
 
-# Asumsikan BLACKLIST_CHAT didefinisikan di suatu tempat dalam modul ubot Anda
-BLACKLIST_CHAT = []  # Ganti dengan ID chat yang sebenarnya
+from PyroUbot import * 
+
+BLACKLIST_CHAT = []  
 
 __MODULE__ = "join"
 __HELP__ = """
@@ -71,33 +70,34 @@ async def leave(client, message: Message):
 @PY.UBOT("leaveallgc")
 async def leave_all_groups(client, message: Message):
     mam = await message.reply("Proses Pengeluaran Global Grup...")
-    cil = 0
     mek = 0
     async for dialog in client.get_dialogs():
         if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             chat = dialog.chat.id
             try:
-                mek += 1
-                await client.leave_chat(chat)
+                member = await client.get_chat_member(chat, client.me.id)
+                if member.status not in (ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR):
+                    mek += 1
+                    await client.leave_chat(chat)
             except Exception:
-                cil += 1
-    await mam.edit(f"Berhasil keluar dari {mek} grup, Gagal keluar dari {cil} grup.")
-
+                pass
+    await mam.edit(f"Berhasil keluar dari {mek} grup.")
 
 @PY.UBOT("leaveallch")
 async def leave_all_channels(client, message: Message):
     mam = await message.reply("Proses Pengeluaran Global Channel...")
-    cil = 0
     mek = 0
     async for dialog in client.get_dialogs():
         if dialog.chat.type == ChatType.CHANNEL:
             chat = dialog.chat.id
             try:
-                mek += 1
-                await client.leave_chat(chat)
+                member = await client.get_chat_member(chat, client.me.id)
+                if member.status not in (ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR):
+                    mek += 1
+                    await client.leave_chat(chat)
             except Exception:
-                cil += 1
-    await mam.edit(f"Berhasil keluar dari {mek} channel, Gagal keluar dari {cil} channel.")
+                pass
+    await mam.edit(f"Berhasil keluar dari {mek} channel.")
 
 @PY.UBOT("leaveallmute")
 async def leave_all_muted_groups(client, message: Message):
