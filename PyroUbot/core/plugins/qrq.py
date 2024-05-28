@@ -5,6 +5,40 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def qr_gen(content):
+    return {
+        "data": content,
+        "config": {
+            "body": "circle-zebra",
+            "eye": "frame13",
+            "eyeBall": "ball14",
+            "erf1": [],
+            "erf2": [],
+            "erf3": [],
+            "brf1": [],
+            "brf2": [],
+            "brf3": [],
+            "bodyColor": "#000000",
+            "bgColor": "#FFFFFF",
+            "eye1Color": "#000000",
+            "eye2Color": "#000000",
+            "eye3Color": "#000000",
+            "eyeBall1Color": "#000000",
+            "eyeBall2Color": "#000000",
+            "eyeBall3Color": "#000000",
+            "gradientColor1": "",
+            "gradientColor2": "",
+            "gradientType": "linear",
+            "gradientOnEyes": "true",
+            "logo": "",
+            "logoMode": "default",
+        },
+        "size": 1000,
+        "download": "imageUrl",
+        "file": "png",
+    }
+
+
 async def qr_gen_cmd(client, message):
     ID = message.reply_to_message or message
     if message.reply_to_message:
@@ -13,11 +47,8 @@ async def qr_gen_cmd(client, message):
         if len(message.command) < 2:
             return await message.delete()
         else:
-            input_text = message.text.split(None, 1)[1]
-            if len(input_text) > 1000:
-                return await message.reply("Input terlalu panjang.")
-            data = qr_gen(input_text)
-    Tm = await message.reply("sedang prosen qrcode....")
+            data = qr_gen(message.text.split(None, 1)[1])
+    Tm = await message.reply("proses buat qrcode....")
     try:
         QRcode = (
             requests.post(
@@ -27,22 +58,22 @@ async def qr_gen_cmd(client, message):
             .json()["imageUrl"]
             .replace("//api", "https://api")
         )
-        await client.send_photo(message.chat.id, QRcode, reply_to_message_id=ID.message_id)
+        await client.send_photo(message.chat.id, QRcode, reply_to_message_id=ID.id)
         await Tm.delete()
     except Exception as error:
-        await Tm.edit(str(error))
+        await Tm.edit(error)
 
 
 async def qr_read_cmd(client, message):
     replied = message.reply_to_message
     if not (replied and replied.media and (replied.photo or replied.sticker)):
-        await message.reply("balas qr untuk mendapatkan data...")
+        await message.reply("balas qr code anda untuk mendapatkan data...")
         return
     if not os.path.isdir("premiumQR/"):
         os.makedirs("premiumQR/")
-    AM = await message.reply("mengundu mediaa...")
+    AM = await message.reply("ᴍᴇɴɢᴜɴᴅᴜʜ ᴍᴇᴅɪᴀ...")
     down_load = await client.download_media(message=replied, file_name="premiumQR/")
-    await AM.edit("proses kodr qr anda...")
+    await AM.edit("prosess qr code anda...")
     cmd = [
         "curl",
         "-X",
@@ -61,12 +92,12 @@ async def qr_read_cmd(client, message):
     err_response = stderr.decode().strip()
     os.remove(down_load)
     if not (out_response or err_response):
-        await AM.edit("tida bisa mendapatkan data kode qr anda...")
+        await AM.edit("tidak bisa mendapatkan data qr code...")
         return
     try:
         soup = BeautifulSoup(out_response, "html.parser")
         qr_contents = soup.find_all("pre")[0].text
     except IndexError:
-        await AM.edit("indeks daftar diluar jangkauan")
+        await AM.edit("indeks dara diluar jangkuan")
         return
     await AM.edit(f"<b>data qrcode:</b>\n<code>{qr_contents}</code>")
