@@ -9,7 +9,7 @@ async def sosmed_cmd(client, message):
             f"<code>{message.text}</code> link yt/ig/fb/tw/tiktok"
         )
     else:
-        bot = "thisvidbot"
+        bot = "msaver_bot"
         link = message.text.split()[1]
         await client.unblock_user(bot)
         Tm = await message.reply("<code>prosesss...</code>")
