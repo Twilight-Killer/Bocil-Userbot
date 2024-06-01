@@ -1,10 +1,22 @@
 import asyncio
-
 from gc import get_objects
-from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
+
 from pyrogram.errors import FloodWait
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 from PyroUbot import *
+
+
+async def is_premium_user(client):
+    return client.me.is_premium
+
+
+async def get_message_content(message):
+    if message.reply_to_message:
+        return message.reply_to_message
+    else:
+        return message.text
+
 
 async def broadcast_group_cmd(client, message):
     proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
@@ -13,13 +25,19 @@ async def broadcast_group_cmd(client, message):
     selesai_emoji = "<emoji id=5895735846698487922>🌐</emoji>"
     reply_emoji = "<emoji id=6226230182806554486>🚫</emoji>"
 
-    processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
-    msg = await message.reply(processing_msg, quote=True)
+    processing_msg = (
+        f"{proses_emoji} Sedang memproses, mohon bersabar..."
+        if await is_premium_user(client)
+        else "Sedang memproses, mohon bersabar..."
+    )
+    msg = await message.reply_text(processing_msg, quote=True)
 
-    send = get_message(message)
+    send = await get_message_content(message)
     if not send:
-        return await msg.edit(
-            f"{reply_emoji} Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁 Mohon balas sesuatu atau ketik sesuatu"
+        return await msg.edit_text(
+            f"{reply_emoji} Mohon balas sesuatu atau ketik sesuatu"
+            if await is_premium_user(client)
+            else "🔁 Mohon balas sesuatu atau ketik sesuatu"
         )
 
     chats = await get_global_id(client, "group")
@@ -40,26 +58,45 @@ async def broadcast_group_cmd(client, message):
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
-            done += 1
-        except Exception:
+            try:
+                if message.reply_to_message:
+                    await send.copy(chat_id)
+                else:
+                    await client.send_message(chat_id, send)
+                done += 1
+            except Exception as ex:
+                print(f"Failed to send message to {chat_id} due to {ex}")
+                failed += 1
+        except Exception as ex:
+            print(f"Failed to send message to {chat_id} due to {ex}")
             failed += 1
 
     await msg.delete()
-    return await message.reply(
-        f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
+    return await message.reply_text(
+        (
+            f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup"
+            if await is_premium_user(client)
+            else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup"
+        ),
         quote=True,
     )
 
-async def broadcast_users_cmd(client, message):
-    msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
 
-    send = get_message(message)
+async def broadcast_users_cmd(client, message):
+    processing_msg = (
+        "Sedang memproses, mohon bersabar..."
+        if await is_premium_user(client)
+        else "Sedang memproses, mohon bersabar..."
+    )
+    msg = await message.reply_text(processing_msg, quote=True)
+
+    send = await get_message_content(message)
     if not send:
-        return await msg.edit("Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
+        return await msg.edit_text(
+            "Mohon balas sesuatu atau ketik sesuatu"
+            if await is_premium_user(client)
+            else "Mohon balas sesuatu atau ketik sesuatu"
+        )
 
     chats = await get_global_id(client, "users")
 
@@ -78,19 +115,29 @@ async def broadcast_users_cmd(client, message):
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
-            done += 1
-        except Exception:
+            try:
+                if message.reply_to_message:
+                    await send.copy(chat_id)
+                else:
+                    await client.send_message(chat_id, send)
+                done += 1
+            except Exception as ex:
+                print(f"Failed to send message to {chat_id} due to {ex}")
+                failed += 1
+        except Exception as ex:
+            print(f"Failed to send message to {chat_id} due to {ex}")
             failed += 1
 
     await msg.delete()
-    return await message.reply(
-        f"Pesan broadcast selesai\n✅ Berhasil ke: {done} users\n❌ Gagal ke: {failed} users" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} users\n╰ Gagal ke: {failed} users",
+    return await message.reply_text(
+        (
+            f"Pesan broadcast selesai\n✅ Berhasil ke: {done} users\n❌ Gagal ke: {failed} users"
+            if await is_premium_user(client)
+            else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} users\n╰ Gagal ke: {failed} users"
+        ),
         quote=True,
     )
+
 
 async def send_msg_cmd(client, message):
     if message.reply_to_message:
@@ -108,20 +155,21 @@ async def send_msg_cmd(client, message):
                         chat_id, x.query_id, x.results[0].id
                     )
         except Exception as error:
-            return await message.reply(str(error))
+            return await message.reply_text(str(error))
         else:
             try:
                 return await message.reply_to_message.copy(chat_id)
             except Exception as t:
-                return await message.reply(str(t))
+                return await message.reply_text(str(t))
     else:
         if len(message.command) < 3:
-            return await message.reply("Ketik yang benar")
+            return await message.reply_text("Ketik yang benar")
         chat_id, chat_text = message.text.split(None, 2)[1:]
         try:
             return await client.send_message(chat_id, chat_text)
         except Exception as t:
-            return await message.reply(str(t))
+            return await message.reply_text(str(t))
+
 
 async def send_inline(client, inline_query):
     _id = int(inline_query.query.split()[1])
@@ -139,4 +187,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-        )
+                )
