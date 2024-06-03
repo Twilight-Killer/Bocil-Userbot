@@ -28,7 +28,7 @@ async def broadcast_group_cmd(client, message):
     processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
     msg = await message.reply(processing_msg, quote=True)
 
-    send = get_message(message)
+    send = await get_message(message)
     if not send:
         return await msg.edit(
             f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
@@ -68,7 +68,7 @@ async def broadcast_group_cmd(client, message):
 async def broadcast_users_cmd(client, message):
     msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
 
-    send = get_message(message)
+    send = await get_message(message)
     if not send:
         return await msg.edit("Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
 
@@ -150,4 +150,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-        )
+    )
