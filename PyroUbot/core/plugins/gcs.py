@@ -1,22 +1,11 @@
 import asyncio
+
 from gc import get_objects
-
-from pyrogram.errors import FloodWait
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
+from pyrogram.errors import FloodWait
 
-from PyroUbot import *
+from PyroUbot import*
 
-
-async def is_premium_user(client):
-    return client.me.is_premium
-
-
-async def get_message(message):
-    if message.reply_to_message:
-        return message.reply_to_message.text  # Extract only the text of the replied message
-    else:
-        # Remove the command prefix from the message text
-        return ' '.join(message.text.split()[1:]) if len(message.text.split()) > 1 else None
 
 async def broadcast_group_cmd(client, message):
     proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
@@ -28,7 +17,7 @@ async def broadcast_group_cmd(client, message):
     processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar..."
     msg = await message.reply(processing_msg, quote=True)
 
-    send = await get_message(message)
+    send = get_message(message)
     if not send:
         return await msg.edit(
             f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
@@ -44,11 +33,17 @@ async def broadcast_group_cmd(client, message):
 
         try:
             await asyncio.sleep(1.5)
-            await client.send_message(chat_id, send)
+            if message.reply_to_message:
+                await send.copy(chat_id)
+            else:
+                await client.send_message(chat_id, send)
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            await client.send_message(chat_id, send)
+            if message.reply_to_message:
+                await send.copy(chat_id)
+            else:
+                await client.send_message(chat_id, send)
             done += 1
         except Exception:
             failed += 1
@@ -62,7 +57,7 @@ async def broadcast_group_cmd(client, message):
 async def broadcast_users_cmd(client, message):
     msg = await message.reply("Sedang memproses, mohon bersabar..." if client.me.is_premium else "Sedang memproses, mohon bersabar...", quote=True)
 
-    send = await get_message(message)
+    send = get_message(message)
     if not send:
         return await msg.edit("Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "Mohon balas sesuatu atau ketik sesuatu")
 
@@ -76,11 +71,17 @@ async def broadcast_users_cmd(client, message):
 
         try:
             await asyncio.sleep(1.5)
-            await client.send_message(chat_id, send)
+            if message.reply_to_message:
+                await send.copy(chat_id)
+            else:
+                await client.send_message(chat_id, send)
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            await client.send_message(chat_id, send)
+            if message.reply_to_message:
+                await send.copy(chat_id)
+            else:
+                await client.send_message(chat_id, send)
             done += 1
         except Exception:
             failed += 1
@@ -89,7 +90,7 @@ async def broadcast_users_cmd(client, message):
     return await message.reply(
         f"<b>Pesan broadcast selesai</b>\n<b>✅ Berhasil ke: {done} users</b>\n<b>❌ Gagal ke: {failed} users</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} users</b>\n<b>╰ Gagal ke: {failed} users</b>",
         quote=True,
-            )
+    )
 
 async def send_msg_cmd(client, message):
     if message.reply_to_message:
@@ -138,4 +139,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-    )
+        )
