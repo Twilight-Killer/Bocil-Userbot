@@ -13,10 +13,10 @@ async def is_premium_user(client):
 
 async def get_message(message):
     if message.reply_to_message:
-        return message.reply_to_message
+        return message.reply_to_message.text  # Extract only the text of the replied message
     else:
-        return message.text
-
+        # Remove the command prefix from the message text
+        return ' '.join(message.text.split()[1:]) if len(message.text.split()) > 1 else None
 
 async def broadcast_group_cmd(client, message):
     proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
@@ -44,17 +44,11 @@ async def broadcast_group_cmd(client, message):
 
         try:
             await asyncio.sleep(1.5)
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
+            await client.send_message(chat_id, send)
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
+            await client.send_message(chat_id, send)
             done += 1
         except Exception:
             failed += 1
@@ -82,17 +76,11 @@ async def broadcast_users_cmd(client, message):
 
         try:
             await asyncio.sleep(1.5)
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
+            await client.send_message(chat_id, send)
             done += 1
         except FloodWait as e:
             await asyncio.sleep(e.value)
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
+            await client.send_message(chat_id, send)
             done += 1
         except Exception:
             failed += 1
@@ -101,7 +89,7 @@ async def broadcast_users_cmd(client, message):
     return await message.reply(
         f"<b>Pesan broadcast selesai</b>\n<b>✅ Berhasil ke: {done} users</b>\n<b>❌ Gagal ke: {failed} users</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} users</b>\n<b>╰ Gagal ke: {failed} users</b>",
         quote=True,
-    )
+            )
 
 async def send_msg_cmd(client, message):
     if message.reply_to_message:
