@@ -14,18 +14,24 @@ async def copy_bot_msg(client, message):
         return
     Tm = await message.reply("prosessssss......")
     link = get_arg(message)
+    
     if not link:
         return await Tm.edit(
             f"<b><code>{message.text}</code> [link_konten_telegram]</b>"
         )
-    msg_id = int(link.split("/")[-1])
-    chat = str(link.split("/")[-2])
+    
     try:
+        msg_id_str = link.split("/")[-1].split("?")[0]  # Split on '?' and take the first part
+        msg_id = int(msg_id_str)
+        chat = str(link.split("/")[-2])
+        
         get = await client.get_messages(chat, msg_id)
         await get.copy(message.chat.id)
         await Tm.delete()
+    except ValueError:
+        await Tm.edit("Invalid message ID in the link.")
     except Exception as error:
-        await Tm.edit(error)
+        await Tm.edit(str(error))
 
 
 COPY_ID = {}
