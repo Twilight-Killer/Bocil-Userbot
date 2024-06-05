@@ -21,7 +21,7 @@ async def copy_bot_msg(client, message):
         )
     
     try:
-        msg_id_str = link.split("/")[-1].split("?")[0]  # Split on '?' and take the first part
+        msg_id_str = link.split("/")[-1].split("?")[0]  
         msg_id = int(msg_id_str)
         chat = str(link.split("/")[-2])
         
@@ -175,8 +175,8 @@ async def copy_ubot_msg(client, message):
         )
     
     if link.startswith(("https", "t.me")):
-        # Extract and clean the message ID
-        msg_id_str = link.split("/")[-1].split("?")[0]  # Split on '?' and take the first part
+        
+        msg_id_str = link.split("/")[-1].split("?")[0]  
         
         try:
             msg_id = int(msg_id_str)
