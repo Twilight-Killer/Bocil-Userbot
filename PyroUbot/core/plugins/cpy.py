@@ -162,12 +162,21 @@ async def copy_ubot_msg(client, message):
     msg = message.reply_to_message or message
     infomsg = await message.reply("<b>sedang prosessss copy</b>")
     link = get_arg(message)
+    
     if not link:
-        return await Tm.edit(
+        return await infomsg.edit(
             f"<b><code>{message.text}</code> [link_konten_telegram]</b>"
         )
+    
     if link.startswith(("https", "t.me")):
-        msg_id = int(link.split("/")[-1])
+        # Extract and clean the message ID
+        msg_id_str = link.split("/")[-1].split("?")[0]  # Split on '?' and take the first part
+        
+        try:
+            msg_id = int(msg_id_str)
+        except ValueError:
+            return await infomsg.edit("Invalid message ID in the link.")
+        
         if "t.me/c/" in link:
             chat = int("-100" + str(link.split("/")[-2]))
             try:
@@ -185,7 +194,7 @@ async def copy_ubot_msg(client, message):
                 get = await client.get_messages(chat, msg_id)
                 await get.copy(message.chat.id, reply_to_message_id=msg.id)
                 await infomsg.delete()
-            except Exception:
+            except Exception as e:
                 try:
                     text = f"get_msg {id(message)}"
                     x = await client.get_inline_bot_results(bot.me.username, text)
@@ -200,8 +209,8 @@ async def copy_ubot_msg(client, message):
                 except Exception as error:
                     await infomsg.edit(f"{str(error)}")
     else:
-        await infomsg.edit("masukkin link yang valid")
-
+        await infomsg.edit("Masukkan link yang valid")
+      
 
 async def copy_inline_msg(client, inline_query):
     await client.answer_inline_query(
