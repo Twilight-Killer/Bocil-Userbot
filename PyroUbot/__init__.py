@@ -1,8 +1,7 @@
-import asyncio
 import logging
 import os
 import re
-
+import asyncio
 import uvloop
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
@@ -17,41 +16,70 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
+class ConnectionError(Exception):
+    pass
+
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for X in ["OSError", "TimeoutError"]:
-            if X in record.getMessage():
-                os.kill(os.getpid(), 9)
+        for error_type in ["OSErro", "TimeoutError"]:
+            if error_type in record.getMessage():
+                self.handle_error(record.getMessage())
+
+    def handle_error(self, error_message):
+        self.log_error(error_message)
+        raise ConnectionError(error_message)
+
+    def log_error(self, error_message):
+        with open("error_log.txt", "a") as log_file:
+            log_file.write(f"Error: {error_message}\n")
 
 
-logger = logging.getLogger()
-logger.setLevel(logging.ERROR)
+logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
 
-formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s", "%d-%b %H:%M")
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-connection_handler = ConnectionHandler()
-logger.addHandler(stream_handler)
-logger.addHandler(connection_handler)
+logger = logging.getLogger(__name__)
+handler = ConnectionHandler()
+logger.addHandler(handler)
 
+max_retries = 3
+retries = 0
+
+while retries < max_retries:
+    try:
+        raise OSError("Koneksi Gagal")
+    except OSError as e:
+        logger.error(f"Terjadi kesalahan: {e}")
+        retries += 1
+        if retries < max_retries:
+            print(f"Mencoba kembali... (percobaan ke-{retries})")
+            continue  
+        else:
+            print("Gagal setelah beberapa percobaan.")
+            break
+
+async def get_channel_messages(channel, bot):
+    try:
+        messages = await bot.get_messages(channel)
+        return messages
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+        messages = await get_channel_messages(channel, bot)
+        return messages
 
 class Bot(Client):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.device_model = "BuruTaniUbot"
+        super().__init__(**kwargs) 
+        self.device_model="BuruTaniUbot"
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(MessageHandler(func, filters), group)
             return func
-
         return decorator
 
     def on_callback_query(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(CallbackQueryHandler(func, filters), group)
             return func
-
         return decorator
 
     async def start(self):
@@ -65,8 +93,8 @@ class Ubot(Client):
     _translate = {}
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.device_model = "BuruTaniUbot"
+        super().__init__(**kwargs) 
+        self.device_model="BuruTaniUbot"
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
 
     def on_message(self, filters=None, group=-1):
@@ -74,7 +102,6 @@ class Ubot(Client):
             for ub in self._ubot:
                 ub.add_handler(MessageHandler(func, filters), group)
             return func
-
         return decorator
 
     def set_prefix(self, user_id, prefix):
@@ -137,12 +164,10 @@ class Ubot(Client):
         self._ubot.append(self)
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-        print(
-            f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
-            f"Bot name: {self.me.first_name}\n"
-            f"Bot username: {self.me.username}\n"
-            f"prefix: {', '.join(self._prefix[self.me.id])}\n"
-        )
+        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
+              f"Bot name: {self.me.first_name}\n"
+              f"Bot username: {self.me.username}\n"
+              f"prefix: {', '.join(self._prefix[self.me.id])}\n")
 
 
 bot = Bot(
@@ -151,7 +176,6 @@ bot = Bot(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
 )
-
 ubot = Ubot(name="ubot")
 
 
