@@ -6,28 +6,6 @@ from pyrogram.errors import FloodWait
 
 from PyroUbot import*
 
-async def send_message(client, chat_id, message, send):
-    try:
-        await asyncio.sleep(1.5)
-        if message.reply_to_message:
-            await send.copy(chat_id)
-        else:
-            await client.send_message(chat_id, send)
-        return True
-    except FloodWait as e:
-        await asyncio.sleep(e.value)
-        try:
-            if message.reply_to_message:
-                await send.copy(chat_id)
-            else:
-                await client.send_message(chat_id, send)
-            return True
-        except Exception as e:
-            print(f"Error after FloodWait: {e}")
-            return False
-    except Exception as e:
-        print(f"Error: {e}")
-        return False
 
 async def broadcast_group_cmd(client, message):
     proses_emoji = "<emoji id=5971865795582495562>🔺</emoji>"
@@ -41,7 +19,8 @@ async def broadcast_group_cmd(client, message):
 
     send = get_message(message)
     if not send:
-        return await msg.edit(f"{reply_emoji} Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁 Mohon balas sesuatu atau ketik sesuatu")
+        return await msg.edit(
+            f"<b>{reply_emoji}Mohon balas sesuatu atau ketik sesuatu" if client.me.is_premium else "🔁Mohon balas sesuatu atau ketik sesuatu<b>")
 
     chats = await get_global_id(client, "group")
     blacklist = await get_chat(client.me.id)
@@ -52,16 +31,26 @@ async def broadcast_group_cmd(client, message):
         if chat_id in blacklist:
             continue
 
-        print(f"Sending to chat_id: {chat_id}")  # Debugging statement
-
-        if await send_message(client, chat_id, message, send):
+        try:
+            await asyncio.sleep(1.5)
+            if message.reply_to_message:
+                await send.copy(chat_id)
+            else:
+                await client.send_message(chat_id, send)
             done += 1
-        else:
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
+            if message.reply_to_message:
+                await send.copy(chat_id)
+            else:
+                await client.send_message(chat_id, send)
+            done += 1
+        except Exception:
             failed += 1
 
     await msg.delete()
     return await message.reply(
-        f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup" if client.me.is_premium else f"❏ Pesan broadcast selesai\n├ Berhasil ke: {done} grup\n╰ Gagal ke: {failed} grup",
+        f"<b>{selesai_emoji} Pesan broadcast selesai</b>\n<b>{success_emoji} Berhasil ke: {done} grup</b>\n<b>{failure_emoji} Gagal ke: {failed} grup</b>" if client.me.is_premium else f"<b>❏ Pesan broadcast selesai</b>\n<b>├ Berhasil ke: {done} grup</b>\n<b>╰ Gagal ke: {failed} grup</b>",
         quote=True,
     )
 
@@ -150,4 +139,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-        )
+                                            )
