@@ -107,8 +107,8 @@ async def _(client, message):
                             except Exception as e:
                                 print(f"Failed to send message after FloodWait to {dialog.chat.id}: {e}")
                         except SlowmodeWait as e:
-                            print(f"SlowmodeWait: {e.x} seconds required for {dialog.chat.id}")
-                            await asyncio.sleep(e.x)
+                            print(f"SlowmodeWait: {e.value} seconds required for {dialog.chat.id}")
+                            await asyncio.sleep(e.value)
                             try:
                                 await client.send_message(
                                     dialog.chat.id, f"{txt} {random.choice(range(999))}"
