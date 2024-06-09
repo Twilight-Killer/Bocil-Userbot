@@ -21,9 +21,8 @@ class ConnectionError(Exception):
 
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for error_type in ["OSErro", "TimeoutError"]:
-            if error_type in record.getMessage():
-                self.handle_error(record.getMessage())
+        if any(error_type in record.getMessage() for error_type in ["OSError", "TimeoutError"]):
+            self.handle_error(record.getMessage())
 
     def handle_error(self, error_message):
         self.log_error(error_message)
@@ -61,7 +60,7 @@ async def get_channel_messages(channel, bot):
         messages = await bot.get_messages(channel)
         return messages
     except FloodWait as e:
-        await asyncio.sleep(e.x)
+        await asyncio.sleep(e.value)
         messages = await get_channel_messages(channel, bot)
         return messages
 
