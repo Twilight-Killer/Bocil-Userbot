@@ -66,7 +66,7 @@ async def _(client, message):
                 if FLOOD[user.id] > int(pm_limit):
                     del FLOOD[user.id]
                     await message.reply(
-                        "sudah diingatkan jangan spam, mampuskan ke blokir."
+                        "anda telah diblokir karna anda tukang spam."
                     )
                     return await client.block_user(user.id)
                 pm_msg = await get_vars(client.me.id, "PM_TEXT") or PM_TEXT
@@ -94,11 +94,11 @@ async def _(client, message):
 async def _(client, message):
     if len(message.command) < 3:
         return await message.reply(
-            "harap baca menu bantuan supaya paham."
+            "harap baca menu bantu cara menggunakan."
         )
     query = {"limit": "PM_LIMIT", "text": "PM_TEXT"}
     if message.command[1].lower() not in query:
-        return await message.reply("<b>❌ query yang lu masukan salah</b>")
+        return await message.reply("<b>❌ query yang dimasukan tidak valid</b>")
     query_str, value_str = (
         message.text.split(None, 2)[1],
         message.text.split(None, 2)[2],
@@ -110,27 +110,18 @@ async def _(client, message):
     )
 
 
-@PY.UBOT("setpmimage")
-async def set_pm_image(client, message):
-    if len(message.command) < 2:
-        return await message.reply("Harap sertakan URL gambar untuk diset sebagai PM image.")
-    image_url = message.command[1]
-    await set_vars(client.me.id, "PM_IMAGE", image_url)
-    return await message.reply(f"✅ Gambar PM berhasil disetting ke: {image_url}")
-
-
 @PY.UBOT("pmpermit")
 async def _(client, message):
     if len(message.command) < 2:
         return await message.reply(
-            "harap baca menu bantuan supaya paham."
+            "harap baca menu bantu cara menggunakan."
         )
 
     toggle_options = {"off": False, "on": True}
     toggle_option = message.command[1].lower()
 
     if toggle_option not in toggle_options:
-        return await message.reply("opsi salah. gunakan 'on' atau 'off'.")
+        return await message.reply("opsi tidak valid. gunakan 'on' atau 'off'.")
 
     value = toggle_options[toggle_option]
     text = "diaktifkan" if value else "dinonaktifkan"
@@ -173,7 +164,7 @@ async def _(client, message):
     vars = await get_pm_id(client.me.id)
     if user.id not in vars:
         await add_pm_id(client.me.id, user.id)
-        return await message.reply(f"<b>✅ baikla, {rpk} telah diterima</b>")
+        return await message.reply(f"<b>✅ oke, {rpk} telah diterima</b>")
     else:
         return await message.reply(f"<b>{rpk} sudah diterima</b>")
 
@@ -185,12 +176,12 @@ async def _(client, message):
     rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
     vars = await get_pm_id(client.me.id)
     if user.id not in vars:
-        await message.reply(f"<b>🙏🏻 sory ⁣{rpk} anda diblokir kwkwkw</b>")
+        await message.reply(f"<b>🙏🏻 maaf ⁣{rpk} anda telah diblokir</b>")
         return await client.block_user(user.id)
     else:
         await remove_pm_id(client.me.id, user.id)
         return await message.reply(
-            f"<b>🙏🏻 maaf {rpk} anda telah ditolak </b>"
+            f"<b>🙏🏻 maaf {rpk} anda telah ditolak</b>"
         )
 
 
