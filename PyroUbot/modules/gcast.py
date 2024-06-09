@@ -59,11 +59,10 @@ async def _(client, message):
 @PY.UBOT("ungban")
 async def _(client, message):
     await global_unbanned(client, message)
-  
+
 
 AG = []
 LT = []
-
 
 @PY.UBOT("auto_gcast")
 async def _(client, message):
@@ -73,9 +72,7 @@ async def _(client, message):
 
     if type == "on":
         if not auto_text_vars:
-            return await msg.edit(
-                "<b>harap setting text gcast anda dahulu </b>"
-            )
+            return await msg.edit("<b>harap setting text gcast anda dahulu </b>")
 
         if client.me.id not in AG:
             await msg.edit("<b>auto gcast diaktifkan</b>")
@@ -96,13 +93,31 @@ async def _(client, message):
                     ):
                         try:
                             await asyncio.sleep(1)
-                            await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(999))}")
+                            await client.send_message(
+                                dialog.chat.id, f"{txt} {random.choice(range(999))}"
+                            )
                             group += 1
                         except FloodWait as e:
                             await asyncio.sleep(e.value)
-                            await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(999))}")
-                            group += 1
-                        except Exception:
+                            try:
+                                await client.send_message(
+                                    dialog.chat.id, f"{txt} {random.choice(range(999))}"
+                                )
+                                group += 1
+                            except Exception as e:
+                                print(f"Failed to send message after FloodWait to {dialog.chat.id}: {e}")
+                        except SlowmodeWait as e:
+                            print(f"SlowmodeWait: {e.x} seconds required for {dialog.chat.id}")
+                            await asyncio.sleep(e.x)
+                            try:
+                                await client.send_message(
+                                    dialog.chat.id, f"{txt} {random.choice(range(999))}"
+                                )
+                                group += 1
+                            except Exception as e:
+                                print(f"Failed to send message after SlowmodeWait to {dialog.chat.id}: {e}")
+                        except Exception as e:
+                            print(f"Failed to send message to {dialog.chat.id}: {e}")
                             pass
 
                 if client.me.id not in AG:
@@ -126,9 +141,7 @@ async def _(client, message):
 
     elif type == "text":
         if not value:
-            return await msg.edit(
-                "<b>masukan text auto gcast untuk di gcast kan</b>"
-            )
+            return await msg.edit("<b>masukan text auto gcast untuk di gcast kan</b>")
         await add_auto_text(client, value)
         return await msg.edit("<b>auto gcast text: berhasil disimpan</b>")
 
@@ -140,9 +153,7 @@ async def _(client, message):
 
     elif type == "remove":
         if not value:
-            return await msg.edit(
-                "<b>masukan angka untuk menghapus list text</b>"
-            )
+            return await msg.edit("<b>masukan angka untuk menghapus list text</b>")
         if value == "all":
             await set_vars(client.me.id, "AUTO_TEXT", [])
             return await msg.edit("<b>semua text berhasil dihapus</b>")
@@ -185,7 +196,9 @@ async def _(client, message):
             else:
                 return await msg.delete()
         else:
-             return await msg.edit("<b>~harap masukan value on/off untuk menggunakan perinta ini</b>")
+            return await msg.edit(
+                "<b>~harap masukan value on/off untuk menggunakan perinta ini</b>"
+            )
     else:
         return await msg.edit("<b>query sayang dimasukan salah</b>")
 
@@ -205,8 +218,6 @@ def extract_type_and_text(message):
     msg = (
         message.reply_to_message.text
         if message.reply_to_message
-        else args[2]
-        if len(args) > 2
-        else None
+        else args[2] if len(args) > 2 else None
     )
     return type, msg
