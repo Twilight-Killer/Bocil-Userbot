@@ -9,6 +9,6 @@ __HELP__ = """
 """
 
 
-@PY.UBOT("zombies", FILTERS.ME_OWNER)
+@PY.UBOT("zombies")
 async def _(client, message):
     await zombies_cmd(client, message)
