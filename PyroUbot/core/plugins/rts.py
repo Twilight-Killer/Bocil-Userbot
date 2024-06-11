@@ -58,27 +58,44 @@ async def login_cmd(client, message):
         return await info.edit(f"<code>{error}</code>")
 
 
-async def restart_cmd(client, message):
-    msg = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ</b>", quote=True)
-    if message.from_user.id not in ubot._get_my_id:
-        return await msg.edit(
-            f"<b>ᴀɴᴅᴀ ᴛɪᴅᴀᴋ ʙɪsᴀ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ. ᴅɪᴋᴀʀᴇɴᴀᴋᴀɴ ᴀɴᴅᴀ ʙᴜᴋᴀɴ ᴘᴇɴɢɢᴜɴᴀ @{bot.me.username}</b>"
-        )
+@PY.CALLBACK("kontrol")
+@INLINE.DATA
+async def restart_confirm_callback(client, callback_query):
+    user_id = callback_query.from_user.id
+    # Menghapus userbot dan melakukan restart
     for X in ubot._ubot:
-        if message.from_user.id == X.me.id:
+        if user_id == X.me.id:
             for _ubot_ in await get_userbots():
                 if X.me.id == int(_ubot_["name"]):
                     try:
+                        logging.debug("Removing and restarting userbot")
                         ubot._ubot.remove(X)
                         ubot._get_my_id.remove(X.me.id)
                         UB = Ubot(**_ubot_)
                         await UB.start()
-                        for mod in loadModule():
-                            importlib.reload(
-                                importlib.import_module(f"PyroUbot.modules.{mod}")
-                            )
-                        return await msg.edit(
-                            f"<b>✅ ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b>"
+                        modules = loadModule()
+                        for mod in modules:
+                            importlib.reload(importlib.import_module(f"PyroUbot.modules.{mod}"))
+                        
+                        # Tambahkan tombol "Kembali"
+                        back_button = InlineKeyboardButton("Kembali", callback_data="menu")
+                        restart_button = InlineKeyboardButton("Restart", callback_data="kontrol")
+                        keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
+                        
+                        new_text = (
+                            f"<b>🇲🇨 restart berhasil dilakukan {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)"
                         )
+                        
+                        # Cek apakah teks baru sama dengan teks saat ini
+                        current_text = callback_query.message.text
+                        logging.debug(f"Current text: {current_text}")
+                        logging.debug(f"New text: {new_text}")
+                        if current_text != new_text:
+                            await callback_query.edit_message_text(new_text, reply_markup=keyboard)
+                        else:
+                            logging.debug("Pesan tidak berubah.")
+                            await callback_query.answer("Pesan tidak berubah.", show_alert=True)
                     except Exception as error:
-                        return await msg.edit(f"<b>{error}</b>")
+                        logging.error(f"Error occurred: {error}")
+                        await callback_query.answer(f"Terjadi kesalahan saat merestart: {error}", show_alert=True)
+                        return
