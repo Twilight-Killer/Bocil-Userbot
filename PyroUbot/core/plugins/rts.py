@@ -1,7 +1,6 @@
 import importlib
 import random
 from datetime import datetime, timedelta
-from time import time
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pytz import timezone
@@ -10,10 +9,10 @@ from PyroUbot import *
 
 
 async def login_cmd(client, message):
-    info = await message.reply("<b>sabar duluuuuu......</b>", quote=True)
+    info = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ...</b>", quote=True)
     if len(message.command) < 3:
         return await info.edit(
-            f"<code>{message.text}</code> <b>hari - string pyrogram</b>"
+            f"<code>{message.text}</code> <b>ʜᴀʀɪ - sᴛʀɪɴɢ ᴘʏʀᴏɢʀᴀᴍ</b>"
         )
     try:
         ub = Ubot(
@@ -53,19 +52,20 @@ async def login_cmd(client, message):
             disable_web_page_preview=True,
         )
         return await info.edit(
-            f"<b>✅ berhasil login diakun: <a href='tg://user?id={ub.me.id}'>{ub.me.first_name} {ub.me.last_name or ''}</a></b>"
+            f"<b>✅ ʙᴇʀʜᴀsɪʟ ʟᴏɢɪɴ ᴅɪ ᴀᴋᴜɴ: <a href='tg://user?id={ub.me.id}'>{ub.me.first_name} {ub.me.last_name or ''}</a></b>"
         )
     except Exception as error:
         return await info.edit(f"<code>{error}</code>")
 
 
-@PY.CALLBACK("control")
-@INLINE.DATA
-async def restart_confirm_callback(client, callback_query):
-    user_id = callback_query.from_user.id
-    # Menghapus userbot dan melakukan restart
+async def restart_cmd(client, message):
+    msg = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ</b>", quote=True)
+    if message.from_user.id not in ubot._get_my_id:
+        return await msg.edit(
+            f"<b>ᴀɴᴅᴀ ᴛɪᴅᴀᴋ ʙɪsᴀ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ. ᴅɪᴋᴀʀᴇɴᴀᴋᴀɴ ᴀɴᴅᴀ ʙᴜᴋᴀɴ ᴘᴇɴɢɢᴜɴᴀ @{bot.me.username}</b>"
+        )
     for X in ubot._ubot:
-        if user_id == X.me.id:
+        if message.from_user.id == X.me.id:
             for _ubot_ in await get_userbots():
                 if X.me.id == int(_ubot_["name"]):
                     try:
@@ -73,17 +73,12 @@ async def restart_confirm_callback(client, callback_query):
                         ubot._get_my_id.remove(X.me.id)
                         UB = Ubot(**_ubot_)
                         await UB.start()
-                        modules = loadModule()
-                        for mod in modules:
-                            importlib.reload(importlib.import_module(f"PyroUbot.modules.{mod}"))
-                        # Tambahkan tombol "Kembali"
-                        back_button = InlineKeyboardButton("Kembali", callback_data="menu")
-                        restart_button = InlineKeyboardButton("Restart", callback_data="control")
-                        keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
-                        await callback_query.edit_message_text(
-                            f"<b>🇲🇨 restart berhasil dilakukan {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)",
-                            reply_markup=keyboard
+                        for mod in loadModule():
+                            importlib.reload(
+                                importlib.import_module(f"PyroUbot.modules.{mod}")
+                            )
+                        return await msg.edit(
+                            f"<b>✅ ʀᴇsᴛᴀʀᴛ ʙᴇʀʜᴀsɪʟ ᴅɪʟᴀᴋᴜᴋᴀɴ {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b>"
                         )
                     except Exception as error:
-                        await callback_query.answer(f"Terjadi kesalahan saat merestart: {error}")
-                        return
+                        return await msg.edit(f"<b>{error}</b>")
