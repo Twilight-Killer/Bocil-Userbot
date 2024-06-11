@@ -50,7 +50,7 @@ async def menu_callback(client, callback_query):
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("sᴛᴀᴛs 🇲🇨", callback_data="stats")],
         [InlineKeyboardButton("ᴅᴀɴᴀ 💳", callback_data="dana"),
-         InlineKeyboardButton("ʀᴇsᴛᴀʀᴛ ✅", callback_data="control")],
+         InlineKeyboardButton("ʀᴇsᴛᴀʀᴛ ✅", callback_data="kontrol")],
         [InlineKeyboardButton("ᴏᴠᴏ 📩", callback_data="ovo"),
          InlineKeyboardButton("ɢᴏᴘᴀʏ", callback_data="gopay")],
         [InlineKeyboardButton("🔁", callback_data="back")]
