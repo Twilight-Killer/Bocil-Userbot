@@ -186,7 +186,11 @@ async def start_auto_gcast(client, msg, auto_text_vars):
                     await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
                     group += 1
                 except FloodWait as e:
-                    await asyncio.sleep(e.value)
+                    await asyncio.sleep(e.seconds + 5)  # Menambah waktu tambahan sebelum mencoba lagi
+                    await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
+                    group += 1
+                except SlowModeWait as e:
+                    await asyncio.sleep(e.seconds + 5)  # Menunggu waktu slow mode yang ditentukan sebelum mencoba lagi
                     await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
                     group += 1
                 except Exception as e:
