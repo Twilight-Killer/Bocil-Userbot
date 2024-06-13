@@ -276,3 +276,10 @@ def extract_type_and_text(message):
         else None
     )
     return type, msg
+
+
+async def spam_bot(client, message):
+    try:
+        await client.send_message(message.chat.id, "Spamming...")
+    except Exception as e:
+        print(f"Error spamming: {e}")
