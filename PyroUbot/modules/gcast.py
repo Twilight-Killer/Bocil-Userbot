@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta
 import pytz
+import asyncio
+import random
+
 
 from PyroUbot import*
 
@@ -132,6 +135,61 @@ async def _(client, message):
             except Exception as e:
                 AG.remove(client.me.id)
                 await msg.edit(f"<b>Error saat memulai auto gcast: {e}</b>")
+        else:
+            return await msg.delete()
+
+    elif type == "on_specific_time":
+        if client.me.id not in AG:
+            AG.append(client.me.id)
+            try:
+                send_time = datetime.strptime(value, "%H:%M").time()
+                now = datetime.now(WIB)
+                target_time = WIB.localize(datetime.combine(now.date(), send_time))
+                if target_time < now:
+                    target_time += timedelta(days=1)
+                wait_time = (target_time - now).total_seconds()
+                await msg.edit(f"<b>Auto gcast diaktifkan. Akan mengirim pesan pada {value} WIB.</b>")
+                await asyncio.sleep(wait_time)
+
+                while client.me.id in AG:
+                    delay = int(await get_vars(client.me.id, "DELAY_GCAST") or 1)
+                    blacklist = await get_chat(client.me.id) or []
+                    txt = random.choice(auto_text_vars)
+                    group = 0
+                    limit_detected = False
+
+                    async for dialog in client.get_dialogs():
+                        if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP) and dialog.chat.id not in blacklist:
+                            try:
+                                await asyncio.sleep(1)
+                                await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
+                                group += 1
+                            except FloodWait as e:
+                                await asyncio.sleep(e.value)
+                                await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
+                                group += 1
+                            except Exception as e:
+                                limit_detected = True
+                                print(f"Error sending message to {dialog.chat.id}: {e}")
+
+                    if limit_detected:
+                        status_message = (
+                            f"<b>Auto gcast pada {value} berhasil dan terkirim ke: {group} grup."
+                            "\n\nBatas pengiriman terdeteksi. Mengirim pesan mungkin terhalang oleh limit."
+                            f"\n\nMenunggu {delay} menit lagi untuk mengulang mengirim pesan.</b>"
+                        )
+                    else:
+                        status_message = (
+                            f"<b>Auto gcast pada {value} berhasil dan terkirim ke: {group} grup."
+                            "\n\nKabar baik, akun Anda tidak dibatasi. Anda bebas, sebebas burung yang terbang lepas."
+                            f"\n\nMenunggu {delay} menit lagi untuk mengulang mengirim pesan.</b>"
+                        )
+                    await msg.reply(status_message, quote=True)
+                    await asyncio.sleep(60 * delay)
+
+            except Exception as e:
+                AG.remove(client.me.id)
+                await msg.edit(f"<b>Error saat memulai auto gcast pada waktu {value}: {e}</b>")
         else:
             return await msg.delete()
 
