@@ -16,69 +16,47 @@ from pytgcalls import GroupCallFactory
 from PyroUbot.config import *
 
 
-class ConnectionError(Exception):
-    pass
-
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        if any(error_type in record.getMessage() for error_type in ["OSError", "TimeoutError"]):
-            self.handle_error(record.getMessage())
-
-    def handle_error(self, error_message):
-        self.log_error(error_message)
-        raise ConnectionError(error_message)
-
-    def log_error(self, error_message):
-        with open("error_log.txt", "a") as log_file:
-            log_file.write(f"Error: {error_message}\n")
+        for X in ["OSError", "TimeoutError"]:
+            if X in record.getMessage():
+                os.kill(os.getpid(), 9)
 
 
-logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
+logger = logging.getLogger()
+logger.setLevel(logging.ERROR)
 
-logger = logging.getLogger(__name__)
-handler = ConnectionHandler()
-logger.addHandler(handler)
+formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s", "%d-%b %H:%M")
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+connection_handler = ConnectionHandler()
+logger.addHandler(stream_handler)
+logger.addHandler(connection_handler)
 
-max_retries = 3
-retries = 0
 
-while retries < max_retries:
-    try:
-        raise OSError("Koneksi Gagal")
-    except OSError as e:
-        logger.error(f"Terjadi kesalahan: {e}")
-        retries += 1
-        if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
-            continue  
-        else:
-            print("Gagal setelah beberapa percobaan.")
-            break
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
+logging.getLogger("pyrogram.session.auth").setLevel(logging.CRITICAL)
+logging.getLogger("pyrogram.session.session").setLevel(logging.CRITICAL)
 
-async def get_channel_messages(channel, bot):
-    try:
-        messages = await bot.get_messages(channel)
-        return messages
-    except FloodWait as e:
-        await asyncio.sleep(e.value)
-        messages = await get_channel_messages(channel, bot)
-        return messages
 
 class Bot(Client):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs) 
-        self.device_model="BuruTaniUbot"
+        super().__init__(**kwargs)
+        self.device_model = "BuruTaniUbot"
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(MessageHandler(func, filters), group)
             return func
+
         return decorator
 
     def on_callback_query(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(CallbackQueryHandler(func, filters), group)
             return func
+
         return decorator
 
     async def start(self):
@@ -92,8 +70,8 @@ class Ubot(Client):
     _translate = {}
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs) 
-        self.device_model="BuruTaniUbot"
+        super().__init__(**kwargs)
+        self.device_model = "BuruTaniUbot"
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
 
     def on_message(self, filters=None, group=-1):
@@ -101,6 +79,7 @@ class Ubot(Client):
             for ub in self._ubot:
                 ub.add_handler(MessageHandler(func, filters), group)
             return func
+
         return decorator
 
     def set_prefix(self, user_id, prefix):
@@ -125,7 +104,7 @@ class Ubot(Client):
                     if not text.startswith(prefix):
                         continue
 
-                    without_prefix = text[len(prefix) :]
+                    without_prefix = text[len(prefix):]
 
                     for command in cmd.split("|"):
                         if not re.match(
@@ -168,15 +147,14 @@ class Ubot(Client):
               f"Bot username: {self.me.username}\n"
               f"prefix: {', '.join(self._prefix[self.me.id])}\n")
 
-
 bot = Bot(
     name="bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
 )
-ubot = Ubot(name="ubot")
 
+ubot = Ubot(name="ubot")
 
 from PyroUbot.core.database import *
 from PyroUbot.core.function import *
