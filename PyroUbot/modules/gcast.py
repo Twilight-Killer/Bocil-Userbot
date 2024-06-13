@@ -1,6 +1,5 @@
-import datetime
+from datetime import datetime, timedelta
 import pytz
-
 
 from PyroUbot import*
 
@@ -84,7 +83,7 @@ async def _(client, message):
                     # Parsing waktu yang diberikan
                     send_time = datetime.strptime(value, "%H:%M").time()
                     now = datetime.now(WIB)
-                    target_time = datetime.combine(now.date(), send_time)
+                    target_time = WIB.localize(datetime.combine(now.date(), send_time))
                     if target_time < now:
                         target_time += timedelta(days=1)
                     wait_time = (target_time - now).total_seconds()
