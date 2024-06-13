@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
+import pytz
 
-from PyroUbot import *
+from PyroUbot import*
 
 __MODULE__ = "gcast"
 __HELP__ = """
@@ -66,6 +67,7 @@ async def _(client, message):
 AG = []
 LT = []
 
+WIB = pytz.timezone('Asia/Jakarta')
 
 @PY.UBOT("auto_gcast")
 async def _(client, message):
@@ -80,12 +82,12 @@ async def _(client, message):
                 if value:
                     # Parsing waktu yang diberikan
                     send_time = datetime.strptime(value, "%H:%M").time()
-                    now = datetime.now()
+                    now = datetime.now(WIB)
                     target_time = datetime.combine(now.date(), send_time)
                     if target_time < now:
                         target_time += timedelta(days=1)
                     wait_time = (target_time - now).total_seconds()
-                    await msg.edit(f"<b>Auto gcast diaktifkan. Akan mengirim pesan pada {value}.</b>")
+                    await msg.edit(f"<b>Auto gcast diaktifkan. Akan mengirim pesan pada {value} WIB.</b>")
                     await asyncio.sleep(wait_time)
                 else:
                     await msg.edit("<b>Auto gcast diaktifkan.</b>")
