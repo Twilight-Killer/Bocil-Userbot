@@ -102,9 +102,8 @@ async def _(client, message):
                             await asyncio.sleep(e.value)
                             await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(999))}")
                             group += 1
-                        except Exception as error:
-                            print(f"Error sending message to {dialog.chat.id}: {error}")
-                            continue
+                        except Exception:
+                            pass
 
                 if client.me.id not in AG:
                     return
@@ -168,25 +167,28 @@ async def _(client, message):
 
     elif type == "limit":
         if value == "off":
-           if client.me.id in LT:
-               LT.remove(client.me.id)
-               return await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ ᴅɪɴᴏɴᴀᴋᴛɪғᴋᴀɴ</b>")
-           else:
-               return await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ ᴛɪᴅᴀᴋ ᴀᴋᴛɪғ</b>")
-   
-    elif value == "on":
-        if client.me.id not in LT:
-            LT.append(client.me.id)
-            await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ sᴛᴀʀᴛᴇᴅ</b>")
-            while client.me.id in LT:
-                for x in range(2):
-                    await spam_bot(client, message)
-                    await asyncio.sleep(5)
-                await asyncio.sleep(1200)
+            if client.me.id in LT:
+                LT.remove(client.me.id)
+                return await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ ᴅɪɴᴏɴᴀᴋᴛɪғᴋᴀɴ</b>")
+            else:
+                return await msg.delete()
+
+        elif value == "on":
+            if client.me.id not in LT:
+                LT.append(client.me.id)
+                await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ sᴛᴀʀᴛᴇᴅ</b>")
+                while client.me.id in LT:
+                    for x in range(2):
+                        await spam_bot(client, message)
+                        await asyncio.sleep(5)
+                    await asyncio.sleep(1200)
+            else:
+                return await msg.delete()
         else:
-            return await msg.edit("<b>ᴀᴜᴛᴏ ᴄᴇᴋ ʟɪᴍɪᴛ ᴛᴇʟᴀʜ ᴀᴋᴛɪғ</b>")
+             return await msg.edit("<b>~ʜᴀʀᴀᴘ ᴍᴀsᴜᴋᴋᴀɴ ᴠᴀʟᴇᴜ ᴏɴ/ᴏғғ ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ</b>")
     else:
-        return await msg.edit("<b>~ʜᴀʀᴀᴘ ᴍᴀsᴜᴋᴋᴀɴ ᴠᴀʟᴇᴜ ᴏɴ/ᴏғғ ᴜɴᴛᴜᴋ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ᴘᴇʀɪɴᴛᴀʜ ɪɴɪ</b>")
+        return await msg.edit("<b>ǫᴜᴇʀʏ ʏᴀɴɢ ᴅɪᴍᴀsᴜᴋᴋᴀɴ sᴀʟᴀʜ</b>")
+
 
 async def add_auto_text(client, text):
     auto_text = await get_vars(client.me.id, "AUTO_TEXT") or []
