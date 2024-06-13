@@ -1,5 +1,6 @@
-from PyroUbot import *
 from datetime import datetime, timedelta
+
+from PyroUbot import *
 
 __MODULE__ = "gcast"
 __HELP__ = """
@@ -71,8 +72,6 @@ async def _(client, message):
     msg = await message.reply("<b>Sedang memproses...</b>", quote=True)
     type, value = extract_type_and_text(message)
     auto_text_vars = await get_vars(client.me.id, "AUTO_TEXT") or []
-    if not auto_text_vars:
-        return await msg.edit("<b>Harap atur teks gcast Anda terlebih dahulu.</b>")
 
     if type == "on":
         if client.me.id not in AG:
@@ -98,6 +97,7 @@ async def _(client, message):
                     txt = random.choice(auto_text_vars)
                     group = 0
                     limit_detected = False
+
                     async for dialog in client.get_dialogs():
                         if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP) and dialog.chat.id not in blacklist:
                             try:
