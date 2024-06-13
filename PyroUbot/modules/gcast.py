@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from pyrogram.errors.exceptions import SlowModeWait
 import pytz
 import asyncio
 import random
