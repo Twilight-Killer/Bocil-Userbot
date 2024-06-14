@@ -5,6 +5,7 @@ import pytz
 import random
 from pyrogram.raw.functions.messages import DeleteHistory, StartBot
 
+
 from PyroUbot import*
 
 __MODULE__ = "gcast"
@@ -70,6 +71,7 @@ async def _(client, message):
 
 AG = []
 LT = []
+
 WIB = pytz.timezone('Asia/Jakarta')
 
 @PY.UBOT("auto_gcast")
@@ -83,14 +85,14 @@ async def _(client, message):
             AG.append(client.me.id)
             await start_auto_gcast(client, msg, value, auto_text_vars)
         else:
-            return await msg.edit("<b>Auto gcast sudah aktif.</b>")
+            return await msg.delete()
 
     elif type == "off":
         if client.me.id in AG:
             AG.remove(client.me.id)
             return await msg.edit("<b>Auto gcast telah dinonaktifkan.</b>")
         else:
-            return await msg.edit("<b>Auto gcast belum aktif.</b>")
+            return await msg.delete()
 
     elif type == "text":
         if not value:
@@ -140,32 +142,27 @@ async def schedule_gcast(client, msg, send_time, auto_text_vars):
 async def perform_auto_gcast(client, msg, auto_text_vars):
     done = 0
     while client.me.id in AG:
-        try:
-            delay = int(await get_vars(client.me.id, "DELAY_GCAST") or 1)
-            blacklist = await get_chat(client.me.id) or []
-            txt = random.choice(auto_text_vars)
-            group, limit_detected = 0, False
+        delay = int(await get_vars(client.me.id, "DELAY_GCAST") or 1)
+        blacklist = await get_chat(client.me.id) or []
+        txt = random.choice(auto_text_vars)
+        group, limit_detected = 0, False
 
-            async for dialog in client.get_dialogs():
-                if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP) and dialog.chat.id not in blacklist:
-                    try:
-                        await asyncio.sleep(1)
-                        await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
-                        group += 1
-                    except FloodWait as e:
-                        await asyncio.sleep(e.value)
-                        await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
-                        group += 1
-                    except Exception as e:
-                        limit_detected = True
+        async for dialog in client.get_dialogs():
+            if dialog.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP) and dialog.chat.id not in blacklist:
+                try:
+                    await asyncio.sleep(1)
+                    await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
+                    group += 1
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                    await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
+                    group += 1
+                except Exception as e:
+                    limit_detected = True
 
-            done += 1
-            await send_status_message(client, msg, done, group, limit_detected, delay)
-            await asyncio.sleep(60 * delay)
-
-        except Exception as e:
-            await msg.reply(f"<b>Error dalam perform_auto_gcast: {e}</b>")
-            break  
+        done += 1
+        await send_status_message(client, msg, done, group, limit_detected, delay)
+        await asyncio.sleep(60 * delay)
 
 async def send_status_message(client, msg, done, group, limit_detected, delay):
     if limit_detected:
@@ -197,7 +194,7 @@ async def handle_text_removal(client, msg, value, auto_text_vars):
         value = int(value) - 1
         auto_text_vars.pop(value)
         await set_vars(client.me.id, "AUTO_TEXT", auto_text_vars)
-        return await msg.edit(f"<b>Auto gcast remove: Teks ke {value+1} berhasil dihapus.\n\nKetik: <code>{msg.text.split()[0]} list</code>, untuk mengecek apakah sudah terhapus.</b>")
+        return await msg.edit(f"<b>Auto gcast remove: Teks ke {value+1} berhasil dihapus.\n\nKetik: <code>{message.text.split()[0]} list</code>, untuk mengecek apakah sudah terhapus.</b>")
     except Exception as error:
         return await msg.edit(str(error))
 
@@ -216,7 +213,7 @@ async def handle_limit_check(client, msg, value):
             LT.remove(client.me.id)
             return await msg.edit("<b>Auto cek limit dinonaktifkan.</b>")
         else:
-            return await msg.edit("<b>Auto cek limit belum aktif.</b>")
+            return await msg.delete()
 
     elif value == "on":
         if client.me.id not in LT:
@@ -224,12 +221,12 @@ async def handle_limit_check(client, msg, value):
             await msg.edit("<b>Auto cek limit dimulai.</b>")
             while client.me.id in LT:
                 await limit_cmd(client, msg)
-                await asyncio.sleep(600)  
+                await asyncio.sleep(1200)  # Check every 20 minutes
         else:
-            return await msg.edit("<b>Auto cek limit sudah aktif.</b>")
+            return await msg.delete()
     else:
         return await msg.edit("<b>~Harap masukkan value on/off untuk menggunakan perintah ini.</b>")
-
+      
 async def limit_cmd(client, message):
     try:
         await client.unblock_user("SpamBot")
@@ -247,7 +244,7 @@ async def limit_cmd(client, message):
         await status.copy(message.chat.id, reply_to_message_id=message.id)
         await client.invoke(DeleteHistory(peer=bot_info, max_id=0, revoke=True))
     except Exception as e:
-        await message.reply(f"Error in limit check: {e}")
+        print(f"Error in limit check: {e}")
 
 def extract_type_and_text(message):
     args = message.text.split(None, 2)
