@@ -29,7 +29,8 @@ __HELP__ = """
 list_data = []
 
 def remove_list(user_id):
-    list_data[:] = [item for item in list_data if item.get("id") != user_id]
+    global list_data
+    list_data = [item for item in list_data if item.get("id") != user_id]
 
 
 def add_list(client, chat_id):
@@ -53,35 +54,36 @@ def get_list():
 async def get_group_call(client, message):
     chat_peer = await client.resolve_peer(message.chat.id)
 
-    if isinstance(chat_peer, (InputPeerChannel, InputPeerChat)):
-        if isinstance(chat_peer, InputPeerChannel):
-            full_chat = (
-                await client.invoke(GetFullChannel(channel=chat_peer))
-            ).full_chat
-        elif isinstance(chat_peer, InputPeerChat):
-            full_chat = (
-                await client.invoke(GetFullChat(chat_id=chat_peer.chat_id))
-            ).full_chat
+    if isinstance(chat_peer, InputPeerChannel):
+        full_chat = (await client.invoke(GetFullChannel(channel=chat_peer))).full_chat
+    elif isinstance(chat_peer, InputPeerChat):
+        full_chat = (await client.invoke(GetFullChat(chat_id=chat_peer.chat_id))).full_chat
+    else:
+        full_chat = None
 
-        if full_chat is not None:
-            return full_chat.call
+    if full_chat and hasattr(full_chat, 'call') and full_chat.call:
+        return full_chat.call
 
-    await message.reply("ɴᴏ ɢʀᴏᴜᴘ ᴄᴀʟʟ ꜰᴏᴜɴᴅ")
-    return False
+    await message.reply("Tidak ada obrolan suara aktif.")
+    return None
 
 
 @PY.UBOT("startvc")
 async def _(client, message):
     flags = " ".join(message.command[1:])
-    msg = await message.reply("<code>ᴍᴇᴍᴘʀᴏꜱᴇꜱ....</code>")
-    vctitle = get_arg(message)
-    chat_id = message.chat.title if flags == ChatType.CHANNEL else message.chat.id
+    msg = await message.reply("<code>Memproses...</code>")
+    vctitle = message.text.split(None, 1)[1] if len(message.command) > 1 else None
+    chat_id = message.chat.id if message.chat else None
 
-    args = f"<b>obrolan suara aktif</b>\n<b>ᴄʜᴀᴛ : </b><code>{chat_id}</code>"
+    if not chat_id:
+        await msg.edit("<b>INFO:</b> Tidak dapat menentukan chat ID.")
+        return
+
+    args = f"<b>Obrolan suara aktif</b>\n<b>Chat: </b><code>{message.chat.title}</code>"
 
     try:
         if vctitle:
-            args += f"\n<b>ᴛɪᴛʟᴇ : </b> <code>{vctitle}</code>"
+            args += f"\n<b>Title: </b> <code>{vctitle}</code>"
 
         await client.invoke(
             CreateGroupCall(
@@ -97,46 +99,52 @@ async def _(client, message):
 
 @PY.UBOT("stopvc")
 async def _(client, message):
-    msg = await message.reply("<code>ᴍᴇᴍᴘʀᴏꜱᴇꜱ....</code>")
+    msg = await message.reply("<code>Memproses...</code>")
     group_call = await get_group_call(client, message)
 
     if not group_call:
         return
 
-    await client.invoke(DiscardGroupCall(call=group_call))
-    await msg.edit(
-        f"<b>obrolan suara diakhiri</b>\n<b>ᴄʜᴀᴛ : </b><code>{message.chat.title}</code>"
-    )
+    try:
+        await client.invoke(DiscardGroupCall(call=group_call))
+        await msg.edit(
+            f"<b>Obrolan suara diakhiri</b>\n<b>Chat: </b><code>{message.chat.title}</code>"
+        )
+    except Exception as e:
+        await msg.edit(f"<b>INFO:</b> `{e}`")
 
 
 @PY.UBOT("joinvc")
 async def _(client, message):
-    msg = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ....</b>")
+    msg = await message.reply("<b>Tunggu sebentar...</b>")
     chat_id = message.command[1] if len(message.command) > 1 else message.chat.id
-    chat_title = message.chat.title
+    chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
+
     try:
         await client.group_call.start(chat_id, join_as=client.me.id)
+        await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Group: </b><code>{chat_title}</code>")
+        await asyncio.sleep(5)
+        await client.group_call.set_is_mute(True)
+        add_list(client, chat_id)
     except Exception as e:
-        return await msg.edit(f"ERROR: {e}")
-    await msg.edit(f"<b>berhasil naik keobrolan suara</b>\n<b>group : </b><code>{chat_title}</code>")
-    await asyncio.sleep(5)
-    await client.group_call.set_is_mute(True)
-    add_list(client, chat_id)
+        await msg.edit(f"ERROR: {e}")
 
 
 @PY.UBOT("leavevc")
 async def _(client, message):
-    msg = await message.reply("<b>ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ....</b>")
-    chat_title = message.chat.title
+    msg = await message.reply("<b>Tunggu sebentar...</b>")
+    chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
+
     try:
         await client.group_call.stop()
+        remove_list(client.me.id)
+        await msg.edit(f"<b>Berhasil turun dari obrolan suara</b>\n<b>Group: </b><code>{chat_title}</code>")
     except Exception as e:
-        return await msg.edit(f"ERROR: {e}")
-    remove_list(client.me.id)
-    return await msg.edit(f"<b>berhasil turun dari obrolan suara</b>\n<b>group : </b><code>{chat_title}</code>")
+        await msg.edit(f"ERROR: {e}")
+
 
 @PY.UBOT("listvc", FILTERS.OWNER)
 async def _(client, message):
-    chat_title = message.chat.title
+    chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
     voice_chat_list = get_list()
     await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara {chat_title}:</b>\n\n{voice_chat_list}")
