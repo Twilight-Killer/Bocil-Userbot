@@ -25,24 +25,23 @@ __HELP__ = """
   <b>• penjelasan:</b> turun os gc
   """
 
+
 list_data = []
 
 def remove_list(user_id):
     global list_data
     list_data = [item for item in list_data if item.get("id") != user_id]
 
+
 def add_list(client, chat_id):
     async def add_list_async(client, chat_id):
         try:
             chat = await client.get_chat(chat_id)
-            user_id = client.me.id
-            # Check if the user already exists in the list
-            if not any(item.get("id") == user_id for item in list_data):
-                data = {
-                    "id": user_id,
-                    "nama": f"• <b>[{client.me.first_name} {client.me.last_name or ''}](tg://user?id={user_id})</b> di <code>{chat.title}</code>",
-                }
-                list_data.append(data)
+            data = {
+                "id": client.me.id,
+                "nama": f"• <b>[{client.me.first_name} {client.me.last_name or ''}](tg://user?id={client.me.id})</b> di <code>{chat.title}</code>",
+            }
+            list_data.append(data)
         except Exception as e:
             print(f"Error in add_list_async: {e}")
 
@@ -53,9 +52,11 @@ def get_list():
         return "Tidak ada pengguna dalam obrolan suara saat ini."
     return "\n".join(item["nama"] for item in list_data)
 
+
 async def get_group_call(client, message):
     try:
         chat_peer = await client.resolve_peer(message.chat.id)
+
         if isinstance(chat_peer, InputPeerChannel):
             full_chat = (await client.invoke(GetFullChannel(channel=chat_peer))).full_chat
         elif isinstance(chat_peer, InputPeerChat):
@@ -70,6 +71,7 @@ async def get_group_call(client, message):
     except Exception as e:
         await message.reply(f"Error in get_group_call: {e}")
     return None
+
 
 @PY.UBOT("startvc")
 async def _(client, message):
@@ -88,7 +90,6 @@ async def _(client, message):
         if vctitle:
             args += f"\n<b>Title: </b> <code>{vctitle}</code>"
 
-        await asyncio.sleep(1) 
         await client.invoke(
             CreateGroupCall(
                 peer=(await client.resolve_peer(chat_id)),
@@ -97,11 +98,9 @@ async def _(client, message):
             )
         )
         await msg.edit(args)
-    except pyrogram.errors.FloodWait as e:
-        await asyncio.sleep(e.value) 
-        await msg.edit(f"<b>INFO:</b> FloodWait of {e.value} seconds.")
     except Exception as e:
         await msg.edit(f"<b>INFO:</b> `{e}`")
+
 
 @PY.UBOT("stopvc")
 async def _(client, message):
@@ -112,16 +111,13 @@ async def _(client, message):
         return
 
     try:
-        await asyncio.sleep(1) 
         await client.invoke(DiscardGroupCall(call=group_call))
         await msg.edit(
             f"<b>Obrolan suara diakhiri</b>\n<b>Chat: </b><code>{message.chat.title}</code>"
         )
-    except pyrogram.errors.FloodWait as e:
-        await asyncio.sleep(e.value) 
-        await msg.edit(f"<b>INFO:</b> FloodWait of {e.value} seconds.")
     except Exception as e:
         await msg.edit(f"<b>INFO:</b> `{e}`")
+
 
 @PY.UBOT("joinvc")
 async def _(client, message):
@@ -130,17 +126,14 @@ async def _(client, message):
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
 
     try:
-        await asyncio.sleep(1) 
         await client.group_call.start(chat_id, join_as=client.me.id)
         await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Group: </b><code>{chat_title}</code>")
         await asyncio.sleep(5)
         await client.group_call.set_is_mute(True)
         add_list(client, chat_id)
-    except pyrogram.errors.FloodWait as e:
-        await asyncio.sleep(e.value) 
-        await msg.edit(f"<b>INFO:</b> FloodWait of {e.value} seconds.")
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
+
 
 @PY.UBOT("leavevc")
 async def _(client, message):
@@ -148,15 +141,12 @@ async def _(client, message):
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
 
     try:
-        await asyncio.sleep(1) 
         await client.group_call.stop()
         remove_list(client.me.id)
         await msg.edit(f"<b>Berhasil turun dari obrolan suara</b>\n<b>Group: </b><code>{chat_title}</code>")
-    except pyrogram.errors.FloodWait as e:
-        await asyncio.sleep(e.value)  
-        await msg.edit(f"<b>INFO:</b> FloodWait of {e.value} seconds.")
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
+
 
 @PY.UBOT("listvc", FILTERS.OWNER)
 async def _(client, message):
