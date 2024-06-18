@@ -2,7 +2,6 @@ import asyncio
 from pyrogram.types import ChatPermissions
 from PyroUbot import *
 
-
 async def admin_kick(client, message):
     user_id, reason = await extract_user_and_reason(message)
     if not user_id:
@@ -21,13 +20,13 @@ async def admin_kick(client, message):
         return await message.reply(f"Error: {error}")
 
     msg = f"<b>👤 Ditendang:</b> {mention}\n<b>👑 Admin:</b> {message.from_user.mention}"
-    jika reason:
+    if reason:
         msg += f"\n<b>💬 Alasan:</b> {reason}"
 
     try:
         if message.command[0] == "dkick":
             await message.reply_to_message.delete()
-        await message.chat.kick_member(user_id)
+        await message.chat.ban_member(user_id)
         await message.reply(msg)
         await asyncio.sleep(1)
         await message.chat.unban_member(user_id)
