@@ -10,26 +10,29 @@ async def admin_kick(client, message):
     if user_id == (await client.get_me()).id:
         return await message.reply_text("Aku tidak bisa mendatangkan diriku sendiri, aku bisa pergi jika kamu mau.")
     if user_id == OWNER_ID:
-        return await message.reply_text("Anda tidak bisa menendang anggota ini")
+        return await message.reply_text("Anda tidak bisa menendang anggota ini.")
     if user_id in (await list_admins(message)):
         return await message.reply_text("Saya tidak bisa menendang admin, anda tahu aturannya, saya juga.")
+    
     try:
-        mention = (await client.get_users(user_id)).mention
+        user = await client.get_users(user_id)
+        mention = user.mention
     except Exception as error:
-        await message.reply(error)
+        return await message.reply(f"Error: {error}")
+
     msg = f"<b>👤 Ditendang:</b> {mention}\n<b>👑 Admin:</b> {message.from_user.mention}"
-    if reason:
+    jika reason:
         msg += f"\n<b>💬 Alasan:</b> {reason}"
+
     try:
         if message.command[0] == "dkick":
             await message.reply_to_message.delete()
-        await message.chat.ban_member(user_id)
+        await message.chat.kick_member(user_id)
         await message.reply(msg)
         await asyncio.sleep(1)
         await message.chat.unban_member(user_id)
     except Exception as error:
-        await message.reply(error)
-
+        await message.reply(f"Error: {error}")
 
 async def admin_ban(client, message):
     user_id, reason = await extract_user_and_reason(message)
@@ -38,24 +41,27 @@ async def admin_ban(client, message):
     if user_id == (await client.get_me()).id:
         return await message.reply_text("Aku tidak bisa membanned diriku sendiri, aku bisa pergi jika kamu mau.")
     if user_id == OWNER_ID:
-        return await message.reply_text("Anda tidak bisa membanned anggota ini")
+        return await message.reply_text("Anda tidak bisa membanned anggota ini.")
     if user_id in (await list_admins(message)):
-        return await message.reply_text("Anda tidak bisa membanned anggota ini")
+        return await message.reply_text("Anda tidak bisa membanned admin, anda tahu aturannya, saya juga.")
+    
     try:
-        mention = (await client.get_users(user_id)).mention
+        user = await client.get_users(user_id)
+        mention = user.mention
     except Exception as error:
-        await message.reply(error)
+        return await message.reply(f"Error: {error}")
+
     msg = f"<b>👤 Dibanned:</b> {mention}\n<b>👑 Admin:</b> {message.from_user.mention}"
     if reason:
         msg += f"\n<b>💬 Alasan:</b> {reason}"
+
     try:
         if message.command[0] == "dban":
             await message.reply_to_message.delete()
         await message.chat.ban_member(user_id)
         await message.reply(msg)
     except Exception as error:
-        await message.reply(error)
-
+        await message.reply(f"Error: {error}")
 
 async def admin_mute(client, message):
     user_id, reason = await extract_user_and_reason(message)
@@ -64,53 +70,61 @@ async def admin_mute(client, message):
     if user_id == (await client.get_me()).id:
         return await message.reply_text("Aku tidak bisa membisukan diriku sendiri, aku bisa pergi jika kamu mau.")
     if user_id == OWNER_ID:
-        return await message.reply_text("Anda tidak bisa membisukan anggota ini")
+        return await message.reply_text("Anda tidak bisa membisukan anggota ini.")
     if user_id in (await list_admins(message)):
         return await message.reply_text("Saya tidak bisa membisukan admin, anda tahu aturannya, saya juga.")
+    
     try:
-        mention = (await client.get_users(user_id)).mention
+        user = await client.get_users(user_id)
+        mention = user.mention
     except Exception as error:
-        await message.reply(error)
+        return await message.reply(f"Error: {error}")
+
     msg = f"<b>👤 Membisukan:</b> {mention}\n<b>👑 Admin:</b> {message.from_user.mention}"
     if reason:
         msg += f"\n<b>💬 Alasan:</b> {reason}"
+
     try:
         if message.command[0] == "dmute":
             await message.reply_to_message.delete()
         await message.chat.restrict_member(user_id, ChatPermissions())
         await message.reply(msg)
     except Exception as error:
-        await message.reply(error)
-
+        await message.reply(f"Error: {error}")
 
 async def admin_unmute(client, message):
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply_text("Saya tidak dapat menemukan anggota itu.")
+    
     try:
-        mention = (await client.get_users(user_id)).mention
+        user = await client.get_users(user_id)
+        mention = user.mention
     except Exception as error:
-        await message.reply(error)
+        return await message.reply(f"Error: {error}")
+
     try:
         await message.chat.unban_member(user_id)
         await message.reply(f"<b>✅ {mention} sudah bisa chat lagi</b>")
     except Exception as error:
-        await message.reply(error)
-
+        await message.reply(f"Error: {error}")
 
 async def admin_unban(client, message):
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply_text("Saya tidak dapat menemukan anggota itu.")
+    
     try:
-        mention = (await client.get_users(user_id)).mention
+        user = await client.get_users(user_id)
+        mention = user.mention
     except Exception as error:
-        await message.reply(error)
+        return await message.reply(f"Error: {error}")
+
     try:
         await message.chat.unban_member(user_id)
         await message.reply(f"<b>✅ {mention} sudah bisa join lagi</b>")
     except Exception as error:
-        await message.reply(error)
+        await message.reply(f"Error: {error}")
 
 
 async def global_banned(client, message):
