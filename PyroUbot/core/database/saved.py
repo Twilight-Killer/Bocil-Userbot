@@ -6,7 +6,7 @@ async def get_chat(user_id):
     chat = await chatsdb.find_one({"chat": user_id})
     if not chat:
         return []
-    return chat["list"]
+    return chat.get("list", [])
 
 async def add_chat(user_id, chat_id):
     chat_list = await get_chat(user_id)
