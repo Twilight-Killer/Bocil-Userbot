@@ -1,5 +1,6 @@
 import asyncio
 from random import randint
+
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
@@ -24,9 +25,8 @@ __HELP__ = """
   <b>• penjelasan:</b> keluar dari obrolan suara di grup
 """
 
-voice_chat_participants = set()
+voice_chat_participants = {}
 MAX_PARTICIPANTS = 100 
-
 async def add_participant(client, chat_id):
     try:
         if len(voice_chat_participants) >= MAX_PARTICIPANTS:
@@ -34,20 +34,23 @@ async def add_participant(client, chat_id):
             return
 
         user = await client.get_me()
-        voice_chat_participants.add(user.id)
+        chat = await client.get_chat(chat_id)
+        user_data = f"[{user.first_name}](tg://user?id={user.id})"
+        chat_title = chat.title
+        voice_chat_participants[user.id] = {"user": user_data, "chat": chat_title}
     except Exception as e:
         print(f"Error in add_participant: {e}")
 
 def remove_participant(user_id):
-    voice_chat_participants.discard(user_id)
+    voice_chat_participants.pop(user_id, None)
 
 def get_participants_list():
     if not voice_chat_participants:
         return "Tidak ada pengguna dalam obrolan suara saat ini."
     
     participants = "\n".join(
-        f"• Pengguna ID: <code>{user_id}</code>"
-        for user_id in voice_chat_participants
+        f"• {data['user']} di grup <code>{data['chat']}</code>"
+        for data in voice_chat_participants.values()
     )
     total_participants = len(voice_chat_participants)
     return f"{participants}\n\n<b>Total pengguna:</b> {total_participants}"
