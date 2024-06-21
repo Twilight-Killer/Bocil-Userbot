@@ -9,7 +9,7 @@ GitPython
 gpytranslate
 gtts
 html2text
-motor
+motor[srv]
 opencv-python-headless
 openai
 Pillow==9.3.0
@@ -20,12 +20,12 @@ pyromod==1.1
 pytz
 pymediainfo
 pymongo
-pyrogram
+pyrofork
 python-dateutil
 removebg
 requests
 telegraph
-tgcrypto
+TgCrypto-pyrofork
 unidecode
 wget
 youtube-search-python
