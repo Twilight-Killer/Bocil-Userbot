@@ -24,20 +24,30 @@ __HELP__ = """
   <b>• penjelasan:</b> keluar dari obrolan suara di grup
 """
 
-# Penggunaan list biasa mungkin lebih efisien daripada list global
-# Simpan hanya informasi minimum yang diperlukan
-voice_chat_participants = set()
+# Menggunakan dict untuk menyimpan informasi pengguna dan grup
+voice_chat_participants = {}
 
-def add_participant(user_id):
-    voice_chat_participants.add(user_id)
+async def add_participant(client, chat_id):
+    try:
+        user = await client.get_me()
+        chat = await client.get_chat(chat_id)
+        user_data = f"[{user.first_name}](tg://user?id={user.id})"
+        chat_title = chat.title
+        voice_chat_participants[user.id] = {"user": user_data, "chat": chat_title}
+    except Exception as e:
+        print(f"Error in add_participant: {e}")
 
 def remove_participant(user_id):
-    voice_chat_participants.discard(user_id)
+    if user_id in voice_chat_participants:
+        del voice_chat_participants[user_id]
 
 def get_participants_list():
     if not voice_chat_participants:
         return "Tidak ada pengguna dalam obrolan suara saat ini."
-    return "\n".join(f"• Pengguna dengan ID {user_id}" for user_id in voice_chat_participants)
+    return "\n".join(
+        f"• {data['user']} di grup <code>{data['chat']}</code>"
+        for data in voice_chat_participants.values()
+    )
 
 async def get_group_call(client, message):
     try:
@@ -69,7 +79,7 @@ async def start_vc(client, message):
         await msg.edit("<b>INFO:</b> Tidak dapat menentukan chat ID.")
         return
 
-    args = f"<b>Obrolan suara aktif</b>\n<b>Chat: </b><code>{message.chat.title}</code>"
+    args = f"<b>Obrolan suara aktif</b>\n<b>Grup: </b><code>{message.chat.title}</code>"
 
     try:
         if vctitle:
@@ -98,7 +108,7 @@ async def stop_vc(client, message):
     try:
         await client.invoke(DiscardGroupCall(call=group_call))
         await msg.edit(
-            f"<b>Obrolan suara diakhiri</b>\n<b>Chat: </b><code>{message.chat.title}</code>"
+            f"<b>Obrolan suara diakhiri</b>\n<b>Grup: </b><code>{message.chat.title}</code>"
         )
     except Exception as e:
         await msg.edit(f"<b>INFO:</b> `{e}`")
@@ -114,7 +124,7 @@ async def join_vc(client, message):
         await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
         await asyncio.sleep(5)
         await client.group_call.set_is_mute(True)
-        add_participant(client.me.id)
+        await add_participant(client, chat_id)
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
 
@@ -134,4 +144,4 @@ async def leave_vc(client, message):
 async def list_vc(client, message):
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
     voice_chat_list = get_participants_list()
-    await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara {chat_title}:</b>\n\n{voice_chat_list}")
+    await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara:</b>\n\n{voice_chat_list}")
