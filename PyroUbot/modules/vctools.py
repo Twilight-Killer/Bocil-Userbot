@@ -1,6 +1,4 @@
 import asyncio
-import os
-
 from random import randint
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
@@ -26,27 +24,20 @@ __HELP__ = """
   <b>• penjelasan:</b> keluar dari obrolan suara di grup
 """
 
-list_data = []
+# Penggunaan list biasa mungkin lebih efisien daripada list global
+# Simpan hanya informasi minimum yang diperlukan
+voice_chat_participants = set()
 
-def remove_list(user_id):
-    global list_data
-    list_data = [item for item in list_data if item.get("id") != user_id]
+def add_participant(user_id):
+    voice_chat_participants.add(user_id)
 
-async def add_list(client, chat_id):
-    try:
-        chat = await client.get_chat(chat_id)
-        data = {
-            "id": client.me.id,
-            "nama": f"• <b>[{client.me.first_name} {client.me.last_name or ''}](tg://user?id={client.me.id})</b> di <code>{chat.title}</code>",
-        }
-        list_data.append(data)
-    except Exception as e:
-        print(f"Error in add_list: {e}")
+def remove_participant(user_id):
+    voice_chat_participants.discard(user_id)
 
-def get_list():
-    if not list_data:
+def get_participants_list():
+    if not voice_chat_participants:
         return "Tidak ada pengguna dalam obrolan suara saat ini."
-    return "\n".join(item["nama"] for item in list_data)
+    return "\n".join(f"• Pengguna dengan ID {user_id}" for user_id in voice_chat_participants)
 
 async def get_group_call(client, message):
     try:
@@ -123,7 +114,7 @@ async def join_vc(client, message):
         await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
         await asyncio.sleep(5)
         await client.group_call.set_is_mute(True)
-        await add_list(client, chat_id)
+        add_participant(client.me.id)
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
 
@@ -134,7 +125,7 @@ async def leave_vc(client, message):
 
     try:
         await client.group_call.stop()
-        remove_list(client.me.id)
+        remove_participant(client.me.id)
         await msg.edit(f"<b>Berhasil keluar dari obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
@@ -142,5 +133,5 @@ async def leave_vc(client, message):
 @PY.UBOT("listvc", FILTERS.OWNER)
 async def list_vc(client, message):
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
-    voice_chat_list = get_list()
+    voice_chat_list = get_participants_list()
     await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara {chat_title}:</b>\n\n{voice_chat_list}")
