@@ -8,8 +8,8 @@ from pyrogram.raw.types import InputPeerChannel, InputPeerChat
 
 from PyroUbot import *
 
-MODULE = "vctools"
-HELP = """
+__MODULE__ = "vctools"
+__HELP__ = """
 <b>『 bantuan vctools 』</b>
 
   <b>• perintah:</b> <code>{0}startvc</code>
