@@ -135,13 +135,25 @@ async def stop_vc(client, message):
 @PY.UBOT("joinvc")
 async def join_vc(client, message):
     msg = await message.reply("<b>Tunggu sebentar...</b>")
-    chat_input = message.command[1] if len(message.command) > 1 else str(message.chat.id)
-    chat_id = None
-    chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
 
     try:
-        chat_id = await resolve_chat_id(client, chat_input)
-        chat_title = (await client.get_chat(chat_id)).title
+        chat_input = message.command[1] if len(message.command) > 1 else None
+        chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
+
+        if chat_input == "-100":
+            # Jika input adalah '-100', anggap sebagai chat_id -100 yang merupakan ID grup
+            chat_id = -100
+        elif chat_input and chat_input.startswith("@"):
+            # Jika input dimulai dengan '@', anggap sebagai username grup/saluran
+            chat_id = await client.resolve_peer(chat_input)
+        else:
+            # Jika tidak, coba interpretasikan sebagai chat_id
+            try:
+                chat_id = int(chat_input)
+            except (ValueError, TypeError):
+                await msg.edit("<b>ERROR:</b> Masukkan ID grup/saluran yang valid atau username yang benar.")
+                return
+
         await client.group_call.start(chat_id)
         await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
         await asyncio.sleep(5)
@@ -156,6 +168,22 @@ async def leave_vc(client, message):
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
 
     try:
+        chat_input = message.command[1] if len(message.command) > 1 else None
+
+        if chat_input == "-100":
+            # Jika input adalah '-100', anggap sebagai chat_id -100 yang merupakan ID grup
+            chat_id = -100
+        elif chat_input and chat_input.startswith("@"):
+            # Jika input dimulai dengan '@', anggap sebagai username grup/saluran
+            chat_id = await client.resolve_peer(chat_input)
+        else:
+            # Jika tidak, coba interpretasikan sebagai chat_id
+            try:
+                chat_id = int(chat_input)
+            except (ValueError, TypeError):
+                await msg.edit("<b>ERROR:</b> Masukkan ID grup/saluran yang valid atau username yang benar.")
+                return
+
         await client.group_call.stop()
         remove_participant(client.me.id)
         await msg.edit(f"<b>Berhasil keluar dari obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
