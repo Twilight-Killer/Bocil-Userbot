@@ -23,8 +23,12 @@ __HELP__ = """
   
   <b>• perintah:</b> <code>{0}leavevc</code>
   <b>• penjelasan:</b> keluar dari obrolan suara di grup
+  
+  <b>• perintah:</b> <code>{0}listvc</code>
+  <b>• penjelasan:</b> daftar pengguna dalam obrolan suara
 """
 
+# Simpan peserta VC dalam dictionary berdasarkan chat_id
 voice_chat_participants = {}
 MAX_PARTICIPANTS = 100
 
@@ -32,26 +36,30 @@ async def add_participant(client, chat_id):
     try:
         user = await client.get_me()
         chat = await client.get_chat(chat_id)
-        if user.id not in voice_chat_participants:
+        
+        if chat_id not in voice_chat_participants:
+            voice_chat_participants[chat_id] = {}
+
+        if user.id not in voice_chat_participants[chat_id]:
             user_data = f"[{user.first_name}](tg://user?id={user.id})"
             chat_title = chat.title
-            voice_chat_participants[user.id] = {"user": user_data, "chat": chat_title}
+            voice_chat_participants[chat_id][user.id] = {"user": user_data, "chat": chat_title}
     except Exception as e:
         print(f"Error in add_participant: {e}")
 
-def remove_participant(user_id):
-    if user_id in voice_chat_participants:
-        voice_chat_participants.pop(user_id, None)
+def remove_participant(chat_id, user_id):
+    if chat_id in voice_chat_participants and user_id in voice_chat_participants[chat_id]:
+        voice_chat_participants[chat_id].pop(user_id, None)
 
-def get_participants_list():
-    if not voice_chat_participants:
+def get_participants_list(chat_id):
+    if chat_id not in voice_chat_participants or not voice_chat_participants[chat_id]:
         return "Tidak ada pengguna dalam obrolan suara saat ini."
-    
+
     participants = "\n".join(
         f"• {data['user']} di grup <code>{data['chat']}</code>"
-        for data in voice_chat_participants.values()
+        for data in voice_chat_participants[chat_id].values()
     )
-    total_participants = len(voice_chat_participants)
+    total_participants = len(voice_chat_participants[chat_id])
     return f"{participants}\n\n<b>Total pengguna:</b> {total_participants}"
 
 async def get_group_call(client, message):
@@ -114,6 +122,9 @@ async def stop_vc(client, message):
         await msg.edit(
             f"<b>Obrolan suara diakhiri</b>\n<b>Grup: </b><code>{message.chat.title}</code>"
         )
+        # Kosongkan daftar peserta untuk obrolan ini
+        if message.chat.id in voice_chat_participants:
+            del voice_chat_participants[message.chat.id]
     except Exception as e:
         await msg.edit(f"<b>INFO:</b> {e}")
 
@@ -135,17 +146,19 @@ async def join_vc(client, message):
 @PY.UBOT("leavevc")
 async def leave_vc(client, message):
     msg = await message.reply("<b>Tunggu sebentar...</b>")
+    chat_id = message.chat.id
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
 
     try:
         await client.group_call.stop()
-        remove_participant(client.me.id)
+        remove_participant(chat_id, client.me.id)
         await msg.edit(f"<b>Berhasil keluar dari obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
 
 @PY.UBOT("listvc", FILTERS.OWNER)
 async def list_vc(client, message):
+    chat_id = message.chat.id
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
-    voice_chat_list = get_participants_list()
+    voice_chat_list = get_participants_list(chat_id)
     await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara:</b>\n\n{voice_chat_list}")
