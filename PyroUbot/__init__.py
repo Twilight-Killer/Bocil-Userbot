@@ -1,4 +1,5 @@
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 import re
 import asyncio
@@ -7,39 +8,60 @@ import uvloop
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 from pyrogram import Client, filters
-from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
-from pyromod import listen
 from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
 
 
-class ConnectionHandler(logging.Handler):
-    def emit(self, record):
-        for X in ["OSError", "TimeoutError"]:
-            if X in record.getMessage():
-                os.kill(os.getpid(), 9)
+# Konfigurasi logging utama
+LOG_FILE_NAME = "logs.txt"
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(levelname)s] - %(name)s - %(message)s",
+    datefmt="%d-%b-%y %H:%M:%S",
+    handlers=[
+        RotatingFileHandler(LOG_FILE_NAME, maxBytes=50000000, backupCount=10),
+        logging.StreamHandler(),
+    ],
+)
 
-
-logger = logging.getLogger()
-logger.setLevel(logging.ERROR)
-
-formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s", "%d-%b %H:%M")
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-connection_handler = ConnectionHandler()
-logger.addHandler(stream_handler)
-logger.addHandler(connection_handler)
-
-
+# Atur level logging untuk komponen-komponen tertentu
+logging.getLogger("asyncio").setLevel(logging.CRITICAL)
+logging.getLogger("pytgcalls").setLevel(logging.WARNING)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 logging.getLogger("pyrogram.session.auth").setLevel(logging.CRITICAL)
 logging.getLogger("pyrogram.session.session").setLevel(logging.CRITICAL)
 
+# Logger untuk modul ini
+LOGS = logging.getLogger(__name__)
 
+
+# Handler khusus untuk menangani kesalahan koneksi
+class ConnectionHandler(logging.Handler):
+    def emit(self, record):
+        error_message = self.format(record)
+        if "OSErro" in error_message or "TimeoutError" in error_message:
+            self.handle_error(error_message)
+
+    def handle_error(self, error_message):
+        self.log_error(error_message)
+        raise ConnectionError(error_message)
+
+    def log_error(self, error_message):
+        with open("error_log.txt", "a") as log_file:
+            log_file.write(f"Error: {error_message}\n")
+
+
+# Inisialisasi logger dan handler
+logger = logging.getLogger(__name__)
+handler = ConnectionHandler()
+logger.addHandler(handler)
+
+
+# Kelas untuk bot utama dengan Pyrogram
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -63,6 +85,7 @@ class Bot(Client):
         await super().start()
 
 
+# Kelas untuk bot dengan penyesuaian tambahan (contoh: GroupCall)
 class Ubot(Client):
     _ubot = []
     _prefix = {}
@@ -104,7 +127,7 @@ class Ubot(Client):
                     if not text.startswith(prefix):
                         continue
 
-                    without_prefix = text[len(prefix):]
+                    without_prefix = text[len(prefix) :]
 
                     for command in cmd.split("|"):
                         if not re.match(
@@ -142,11 +165,15 @@ class Ubot(Client):
         self._ubot.append(self)
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
-              f"Bot name: {self.me.first_name}\n"
-              f"Bot username: {self.me.username}\n"
-              f"prefix: {', '.join(self._prefix[self.me.id])}\n")
+        print(
+            f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
+            f"Bot name: {self.me.first_name}\n"
+            f"Bot username: {self.me.username}\n"
+            f"prefix: {', '.join(self._prefix[self.me.id])}\n"
+        )
 
+
+# Inisialisasi bot utama
 bot = Bot(
     name="bot",
     api_id=API_ID,
@@ -154,8 +181,10 @@ bot = Bot(
     bot_token=BOT_TOKEN,
 )
 
+# Inisialisasi bot dengan penyesuaian tambahan
 ubot = Ubot(name="ubot")
 
+# Import modul-modul lain yang diperlukan
 from PyroUbot.core.database import *
 from PyroUbot.core.function import *
 from PyroUbot.core.helpers import *
