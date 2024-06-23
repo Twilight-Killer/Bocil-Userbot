@@ -1,5 +1,4 @@
 import logging
-from logging.handlers import RotatingFileHandler
 import os
 import re
 import asyncio
@@ -8,43 +7,23 @@ import uvloop
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 from pyrogram import Client, filters
+from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
+from pyromod import listen
 from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
 
 
-# Konfigurasi logging utama
-LOG_FILE_NAME = "logs.txt"
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(levelname)s] - %(name)s - %(message)s",
-    datefmt="%d-%b-%y %H:%M:%S",
-    handlers=[
-        RotatingFileHandler(LOG_FILE_NAME, maxBytes=50000000, backupCount=10),
-        logging.StreamHandler(),
-    ],
-)
+class ConnectionError(Exception):
+    pass
 
-# Atur level logging untuk komponen-komponen tertentu
-logging.getLogger("asyncio").setLevel(logging.CRITICAL)
-logging.getLogger("pytgcalls").setLevel(logging.WARNING)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
-logging.getLogger("pyrogram.session.auth").setLevel(logging.CRITICAL)
-logging.getLogger("pyrogram.session.session").setLevel(logging.CRITICAL)
-
-# Logger untuk modul ini
-LOGS = logging.getLogger(__name__)
-
-
-# Handler khusus untuk menangani kesalahan koneksi
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        error_message = self.format(record)
-        if "OSErro" in error_message or "TimeoutError" in error_message:
-            self.handle_error(error_message)
+        for error_type in ["OSErro", "TimeoutError"]:
+            if error_type in record.getMessage():
+                self.handle_error(record.getMessage())
 
     def handle_error(self, error_message):
         self.log_error(error_message)
@@ -54,34 +33,59 @@ class ConnectionHandler(logging.Handler):
         with open("error_log.txt", "a") as log_file:
             log_file.write(f"Error: {error_message}\n")
 
+
+logging.basicConfig(level=logging.ERROR, format='%(levelname)s - %(message)s')
+
+logger = logging.getLogger(__name__)
 handler = ConnectionHandler()
 logger.addHandler(handler)
 
+max_retries = 3
+retries = 0
+
+while retries < max_retries:
+    try:
+        raise OSError("Koneksi Gagal")
+    except OSError as e:
+        logger.error(f"Terjadi kesalahan: {e}")
+        retries += 1
+        if retries < max_retries:
+            print(f"Mencoba kembali... (percobaan ke-{retries})")
+            continue  
+        else:
+            print("Gagal setelah beberapa percobaan.")
+            break
+
+async def get_channel_messages(channel, bot):
+    try:
+        messages = await bot.get_messages(channel)
+        return messages
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+        messages = await get_channel_messages(channel, bot)
+        return messages
 
 class Bot(Client):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.device_model = "BuruTaniUbot"
+        super().__init__(**kwargs) 
+        self.device_model="BuruTaniUbot"
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(MessageHandler(func, filters), group)
             return func
-
         return decorator
 
     def on_callback_query(self, filters=None, group=-1):
         def decorator(func):
             self.add_handler(CallbackQueryHandler(func, filters), group)
             return func
-
         return decorator
 
     async def start(self):
         await super().start()
 
 
-# Kelas untuk bot dengan penyesuaian tambahan (contoh: GroupCall)
 class Ubot(Client):
     _ubot = []
     _prefix = {}
@@ -89,8 +93,8 @@ class Ubot(Client):
     _translate = {}
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.device_model = "BuruTaniUbot"
+        super().__init__(**kwargs) 
+        self.device_model="BuruTaniUbot"
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
 
     def on_message(self, filters=None, group=-1):
@@ -98,7 +102,6 @@ class Ubot(Client):
             for ub in self._ubot:
                 ub.add_handler(MessageHandler(func, filters), group)
             return func
-
         return decorator
 
     def set_prefix(self, user_id, prefix):
@@ -161,26 +164,21 @@ class Ubot(Client):
         self._ubot.append(self)
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-        print(
-            f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
-            f"Bot name: {self.me.first_name}\n"
-            f"Bot username: {self.me.username}\n"
-            f"prefix: {', '.join(self._prefix[self.me.id])}\n"
-        )
+        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
+              f"Bot name: {self.me.first_name}\n"
+              f"Bot username: {self.me.username}\n"
+              f"prefix: {', '.join(self._prefix[self.me.id])}\n")
 
 
-# Inisialisasi bot utama
 bot = Bot(
     name="bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
 )
-
-# Inisialisasi bot dengan penyesuaian tambahan
 ubot = Ubot(name="ubot")
 
-# Import modul-modul lain yang diperlukan
+
 from PyroUbot.core.database import *
 from PyroUbot.core.function import *
 from PyroUbot.core.helpers import *
