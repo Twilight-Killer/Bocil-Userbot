@@ -54,14 +54,10 @@ class ConnectionHandler(logging.Handler):
         with open("error_log.txt", "a") as log_file:
             log_file.write(f"Error: {error_message}\n")
 
-
-# Inisialisasi logger dan handler
-logger = logging.getLogger(__name__)
 handler = ConnectionHandler()
 logger.addHandler(handler)
 
 
-# Kelas untuk bot utama dengan Pyrogram
 class Bot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
