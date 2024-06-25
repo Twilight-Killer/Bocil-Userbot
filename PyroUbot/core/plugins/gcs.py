@@ -46,7 +46,6 @@ async def broadcast_group_cmd(client, message):
             done += 1
         except Exception as e:
             failed += 1
-            print(f"Failed to broadcast to {chat_id}: {e}")
 
     await msg.delete()
     return await message.reply(
