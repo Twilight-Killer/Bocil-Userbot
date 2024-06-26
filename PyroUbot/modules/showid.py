@@ -18,6 +18,9 @@ __HELP__ = """
 
   <b>• perintah:</b> <code>{0}cinfo</code> [username/chanel/group]
   <b>• penjelasan:</b> untuk mendapatkan info group/channel
+
+  <b>• perintah:</b> <code>{0}carbon</code>
+  <b>• penjelasan:</b> fungsi yah carbone
 """
 
 
@@ -45,3 +48,7 @@ async def _(client, message):
 async def _(client, message):
     await cinfo_cmd(client, message)
 
+
+@PY.UBOT("carbon")
+async def _(client, message):
+    await carbon(client, message)
