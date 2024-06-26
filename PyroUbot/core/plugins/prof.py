@@ -162,3 +162,43 @@ Chat Information:
     except Exception as e:
         return await Tm.edit(f"Info: {e}")
 
+
+async def carbon(client, message):
+    process_message = await message.reply_text("Sedang memproses permintaan Anda...")
+
+    if message.reply_to_message and message.reply_to_message.text:
+        text = message.reply_to_message.text
+    else:
+        text = message.text.split(maxsplit=1)
+        if len(text) > 1:
+            text = text[1]
+        else:
+            await message.reply_text("Mohon berikan teks untuk membuat Carbonara.")
+            return
+
+    carbon_url = "https://carbonara.solopov.dev/api/cook"
+    data = {
+        "code": text,
+        "backgroundColor": "rgba(171, 184, 195, 1)",
+        "theme": "vscode",
+        "dropShadow": False,
+        "exportSize": "2x",
+        "paddingHorizontal": "56px",
+        "paddingVertical": "56px",
+        "lineNumbers": False,
+        "watermark": False,
+        "widthAdjustment": True,
+    }
+
+    try:
+        response = requests.post(carbon_url, json=data)
+        response.raise_for_status()
+        carbon_image = Image.open(BytesIO(response.content))
+        carbon_image.save("carbon.png")
+
+        await message.reply_photo(photo="carbon.png")
+        await process_message.delete()
+    except Exception as e:
+        await message.reply_text(f"Gagal membuat Carbonara: {e}")
+        traceback.print_exc()
+
