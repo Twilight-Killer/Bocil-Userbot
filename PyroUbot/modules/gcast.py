@@ -1,10 +1,10 @@
 import asyncio
 from pyrogram.types import Message
+from pyrogram.errors import FloodWait, Forbidden
 from datetime import datetime, timedelta
 import pytz
 import random
 from pyrogram.raw.functions.messages import DeleteHistory, StartBot
-
 
 from PyroUbot import*
 
@@ -75,8 +75,8 @@ LT = []
 WIB = pytz.timezone('Asia/Jakarta')
 
 @PY.UBOT("auto_gcast")
-async def _(client, message):
-    msg = await message.reply("<b>Sedang memproses...</b>", quote=True)
+async def auto_gcast(client, message):
+    msg = await message.reply("Sedang memproses...", quote=True)
     type, value = extract_type_and_text(message)
     auto_text_vars = await get_vars(client.me.id, "AUTO_TEXT") or []
 
@@ -86,48 +86,44 @@ async def _(client, message):
             await start_auto_gcast(client, msg, value, auto_text_vars)
         else:
             return await msg.delete()
-
     elif type == "off":
         if client.me.id in AG:
             AG.remove(client.me.id)
-            return await msg.edit("<b>Auto gcast telah dinonaktifkan.</b>")
+            return await msg.edit("Auto gcast telah dinonaktifkan.")
         else:
             return await msg.delete()
-
     elif type == "text":
         if not value:
-            return await msg.edit("<b>Harap masukkan teks untuk disimpan sebagai teks auto gcast.</b>")
+            return await msg.edit("Harap masukkan teks untuk disimpan sebagai teks auto gcast.")
         await add_auto_text(client, value)
-        return await msg.edit("<b>Auto gcast text: Berhasil disimpan.</b>")
-
+        return await msg.edit("Auto gcast text: Berhasil disimpan.")
     elif type == "delay":
         await set_vars(client.me.id, "DELAY_GCAST", value)
-        return await msg.edit(f"<b>Auto gcast delay: Berhasil disetting {value} menit.</b>")
-
+        return await msg.edit(f"Auto gcast delay: Berhasil disetting {value} menit.")
     elif type == "remove":
         await handle_text_removal(client, msg, value, auto_text_vars)
-
     elif type == "list":
         await list_auto_texts(client, msg, auto_text_vars)
-
     elif type == "limit":
         await handle_limit_check(client, msg, value)
-
     else:
-        return await msg.edit("<b>Query yang dimasukkan salah.</b>")
+        return await msg.edit("Query yang dimasukkan salah.")
 
 async def start_auto_gcast(client, msg, value, auto_text_vars):
     try:
-        send_time = None
         if value:
-            send_time = datetime.strptime(value, "%H:%M").time()
-            await schedule_gcast(client, msg, send_time, auto_text_vars)
+            try:
+                send_time = datetime.strptime(value, "%H:%M").time()
+                await schedule_gcast(client, msg, send_time, auto_text_vars)
+            except ValueError:
+                return await msg.edit("Format waktu tidak valid. Gunakan format HH:MM.")
         else:
-            await msg.edit("<b>Auto gcast diaktifkan.</b>")
+            await msg.edit("Auto gcast diaktifkan.")
             await perform_auto_gcast(client, msg, auto_text_vars)
     except Exception as e:
+        print(f"Error in start_auto_gcast: {e}")
         AG.remove(client.me.id)
-        await msg.edit(f"<b>Error saat memulai auto gcast: {e}</b>")
+        await msg.edit(f"Error saat memulai auto gcast: {e}")
 
 async def schedule_gcast(client, msg, send_time, auto_text_vars):
     now = datetime.now(WIB)
@@ -135,7 +131,7 @@ async def schedule_gcast(client, msg, send_time, auto_text_vars):
     if target_time < now:
         target_time += timedelta(days=1)
     wait_time = (target_time - now).total_seconds()
-    await msg.edit(f"<b>Auto gcast diaktifkan. Akan mengirim pesan pada {send_time} WIB.</b>")
+    await msg.edit(f"Auto gcast diaktifkan. Akan mengirim pesan pada {send_time} WIB.")
     await asyncio.sleep(wait_time)
     await perform_auto_gcast(client, msg, auto_text_vars)
 
@@ -155,28 +151,22 @@ async def perform_auto_gcast(client, msg, auto_text_vars):
                     group += 1
                 except FloodWait as e:
                     await asyncio.sleep(e.value)
-                    await client.send_message(dialog.chat.id, f"{txt} {random.choice(range(1000))}")
-                    group += 1
+                except Forbidden:
+                    continue
                 except Exception as e:
+                    print(f"Unexpected error in perform_auto_gcast: {e}")
                     limit_detected = True
+                    continue
 
         done += 1
         await send_status_message(client, msg, done, group, limit_detected, delay)
         await asyncio.sleep(60 * delay)
 
 async def send_status_message(client, msg, done, group, limit_detected, delay):
-    if limit_detected:
-        status_message = (
-            f"<b>Auto gcast putaran {done} berhasil dan terkirim ke: {group} grup."
-            "\n\nBatas pengiriman terdeteksi. Mengirim pesan mungkin terhalang oleh limit."
-            f"\n\nMenunggu {delay} menit lagi untuk mengulang mengirim pesan.</b>"
-        )
-    else:
-        status_message = (
-            f"<b>Auto gcast putaran {done} berhasil dan terkirim ke: {group} grup."
-            "\n\nKabar baik, akun Anda tidak dibatasi. Anda bebas, sebebas burung yang terbang lepas."
-            f"\n\nMenunggu {delay} menit lagi untuk mengulang mengirim pesan.</b>"
-        )
+    status_message = (
+        f"Auto gcast putaran {done} berhasil dan terkirim ke: {group} grup."
+        f"\n\nMenunggu {delay} menit lagi untuk mengulang mengirim pesan."
+    )
     await msg.reply(status_message, quote=True)
 
 async def add_auto_text(client, text):
@@ -186,47 +176,46 @@ async def add_auto_text(client, text):
 
 async def handle_text_removal(client, msg, value, auto_text_vars):
     if not value:
-        return await msg.edit("<b>Harap masukkan angka untuk menghapus list teks.</b>")
+        return await msg.edit("Harap masukkan angka untuk menghapus list teks.")
     if value == "all":
         await set_vars(client.me.id, "AUTO_TEXT", [])
-        return await msg.edit("<b>Semua teks berhasil dihapus.</b>")
+        return await msg.edit("Semua teks berhasil dihapus.")
     try:
         value = int(value) - 1
         auto_text_vars.pop(value)
         await set_vars(client.me.id, "AUTO_TEXT", auto_text_vars)
-        return await msg.edit(f"<b>Auto gcast remove: Teks ke {value+1} berhasil dihapus.\n\nKetik: <code>{message.text.split()[0]} list</code>, untuk mengecek apakah sudah terhapus.</b>")
+        return await msg.edit(f"Auto gcast remove: Teks ke {value+1} berhasil dihapus.\n\nKetik: <code>{message.text.split()[0]} list</code>, untuk mengecek apakah sudah terhapus.")
     except Exception as error:
         return await msg.edit(str(error))
 
-async def list_auto_texts(client, msg: Message, auto_text_vars):
+async def list_auto_texts(client, msg, auto_text_vars):
     if not auto_text_vars:
-        return await msg.edit("<b>Auto gcast teks kosong.</b>")
-    txt = "<b>Daftar auto gcast teks</b>\n\n"
+        return await msg.edit("Auto gcast teks kosong.")
+    txt = "Daftar auto gcast teks\n\n"
     for num, x in enumerate(auto_text_vars, 1):
         txt += f"{num}: {x}\n\n"
-    txt += f"<b>\nUntuk menghapus teks ketik: <code>{msg.text.split()[0]} remove angka/all</code></b>"
+    txt += f"\nUntuk menghapus teks ketik: <code>{msg.text.split()[0]} remove angka/all</code>"
     return await msg.edit(txt)
 
 async def handle_limit_check(client, msg, value):
     if value == "off":
         if client.me.id in LT:
             LT.remove(client.me.id)
-            return await msg.edit("<b>Auto cek limit dinonaktifkan.</b>")
+            return await msg.edit("Auto cek limit dinonaktifkan.")
         else:
             return await msg.delete()
-
     elif value == "on":
         if client.me.id not in LT:
             LT.append(client.me.id)
-            await msg.edit("<b>Auto cek limit dimulai.</b>")
+            await msg.edit("Auto cek limit dimulai.")
             while client.me.id in LT:
                 await limit_cmd(client, msg)
-                await asyncio.sleep(1200)  # Check every 20 minutes
+                await asyncio.sleep(1200)
         else:
             return await msg.delete()
     else:
-        return await msg.edit("<b>~Harap masukkan value on/off untuk menggunakan perintah ini.</b>")
-      
+        return await msg.edit("Harap masukkan value on/off untuk menggunakan perintah ini.")
+
 async def limit_cmd(client, message):
     try:
         await client.unblock_user("SpamBot")
