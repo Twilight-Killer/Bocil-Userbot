@@ -1,6 +1,5 @@
 import asyncio
 from random import randint
-
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
@@ -28,7 +27,6 @@ __HELP__ = """
   <b>• penjelasan:</b> daftar pengguna dalam obrolan suara
 """
 
-# Simpan peserta VC dalam dictionary berdasarkan chat_id
 voice_chat_participants = {}
 MAX_PARTICIPANTS = 100
 
@@ -40,16 +38,23 @@ async def add_participant(client, chat_id):
         if chat_id not in voice_chat_participants:
             voice_chat_participants[chat_id] = {}
 
-        if user.id not in voice_chat_participants[chat_id]:
-            user_data = f"[{user.first_name}](tg://user?id={user.id})"
-            chat_title = chat.title
-            voice_chat_participants[chat_id][user.id] = {"user": user_data, "chat": chat_title}
+        if len(voice_chat_participants[chat_id]) >= MAX_PARTICIPANTS:
+            return f"Obrolan suara telah mencapai batas maksimal peserta: {MAX_PARTICIPANTS}"
+
+        user_data = f"[{user.first_name}](tg://user?id={user.id})"
+        chat_title = chat.title
+        
+        voice_chat_participants[chat_id][user.id] = {"user": user_data, "chat": chat_title}
+        return None  # 
     except Exception as e:
         print(f"Error in add_participant: {e}")
+        return str(e) 
 
 def remove_participant(chat_id, user_id):
-    if chat_id in voice_chat_participants and user_id in voice_chat_participants[chat_id]:
+    if chat_id in voice_chat_participants:
         voice_chat_participants[chat_id].pop(user_id, None)
+        if not voice_chat_participants[chat_id]: 
+            del voice_chat_participants[chat_id]
 
 def get_participants_list(chat_id):
     if chat_id not in voice_chat_participants or not voice_chat_participants[chat_id]:
@@ -60,7 +65,7 @@ def get_participants_list(chat_id):
         for data in voice_chat_participants[chat_id].values()
     )
     total_participants = len(voice_chat_participants[chat_id])
-    return f"{participants}\n\n<b>Total pengguna:</b> {total_participants}"
+    return f"{participants}\n\n<b>Total pengguna:</b> {total_participants} (maks: {MAX_PARTICIPANTS})"
 
 async def get_group_call(client, message):
     try:
@@ -122,7 +127,6 @@ async def stop_vc(client, message):
         await msg.edit(
             f"<b>Obrolan suara diakhiri</b>\n<b>Grup: </b><code>{message.chat.title}</code>"
         )
-        # Kosongkan daftar peserta untuk obrolan ini
         if message.chat.id in voice_chat_participants:
             del voice_chat_participants[message.chat.id]
     except Exception as e:
@@ -134,13 +138,19 @@ async def join_vc(client, message):
     chat_id = message.command[1] if len(message.command) > 1 else message.chat.id
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
 
+    error = await add_participant(client, chat_id)
+    if error:
+        await msg.edit(f"Gagal bergabung: {error}")
+        return
+
     try:
         await client.group_call.start(chat_id)
-        await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
-        await asyncio.sleep(5)
+        await asyncio.sleep(2) 
         await client.group_call.set_is_mute(True)
-        await add_participant(client, chat_id)
+
+        await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
     except Exception as e:
+        remove_participant(chat_id, client.me.id)
         await msg.edit(f"ERROR: {e}")
 
 @PY.UBOT("leavevc")
@@ -151,7 +161,7 @@ async def leave_vc(client, message):
 
     try:
         await client.group_call.stop()
-        remove_participant(chat_id, client.me.id)
+        remove_participant(chat_id, client.me.id) 
         await msg.edit(f"<b>Berhasil keluar dari obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
