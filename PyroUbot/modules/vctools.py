@@ -4,7 +4,6 @@ from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputPeerChannel, InputPeerChat
-from pyrogram.raw.types import UpdateGroupCallParticipants, GroupCallParticipantLeft
 
 from PyroUbot import *
 
@@ -173,10 +172,10 @@ async def list_vc(client, message):
     await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara:</b>\n\n{voice_chat_list}")
 
 # Event handler untuk pengguna yang meninggalkan obrolan suara secara manual
-@ubot.on_raw_update()
-async def handle_raw_update(client, update, users, chats):
-    if isinstance(update, UpdateGroupCallParticipants):
+@ubot.on_raw_update("UpdateGroupCallParticipants")
+async def handle_group_call_participants(client, update, users, chats):
+    if update.participants:
         chat_id = update.call.peer.channel_id if hasattr(update.call.peer, 'channel_id') else update.call.peer.chat_id
         for participant in update.participants:
-            if isinstance(participant, GroupCallParticipantLeft):
+            if participant.left:
                 remove_participant(chat_id, participant.user_id)
