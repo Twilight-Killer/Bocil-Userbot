@@ -4,6 +4,7 @@ from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputPeerChannel, InputPeerChat
+from pyrogram.raw.types import UpdateGroupCallParticipants, GroupCallParticipantLeft
 
 from PyroUbot import *
 
@@ -30,22 +31,16 @@ __HELP__ = """
 voice_chat_participants = {}
 MAX_PARTICIPANTS = 100
 
-async def add_participant(client, chat_id):
+async def add_participant(client, chat_id, user_id, user_data, chat_title):
     try:
-        user = await client.get_me()
-        chat = await client.get_chat(chat_id)
-        
         if chat_id not in voice_chat_participants:
             voice_chat_participants[chat_id] = {}
 
         if len(voice_chat_participants[chat_id]) >= MAX_PARTICIPANTS:
             return f"Obrolan suara telah mencapai batas maksimal peserta: {MAX_PARTICIPANTS}"
 
-        user_data = f"[{user.first_name}](tg://user?id={user.id})"
-        chat_title = chat.title
-        
-        voice_chat_participants[chat_id][user.id] = {"user": user_data, "chat": chat_title}
-        return None  # 
+        voice_chat_participants[chat_id][user_id] = {"user": user_data, "chat": chat_title}
+        return None
     except Exception as e:
         print(f"Error in add_participant: {e}")
         return str(e) 
@@ -135,10 +130,13 @@ async def stop_vc(client, message):
 @PY.UBOT("joinvc")
 async def join_vc(client, message):
     msg = await message.reply("<b>Tunggu sebentar...</b>")
-    chat_id = message.command[1] if len(message.command) > 1 else message.chat.id
+    chat_id = message.chat.id if not len(message.command) > 1 else int(message.command[1])
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
+    user = await client.get_me()
 
-    error = await add_participant(client, chat_id)
+    user_data = f"[{user.first_name}](tg://user?id={user.id})"
+
+    error = await add_participant(client, chat_id, user.id, user_data, chat_title)
     if error:
         await msg.edit(f"Gagal bergabung: {error}")
         return
@@ -150,7 +148,7 @@ async def join_vc(client, message):
 
         await msg.edit(f"<b>Berhasil bergabung ke obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
     except Exception as e:
-        remove_participant(chat_id, client.me.id)
+        remove_participant(chat_id, user.id)
         await msg.edit(f"ERROR: {e}")
 
 @PY.UBOT("leavevc")
@@ -158,10 +156,11 @@ async def leave_vc(client, message):
     msg = await message.reply("<b>Tunggu sebentar...</b>")
     chat_id = message.chat.id
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
+    user = await client.get_me()
 
     try:
         await client.group_call.stop()
-        remove_participant(chat_id, client.me.id) 
+        remove_participant(chat_id, user.id) 
         await msg.edit(f"<b>Berhasil keluar dari obrolan suara</b>\n<b>Grup: </b><code>{chat_title}</code>")
     except Exception as e:
         await msg.edit(f"ERROR: {e}")
@@ -172,3 +171,12 @@ async def list_vc(client, message):
     chat_title = message.chat.title if hasattr(message.chat, 'title') else 'Obrolan'
     voice_chat_list = get_participants_list(chat_id)
     await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara:</b>\n\n{voice_chat_list}")
+
+# Event handler untuk pengguna yang meninggalkan obrolan suara secara manual
+@client.on_raw_update()
+async def handle_raw_update(client, update, users, chats):
+    if isinstance(update, UpdateGroupCallParticipants):
+        chat_id = update.call.peer.channel_id if hasattr(update.call.peer, 'channel_id') else update.call.peer.chat_id
+        for participant in update.participants:
+            if isinstance(participant, GroupCallParticipantLeft):
+                remove_participant(chat_id, participant.user_id)
