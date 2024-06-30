@@ -111,9 +111,17 @@ async def del_logs(client, message: Message):
 
 async def create_logs(client):
     url = wget.download("https://graph.org/file/5b61f029143eadf42020e.jpg")
-    logs = await client.create_channel(f"logs: {client.me.username}")
-    await client.set_chat_photo(
-        logs.id,
-        photo=url,
-    )
-    return logs.id
+    try:
+        logs = await client.create_channel(f"logs: {client.me.username}")
+        await client.set_chat_photo(
+            logs.id,
+            photo=url,
+        )
+        return logs.id
+    except exceptions.UserRestricted as e:
+        print(f"Error: {e}")
+        await client.send_message(client.me.id, "Akun Anda dibatasi oleh Telegram, tidak bisa membuat channel logs.")
+        return None
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
+        return None
