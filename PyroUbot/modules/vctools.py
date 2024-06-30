@@ -173,7 +173,7 @@ async def list_vc(client, message):
     await message.reply(f"<b>Daftar Pengguna dalam Obrolan Suara:</b>\n\n{voice_chat_list}")
 
 # Event handler untuk pengguna yang meninggalkan obrolan suara secara manual
-@client.on_raw_update()
+@ubot.on_raw_update()
 async def handle_raw_update(client, update, users, chats):
     if isinstance(update, UpdateGroupCallParticipants):
         chat_id = update.call.peer.channel_id if hasattr(update.call.peer, 'channel_id') else update.call.peer.chat_id
