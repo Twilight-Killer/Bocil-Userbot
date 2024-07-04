@@ -13,7 +13,6 @@ failure_emoji = "<emoji id=5019523782004441717>❌</emoji>"
 selesai_emoji = "<emoji id=5895735846698487922>🌐</emoji>"
 reply_emoji = "<emoji id=6226230182806554486>🚫</emoji>"
 
-
 async def broadcast_group_cmd(client, message):
 
     processing_msg = f"{proses_emoji} Sedang memproses, mohon bersabar..."
@@ -28,6 +27,7 @@ async def broadcast_group_cmd(client, message):
 
     done = 0
     failed = 0
+    inaccessible = 0
     for chat_id in chats:
         if chat_id in blacklist:
             continue
@@ -46,13 +46,15 @@ async def broadcast_group_cmd(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
+        except ChannelPrivate:
+            inaccessible += 1
         except Exception as e:
             failed += 1
             print(f"Error: {e}")  # Logging error for debugging
 
     await msg.delete()
     return await message.reply(
-        f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup",
+        f"{selesai_emoji} Pesan broadcast selesai\n{success_emoji} Berhasil ke: {done} grup\n{failure_emoji} Gagal ke: {failed} grup\n{reply_emoji} Tidak dapat diakses: {inaccessible} grup",
         quote=True,
     )
 
@@ -67,6 +69,7 @@ async def broadcast_users_cmd(client, message):
 
     done = 0
     failed = 0
+    inaccessible = 0
     for chat_id in chats:
         if chat_id == client.me.id:
             continue
@@ -85,13 +88,15 @@ async def broadcast_users_cmd(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
+        except ChannelPrivate:
+            inaccessible += 1
         except Exception as e:
             failed += 1
             print(f"Error: {e}")  # Logging error for debugging
 
     await msg.delete()
     return await message.reply(
-        f"Pesan broadcast selesai\n✅ Berhasil ke: {done} users\n❌ Gagal ke: {failed} users",
+        f"Pesan broadcast selesai\n✅ Berhasil ke: {done} users\n❌ Gagal ke: {failed} users\n🚫 Tidak dapat diakses: {inaccessible} users",
         quote=True,
     )
 
@@ -142,4 +147,4 @@ async def send_inline(client, inline_query):
                     ),
                 )
             ],
-    )
+)
