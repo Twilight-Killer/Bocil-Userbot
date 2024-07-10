@@ -67,26 +67,32 @@ async def prem_user(client, message):
 
 
 async def unprem_user(client, message):
-    user_id = await extract_user(message)
     Tm = await message.reply("<b>prosesssss . . .</b>")
+    
+
+    if message.from_user.id not in await get_seles():
+        return await Tm.edit("untuk menggunakan perintah ini harus jadi seles dulu")
+    
+    user_id = await extract_user(message)
     if not user_id:
-        return await Tm.edit(
-            "<b>balas ke pengguna atau gunakan user_id/username</b>"
-        )
+        return await Tm.edit("<b>balas ke pengguna atau gunakan user_id/username</b>")
+    
     try:
         user = await client.get_users(user_id)
     except Exception as error:
-        await Tm.edit(error)
+        return await Tm.edit(str(error))
+    
     delpremium = await get_prem()
     if user.id not in delpremium:
         return await Tm.edit("<b>tidak ditemukan</b>")
+    
     removed = await remove_prem(user.id)
     if removed:
         await Tm.edit(f"<b> ✅ {user.mention} berhasil dihapus ❌</b>")
     else:
         await Tm.delete()
         await message.reply_text("terjadi kesalanhan tidak diketahui")
-
+        
 
 async def get_prem_user(client, message):
     text = ""
