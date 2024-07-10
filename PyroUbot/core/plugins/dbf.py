@@ -16,7 +16,7 @@ async def prem_user(client, message):
     Tm = await message.reply("<b>ᴘʀᴏᴄᴇssɪɴɢ . . .</b>")
     if message.from_user.id not in await get_seles():
         return await Tm.edit(
-            "untuk menggunakan perintah ini harus jadi seles duli"
+            "untuk menggunakan perintah ini harus jadi seles dulu"
         )
     user_id, get_bulan = await extract_user_and_reason(message)
     if not user_id:
