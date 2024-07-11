@@ -58,11 +58,12 @@ async def login_cmd(client, message):
         return await info.edit(f"<code>{error}</code>")
 
 
+
 @PY.CALLBACK("kontrol")
 @INLINE.DATA
 async def restart_confirm_callback(client, callback_query):
     user_id = callback_query.from_user.id
-    # Menghapus userbot dan melakukan restart
+    
     for X in ubot._ubot:
         if user_id == X.me.id:
             for _ubot_ in await get_userbots():
@@ -77,7 +78,7 @@ async def restart_confirm_callback(client, callback_query):
                         for mod in modules:
                             importlib.reload(importlib.import_module(f"PyroUbot.modules.{mod}"))
                         
-                        # Tambahkan tombol "Kembali"
+                    
                         back_button = InlineKeyboardButton("Kembali", callback_data="menu")
                         restart_button = InlineKeyboardButton("Restart", callback_data="kontrol")
                         keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
@@ -86,7 +87,6 @@ async def restart_confirm_callback(client, callback_query):
                             f"<b>🇲🇨 restart berhasil dilakukan {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)"
                         )
                         
-                        # Cek apakah teks baru sama dengan teks saat ini
                         current_text = callback_query.message.text
                         logging.debug(f"Current text: {current_text}")
                         logging.debug(f"New text: {new_text}")
