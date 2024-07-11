@@ -55,7 +55,7 @@ async def menu_callback(client, callback_query):
          InlineKeyboardButton("ɢᴏᴘᴀʏ", callback_data="gopay")],
         [InlineKeyboardButton("🔁", callback_data="back")]
     ])
-    await callback_query.edit_message_text("HALO MEK PENCET MENU DI BAWAH YA ADA PILAHAN YANG LU MAU :", reply_markup=keyboard)
+    await callback_query.reply_text("HALO MEK PENCET MENU DI BAWAH YA ADA PILAHAN YANG LU MAU :", reply_markup=keyboard)
 
 @PY.CALLBACK("back")
 async def back_callback(client, callback_query):
