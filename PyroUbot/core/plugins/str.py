@@ -37,7 +37,7 @@ async def ping_cmd(client, message):
     uptime = await get_time(time() - start_time)
     start = datetime.now()
 
-    ping_task = client.send(Ping(ping_id=0))
+    ping_task = client.invoke(Ping(ping_id=0))
     emot_1_task = get_vars(client.me.id, "EMOJI_PING_PONG")
     emot_2_task = get_vars(client.me.id, "EMOJI_UPTIME")
     emot_3_task = get_vars(client.me.id, "EMOJI_MENTION")
