@@ -6,6 +6,7 @@ import uvloop
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
+from motor.motor_asyncio import AsyncIOMotorClient
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
@@ -170,10 +171,11 @@ class Ubot(Client):
 
 
 bot = Bot(
-    name="bot",
+    name="bot_session",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
+    mongodb={"connection": AsyncIOMotorClient(MONGO_URL)},
 )
 ubot = Ubot(name="ubot")
 
