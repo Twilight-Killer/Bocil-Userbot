@@ -64,13 +64,12 @@ def generate_random_emoji():
 
 
 def get_message(message):
-    msg = (
-        message.reply_to_message
-        if message.reply_to_message
-        else ""
-        if len(message.command) < 2
-        else message.text.split(None, 1)[1]
-    )
+    if message.reply_to_message:
+        msg = message.reply_to_message
+    elif len(message.text.split()) > 1:
+        msg = message.text.split(None, 1)[1]
+    else:
+        msg = None
     return msg
 
 
