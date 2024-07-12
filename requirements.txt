@@ -20,6 +20,7 @@ pySmartDL
 pytz
 pymediainfo
 pymongo
+pyromod==1.1
 pyrofork
 python-dateutil
 pytgcalls
