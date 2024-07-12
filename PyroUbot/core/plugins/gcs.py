@@ -48,9 +48,9 @@ async def broadcast_group_cmd(client, message):
             done += 1
         except ChannelPrivate:
             inaccessible += 1
-        except Exception as e:
+        except Exception:
             failed += 1
-            print(f"Error: {e}")  # Logging error for debugging
+            # print(f"Error: {e}")  # Logging error for debugging
 
     await msg.delete()
     return await message.reply(
