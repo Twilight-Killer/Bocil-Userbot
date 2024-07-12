@@ -35,7 +35,6 @@ async def send_msg_to_owner(client, message):
 
 async def ping_cmd(client, message):
     uptime = await get_time(time() - start_time)
-    start = datetime.now()
 
     ping_task = client.invoke(Ping(ping_id=0))
     emot_1_task = get_vars(client.me.id, "EMOJI_PING_PONG")
@@ -44,12 +43,14 @@ async def ping_cmd(client, message):
 
     ping_result, emot_1, emot_2, emot_3 = await asyncio.gather(ping_task, emot_1_task, emot_2_task, emot_3_task)
 
-    end = datetime.now()
-    delta_ping = (end - start).microseconds / 1000
+    start = datetime.now()
 
     emot_pong = emot_1 if emot_1 else "5269563867305879894"
     emot_uptime = emot_2 if emot_2 else "5316615057939897832"
     emot_mention = emot_3 if emot_3 else "6226371543065167427"
+
+    end = datetime.now()
+    delta_ping = (end - start).microseconds / 1000
 
     if client.me.is_premium:
         _ping = f"""
