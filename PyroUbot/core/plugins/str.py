@@ -40,7 +40,7 @@ async def ping_cmd(client, message):
     emot_2_task = get_vars(client.me.id, "EMOJI_UPTIME")
     emot_3_task = get_vars(client.me.id, "EMOJI_MENTION")
 
-    ping_result, emot_1, emot_2, emot_3 = await asyncio.gather(emot_1_task, emot_2_task, emot_3_task)
+    emot_1, emot_2, emot_3 = await asyncio.gather(emot_1_task, emot_2_task, emot_3_task)
 
 
     emot_pong = emot_1 if emot_1 else "5269563867305879894"
