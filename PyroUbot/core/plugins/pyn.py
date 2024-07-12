@@ -11,10 +11,10 @@ CONFIRM_PAYMENT = []
 
 
 async def confirm_callback(client, callback_query):
-    user_id = int(callback_query.from_user.id)
+    user_id = callback_query.from_user.id
     full_name = f"{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}"
-    get = await bot.get_users(user_id)
-    CONFIRM_PAYMENT.append(get.id)
+#     get = await bot.get_users(user_id)
+    CONFIRM_PAYMENT.append(user_id)
     try:
         button = [[InlineKeyboardButton("❌ ʙᴀᴛᴀʟᴋᴀɴ", callback_data=f"home {user_id}")]]
         await callback_query.message.delete()
@@ -25,16 +25,18 @@ async def confirm_callback(client, callback_query):
             timeout=300,
         )
     except asyncio.TimeoutError as out:
-        if get.id in CONFIRM_PAYMENT:
-            CONFIRM_PAYMENT.remove(get.id)
-            return await bot.send_message(get.id, "pembatalan otomatis")
-    if get.id in CONFIRM_PAYMENT:
+        if user_id in CONFIRM_PAYMENT:
+            CONFIRM_PAYMENT.remove(user_id)
+            return await bot.send_message(user_id, "pembatalan otomatis")
+    if user_id in CONFIRM_PAYMENT:
         if not pesan.photo:
-            CONFIRM_PAYMENT.remove(get.id)
-            await pesan.request.edit(
-                f"<b>💬 silah kirim bukti screenshot pembayaran anda: {full_name}</b>",
-            )
-            buttons = [[InlineKeyboardButton("✅ ᴋᴏɴꜰɪʀᴍᴀsɪ", callback_data="confirm")]]
+            CONFIRM_PAYMENT.remove(user_id)
+#             await pesan.request.edit(
+#                 f"<b>💬 silah kirim bukti screenshot pembayaran anda: {full_name}</b>",
+#             )
+            
+#             buttons = [[InlineKeyboardButton("✅ ᴋᴏɴꜰɪʀᴍᴀsɪ", callback_data="confirm")]]
+            await pesan.delete()
             return await bot.send_message(
                 user_id,
                 """
@@ -47,15 +49,15 @@ async def confirm_callback(client, callback_query):
                 reply_markup=InlineKeyboardMarkup(buttons),
             )
         elif pesan.photo:
-            buttons = Button.button_add_expired(get.id)
+            buttons = Button.button_add_expired(user_id)
             await pesan.copy(
                 OWNER_ID,
                 reply_markup=buttons,
             )
-            CONFIRM_PAYMENT.remove(get.id)
-            await pesan.request.edit(
-                f"<b>💬 silahkan kirim bukti screenshot pembayaran anda: {full_name}</b>",
-            )
+            CONFIRM_PAYMENT.remove(user_id)
+#             await pesan.request.edit(
+#                 f"<b>💬 silahkan kirim bukti screenshot pembayaran anda: {full_name}</b>",
+#             )
             return await bot.send_message(
                 user_id,
                 f"""
