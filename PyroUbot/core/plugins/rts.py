@@ -77,24 +77,22 @@ async def restart_confirm_callback(client, callback_query):
                         modules = loadModule()
                         for mod in modules:
                             importlib.reload(importlib.import_module(f"PyroUbot.modules.{mod}"))
-                        
-                    
+
                         back_button = InlineKeyboardButton("Kembali", callback_data="menu")
                         restart_button = InlineKeyboardButton("Restart", callback_data="kontrol")
                         keyboard = InlineKeyboardMarkup([[back_button, restart_button]])
-                        
-                        new_text = (
-                            f"<b>🇲🇨 restart berhasil dilakukan {UB.me.first_name} {UB.me.last_name or ''} | {UB.me.id}</b> (Perubahan Timestamp)"
+
+                        datetime_str = datetime.now().strftime("%c")
+
+                        result_text = (
+                            f"<b>🇲🇨 restart berhasil dilakukan {UB.me.first_name} "
+                            f"{UB.me.last_name or ''} | {UB.me.id}</b> ({datetime_str})"
                         )
-                        
-                        current_text = callback_query.message.text
-                        logging.debug(f"Current text: {current_text}")
-                        logging.debug(f"New text: {new_text}")
-                        if current_text != new_text:
-                            await callback_query.edit_message_text(new_text, reply_markup=keyboard)
-                        else:
-                            logging.debug("Pesan tidak berubah.")
-                            await callback_query.answer("Pesan tidak berubah.", show_alert=True)
+
+                        await callback_query.edit_message_text(
+                            result_text, reply_markup=keyboard
+                        )
+
                     except Exception as error:
                         logging.error(f"Error occurred: {error}")
                         await callback_query.answer(f"Terjadi kesalahan saat merestart: {error}", show_alert=True)
