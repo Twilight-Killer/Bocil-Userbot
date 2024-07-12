@@ -5,6 +5,7 @@ python-dotenv
 attrify
 bs4
 dnspython
+emoji
 GitPython
 gpytranslate
 gtts
@@ -21,6 +22,7 @@ pymediainfo
 pymongo
 pyrofork
 python-dateutil
+pytgcalls
 removebg
 requests
 telegraph
