@@ -6,15 +6,16 @@ import uvloop
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
+from motor.motor_asyncio import AsyncIOMotorClient
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
-from pyromod import listen
 from pytgcalls import GroupCallFactory
 
 from PyroUbot.config import *
 
+session_db = dict(connection=AsyncIOMotorClient(MONGO_URL))
 
 class ConnectionError(Exception):
     pass
@@ -175,8 +176,9 @@ bot = Bot(
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
+    mmongodb=sesession_db,
 )
-ubot = Ubot(name="ubot")
+ubot = Ubot(name="ubot", mongodb=session_db)
 
 
 from PyroUbot.core.database import *
