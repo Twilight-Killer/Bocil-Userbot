@@ -13,7 +13,7 @@ CONFIRM_PAYMENT = []
 async def confirm_callback(client, callback_query):
     user_id = callback_query.from_user.id
     full_name = f"{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}"
-#     get = await bot.get_users(user_id)
+    # get = await bot.get_users(user_id)
     CONFIRM_PAYMENT.append(user_id)
     try:
         button = [[InlineKeyboardButton("❌ ʙᴀᴛᴀʟᴋᴀɴ", callback_data=f"home {user_id}")]]

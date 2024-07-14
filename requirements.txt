@@ -4,13 +4,12 @@ uvloop
 python-dotenv
 attrify
 bs4
-dnspython
 emoji
 GitPython
 gpytranslate
 gtts
 html2text
-motor[srv]
+motor
 opencv-python-headless
 openai
 Pillow==9.3.0
@@ -18,10 +17,8 @@ psutil
 pykeyboard
 pySmartDL
 pytz
-pymediainfo
-pymongo
-pyromod==1.1
 pyrofork
+pytgcalls==3.0.0.dev22
 python-dateutil
 removebg
 requests
