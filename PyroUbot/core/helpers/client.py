@@ -3,11 +3,18 @@ from pyrogram.enums import ChatType
 
 from PyroUbot import *
 
+
 async def if_sudo(_, client, message) -> bool:
-    sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    try:
+        sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    except Exception:
+        return False
 
-    return message.from_user.id in sudo_users or message.from_user.is_self
+    return message.from_user is not None and (
+        message.from_user.id in sudo_users or message.from_user.is_self
+    )
 
+    
 
 class FILTERS:
     ME = filters.me
