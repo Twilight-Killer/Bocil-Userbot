@@ -9,9 +9,9 @@ ENV PATH="$VENV_PATH/bin:$PATH"
 # Set the working directory in the container
 WORKDIR $APP_HOME
 
-# Install system dependencies
+# Install system dependencies, including ffmpeg
 RUN apt-get update --no-cache \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends ffmpeg \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
