@@ -1,0 +1,15 @@
+# New version of compose is deprecated, you can remove version bellow
+version: '3.8'
+
+services:
+  pyroubot:
+    build: .
+    container_name: pyroubot_app
+    environment:
+      - APP_HOME=/app
+      - VENV_PATH=/app/venv
+      - PATH=/app/venv/bin:$PATH
+    volumes:
+      - .:/app
+    command: ["python", "-m", "PyroUbot"]
+    
