@@ -179,6 +179,7 @@ bot = Bot(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
     in_memory=False,
+    workdir="./PyroUbot/",
 )
 ubot = Ubot(name="ubot")
 
