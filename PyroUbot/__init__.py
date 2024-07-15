@@ -2,9 +2,9 @@ import logging
 import os
 import re
 import asyncio
-import uvloop
+# import uvloop
 
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+# asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from pyrogram import Client, filters
