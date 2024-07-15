@@ -13,8 +13,6 @@ async def support_callback(client, callback_query):
     get = await bot.get_users(user_id)
     await callback_query.message.delete()
     SUPPORT.append(get.id)
-    
-    pesan = None
 
     try:
         button = [
@@ -46,8 +44,7 @@ async def support_callback(client, callback_query):
                 reply_markup=InlineKeyboardMarkup(buttons),
             )
             SUPPORT.remove(get.id)
-            await pesan.delete()
-            await pesan.sent_message.edit(
+            await pesan.request.edit(
                 f"<b>✍️ silahkan kirim curhatan anda: {full_name}</b>"
             )
             return await bot.send_message(user_id, text)
@@ -61,8 +58,6 @@ async def jawab_pesan_callback(client, callback_query):
     get = await bot.get_users(user_id)
     user_ids = int(callback_query.data.split()[1])
     SUPPORT.append(get.id)
-    
-    pesan = None
 
     try:
         button = [
@@ -98,8 +93,7 @@ async def jawab_pesan_callback(client, callback_query):
                 reply_markup=InlineKeyboardMarkup(buttons),
             )
             SUPPORT.remove(get.id)
-            await pesan.delete()
-            await pesan.sent_message.edit(
+            await pesan.request.edit(
                 f"<b>✉️ silahkan kirim curhatan selanjutnya: {full_name}</b>",
             )
             await bot.send_message(user_id, text)
