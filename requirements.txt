@@ -17,7 +17,7 @@ psutil
 pykeyboard
 pySmartDL
 pytz
-pyrofork
+pyrogram 
 pytgcalls==3.0.0.dev24
 python-dateutil
 removebg
