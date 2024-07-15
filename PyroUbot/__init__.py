@@ -13,6 +13,7 @@ from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pytgcalls import GroupCallFactory
 
+logger = logging.getLogger(__name__)
 # from pyromod import listen
 
 from PyroUbot.config import *
@@ -177,6 +178,7 @@ bot = Bot(
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
+    in_memory=False,
 )
 ubot = Ubot(name="ubot")
 
