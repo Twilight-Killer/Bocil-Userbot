@@ -13,7 +13,7 @@ from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pytgcalls import GroupCallFactory
 
-from pyromod import listen
+# from pyromod import listen
 
 from PyroUbot.config import *
 
