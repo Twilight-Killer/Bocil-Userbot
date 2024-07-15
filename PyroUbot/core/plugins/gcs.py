@@ -92,7 +92,7 @@ async def broadcast_users_cmd(client, message):
             inaccessible += 1
         except Exception as e:
             failed += 1
-            print(f"Error: {e}")  # Logging error for debugging
+            # print(f"Error: {e}")  # Logging error for debugging
 
     await msg.delete()
     return await message.reply(

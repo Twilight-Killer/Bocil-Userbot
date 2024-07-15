@@ -45,7 +45,7 @@ async def add_participant(client, chat_id):
             chat_title = chat.title
             voice_chat_participants[chat_id][user.id] = {"user": user_data, "chat": chat_title}
     except Exception as e:
-        print(f"Error in add_participant: {e}")
+        logger.error(f"Error in add_participant: {e}")
 
 def remove_participant(chat_id, user_id):
     if chat_id in voice_chat_participants and user_id in voice_chat_participants[chat_id]:

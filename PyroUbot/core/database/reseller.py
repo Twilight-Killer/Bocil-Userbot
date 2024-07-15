@@ -1,3 +1,4 @@
+from PyroUbot import logger
 from PyroUbot.core.database import mongodb
 
 resell = mongodb.seles
@@ -10,7 +11,7 @@ async def get_seles():
             return []
         return seles.get("reseller", [])
     except Exception as e:
-        print(f"Error while getting resellers: {e}")
+        logger.error(f"Error while getting resellers: {e}")
         return []
 
 
@@ -23,7 +24,7 @@ async def add_seles(user_id):
         )
         return True
     except Exception as e:
-        print(f"Error while adding reseller: {e}")
+        logger.error(f"Error while adding reseller: {e}")
         return False
 
 
@@ -37,5 +38,5 @@ async def remove_seles(user_id):
             )
         return True
     except Exception as e:
-        print(f"Error while removing reseller: {e}")
+        logger.error(f"Error while removing reseller: {e}")
         return False

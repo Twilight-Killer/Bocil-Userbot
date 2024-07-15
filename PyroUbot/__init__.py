@@ -52,10 +52,10 @@ while retries < max_retries:
         logger.error(f"Terjadi kesalahan: {e}")
         retries += 1
         if retries < max_retries:
-            print(f"Mencoba kembali... (percobaan ke-{retries})")
+            logger.info(f"Mencoba kembali... (percobaan ke-{retries})")
             continue  
         else:
-            print("Gagal setelah beberapa percobaan.")
+            logger.info("Gagal setelah beberapa percobaan.")
             break
 
 async def get_channel_messages(channel, bot):
@@ -166,7 +166,7 @@ class Ubot(Client):
         self._ubot.append(self)
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
+        logger.info(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
               f"Bot name: {self.me.first_name}\n"
               f"Bot username: {self.me.username}\n"
               f"prefix: {', '.join(self._prefix[self.me.id])}\n")

@@ -121,7 +121,7 @@ async def start_auto_gcast(client, msg, value, auto_text_vars):
             await msg.edit("Auto gcast diaktifkan.")
             await perform_auto_gcast(client, msg, auto_text_vars)
     except Exception as e:
-        print(f"Error in start_auto_gcast: {e}")
+        logger.error(f"Error in start_auto_gcast: {e}")
         AG.remove(client.me.id)
         await msg.edit(f"Error saat memulai auto gcast: {e}")
 
@@ -154,7 +154,7 @@ async def perform_auto_gcast(client, msg, auto_text_vars):
                 except Forbidden:
                     continue
                 except Exception as e:
-                    print(f"Unexpected error in perform_auto_gcast: {e}")
+                    logger.error(f"Unexpected error in perform_auto_gcast: {e}")
                     limit_detected = True
                     continue
 
@@ -233,7 +233,7 @@ async def limit_cmd(client, message):
         await status.copy(message.chat.id, reply_to_message_id=message.id)
         await client.invoke(DeleteHistory(peer=bot_info, max_id=0, revoke=True))
     except Exception as e:
-        print(f"Error in limit check: {e}")
+        logger.error(f"Error in limit check: {e}")
 
 def extract_type_and_text(message):
     args = message.text.split(None, 2)

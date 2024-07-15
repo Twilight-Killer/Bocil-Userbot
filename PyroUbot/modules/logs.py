@@ -119,9 +119,9 @@ async def create_logs(client):
         )
         return logs.id
     except exceptions.UserRestricted as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
         await client.send_message(client.me.id, "Akun Anda dibatasi oleh Telegram, tidak bisa membuat channel logs.")
         return None
     except Exception as e:
-        print(f"Unexpected Error: {e}")
+        logger.error(f"Unexpected Error: {e}")
         return None

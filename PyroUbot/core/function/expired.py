@@ -4,7 +4,7 @@ from datetime import datetime
 from pyrogram.types import InlineKeyboardMarkup
 from pytz import timezone
 
-from PyroUbot import bot, ubot
+from PyroUbot import bot, logger, ubot
 from PyroUbot.config import LOGS_MAKER_UBOT
 from PyroUbot.core.database import *
 from PyroUbot.core.helpers import MSG, Button
@@ -37,5 +37,5 @@ async def expiredUserbots():
                         X.me.id, "<b>💬 ᴍᴀsᴀ ᴀᴋᴛɪꜰ ᴀɴᴅᴀ ᴛᴇʟᴀʜ ʙᴇʀᴀᴋʜɪʀ"
                     )
             except Exception as e:
-                print(f"Error: - {X.me.id} - :{str(e)}")
+                logger.error(f"Error: - {X.me.id} - :{str(e)}")
         await asyncio.sleep(10)

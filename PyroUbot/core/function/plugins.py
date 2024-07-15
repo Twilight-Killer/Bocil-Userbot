@@ -4,7 +4,7 @@ from platform import python_version
 from pyrogram import __version__
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from PyroUbot import bot, ubot
+from PyroUbot import bot, logger, ubot
 from PyroUbot.config import OWNER_ID
 from PyroUbot.core.helpers import PY
 from PyroUbot.modules import loadModule
@@ -22,7 +22,7 @@ async def loadPlugins():
                 HELP_COMMANDS[
                     imported_module.__MODULE__.replace(" ", "_").lower()
                 ] = imported_module
-    print(f"[🤖 @{bot.me.username} 🤖] [🔥 TELAH BERHASIL DIAKTIFKAN! 🔥]")
+    logger.info(f"[🤖 @{bot.me.username} 🤖] [🔥 TELAH BERHASIL DIAKTIFKAN! 🔥]")
     TM = await bot.send_message(
         OWNER_ID,
         f"""
