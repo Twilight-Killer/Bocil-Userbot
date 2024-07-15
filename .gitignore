@@ -152,3 +152,4 @@ vendor/
 # -- log and db
 logs.txt
 *.db
+*session-journal

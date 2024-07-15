@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pytz import timezone
 
+
 from PyroUbot import *
 
 CONFIRM_PAYMENT = []
@@ -13,10 +14,8 @@ CONFIRM_PAYMENT = []
 async def confirm_callback(client, callback_query):
     user_id = int(callback_query.from_user.id)
     full_name = f"{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}"
-
     get = await bot.get_users(user_id)
     CONFIRM_PAYMENT.append(get.id)
-
     try:
         button = [[InlineKeyboardButton("❌ ʙᴀᴛᴀʟᴋᴀɴ", callback_data=f"home {user_id}")]]
         await callback_query.message.delete()
@@ -33,7 +32,7 @@ async def confirm_callback(client, callback_query):
     if get.id in CONFIRM_PAYMENT:
         if not pesan.photo:
             CONFIRM_PAYMENT.remove(get.id)
-            await pesan.request.edit(
+            await pesan.edit(
                 f"<b>💬 silah kirim bukti screenshot pembayaran anda: {full_name}</b>",
             )
             buttons = [[InlineKeyboardButton("✅ ᴋᴏɴꜰɪʀᴍᴀsɪ", callback_data="confirm")]]
@@ -55,7 +54,7 @@ async def confirm_callback(client, callback_query):
                 reply_markup=buttons,
             )
             CONFIRM_PAYMENT.remove(get.id)
-            await pesan.request.edit(
+            await pesan.edit(
                 f"<b>💬 silahkan kirim bukti screenshot pembayaran anda: {full_name}</b>",
             )
             return await bot.send_message(
