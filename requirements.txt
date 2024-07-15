@@ -23,8 +23,9 @@ python-dateutil
 removebg
 requests
 telegraph
-TgCrypto-pyrofork
+tgcrypto
 unidecode
 wget
 youtube-search-python
 yt-dlp
+pyromod==1.1
