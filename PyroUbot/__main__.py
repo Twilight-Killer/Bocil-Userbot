@@ -41,12 +41,12 @@ async def handle_generic_error(user_id, error):
 
 
 async def main():
-    tasks = [
-        start_ubot(int(_ubot["name"]), _ubot)
-        for _ubot in await get_userbots()
-    ]
-    await asyncio.gather(*tasks)
     await bot.start()
+
+    ubots = await get_userbots()
+    for ubot in ubots:
+        await start_ubot(int(ubot["name"]), ubot)
+
     await asyncio.gather(loadPlugins(), installPeer(), expiredUserbots())
     await idle()
 
