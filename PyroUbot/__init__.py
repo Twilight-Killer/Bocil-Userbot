@@ -98,6 +98,7 @@ class Ubot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs) 
         self.device_model="BuruTaniUbot"
+        self.workdir="./sessions/"
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
 
     def on_message(self, filters=None, group=-1):
@@ -179,7 +180,7 @@ bot = Bot(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
     in_memory=False,
-    workdir="./PyroUbot/",
+    workdir="./sessions/",
 )
 ubot = Ubot(name="ubot")
 
