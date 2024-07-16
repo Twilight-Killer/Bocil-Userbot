@@ -168,7 +168,7 @@ class Ubot(Client):
         self._ubot.append(self)
         self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-        logger.info(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
+        print(f"[𝐈𝐍𝐅𝐎] - ({self.me.id}) - 𝐒𝐓𝐀𝐑𝐓𝐄𝐃\n"
               f"Bot name: {self.me.first_name}\n"
               f"Bot username: {self.me.username}\n"
               f"prefix: {', '.join(self._prefix[self.me.id])}\n")
