@@ -55,9 +55,9 @@ async def ping_cmd(client, message):
 
     if client.me.is_premium:
         _ping = f"""
-<b><blockquote expandable><emoji id="{emot_pong}">🏓</emoji> Pong:</b><blockquote expandable> <code>{str(delta_ping).replace('.', ',')} ms</code>
-<b><blockquote expandable><emoji id="{emot_uptime}">⏰</emoji> Uptime:</b><blockquote expandable> <code>{uptime}</code>
-<b><blockquote expandable><emoji id="{emot_mention}">👑</emoji> Mention:</b><blockquote expandable> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
+<b><blockquote><emoji id="{emot_pong}">🏓</emoji> Pong:</b></blockquote> <code>{str(delta_ping).replace('.', ',')} ms</code>
+<b><blockquote><emoji id="{emot_uptime}">⏰</emoji> Uptime:</b></blockquote> <code>{uptime}</code>
+<b><blockquote><emoji id="{emot_mention}">👑</emoji> Mention:</b></blockquote> <a href="tg://user?id={client.me.id}">{client.me.first_name} {client.me.last_name or ''}</a>
         """
     else:
         _ping = f""" 
