@@ -42,10 +42,10 @@ async def ping_cmd(client, message):
 
     emot_1, emot_2, emot_3 = await asyncio.gather(emot_1_task, emot_2_task, emot_3_task)
 
+    emot_pong = emot_1 or "5269563867305879894"
+    emot_uptime = emot_2 or "5316615057939897832"
+    emot_mention = emot_3 or "6226371543065167427"
 
-    emot_pong = emot_1 if emot_1 else "5269563867305879894"
-    emot_uptime = emot_2 if emot_2 else "5316615057939897832"
-    emot_mention = emot_3 if emot_3 else "6226371543065167427"
 
     start = datetime.now()
     await client.invoke(Ping(ping_id=0))
