@@ -17,8 +17,7 @@ async def write_cookies(url: str, path: str) -> None:
 async def get_cookies_string(url: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            if response.status_code == 200:
-                content = await response.text()
+            content = await response.text()
 
         return content
 
