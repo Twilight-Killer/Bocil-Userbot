@@ -3,6 +3,7 @@ from functools import partial
 
 from yt_dlp import YoutubeDL
 
+ytdlp_cookies = "./storage/cookies.txt"
 
 def run_sync(func, *args, **kwargs):
     return get_event_loop().run_in_executor(None, partial(func, *args, **kwargs))
@@ -17,6 +18,7 @@ async def YoutubeDownload(url, as_video=False):
             "outtmpl": "downloads/%(id)s.%(ext)s",
             "nocheckcertificate": True,
             "geo_bypass": True,
+            "cookiefile": ytdlp_cookies,
         }
     else:
         ydl_opts = {
@@ -26,6 +28,7 @@ async def YoutubeDownload(url, as_video=False):
             "outtmpl": "downloads/%(id)s.%(ext)s",
             "nocheckcertificate": True,
             "geo_bypass": True,
+            "cookiefile": ytdlp_cookies,
         }
     data_ytp = "<b>💡 ɪɴꜰᴏʀᴍᴀsɪ {}</b>\n\n<b>🏷 ɴᴀᴍᴀ:</ʙ> {}<b>\n<b>🧭 ᴅᴜʀᴀsɪ:</b> {}\n<b>👀 ᴅɪʟɪʜᴀᴛ:</b> {}\n<b>📢 ᴄʜᴀɴɴᴇʟ:</b> {}\n<b>🔗 ᴛᴀᴜᴛᴀɴ:</b> <a href={}>ʏᴏᴜᴛᴜʙᴇ</a>\n\n<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ:</b> {}"
     ydl = YoutubeDL(ydl_opts)

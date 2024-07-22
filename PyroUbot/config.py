@@ -19,3 +19,5 @@ MAX_BOT = int(os.getenv("MAX_BOT"))
 OPENAI_KEY = os.getenv("OPENAI_KEY")
 
 MONGO_URL = os.getenv("MONGO_URL")
+
+YTDLP_COOKIES = os.environ.get("YTDLP_COOKIES")

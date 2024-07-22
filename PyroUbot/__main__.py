@@ -1,8 +1,20 @@
 import asyncio
 
+import aiofiles
+import aiohttp
 from pyrogram import idle
 
+from PyroUbot.config import YTDLP_COOKIES
 from PyroUbot import *
+
+
+async def get_cookies_file(url: str, path: str) -> None:
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            if response.status_code == 200:
+                async with aiofiles.open(path, mode="w") as doc:
+                    content = await response.text()
+                    await doc.write(content)
 
 
 async def start_ubot(user_id, _ubot):
@@ -41,6 +53,9 @@ async def handle_generic_error(user_id, error):
 
 
 async def main():
+    if YTDLP_COOKIES:
+        await get_cookies_file(url=YTDL_COOKIES, path="./storage/cookies.txt")
+
     await bot.start()
 
     ubots = await get_userbots()
