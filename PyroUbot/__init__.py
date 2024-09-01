@@ -97,7 +97,6 @@ class Ubot(Client):
     def __init__(self, **kwargs):
         super().__init__(**kwargs) 
         self.device_model="BuruTaniUbot"
-        self.workdir="./sessions/"
         self.group_call = GroupCallFactory(self).get_file_group_call("input.raw")
 
     def on_message(self, filters=None, group=-1):
