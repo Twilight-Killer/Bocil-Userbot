@@ -6,7 +6,6 @@ import asyncio
 
 # asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-from motor.motor_asyncio import AsyncIOMotorClient
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
